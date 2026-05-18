@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpinSci.ai — Value Workshop Discovery Question Bank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ─────────── DESIGN TOKENS · SpinSci brand system (logo-aligned) ─────────── */
+  :root {
+    /* Logo gradient: purple → blue-purple → teal */
+    --brand-purple:#7759D9; --brand-blue:#8295FF; --brand-teal:#5CE0B0;
+    --brand-dark:#1C0236; /* logo text/icon dark */
+    /* Primary action colour — mid-brand blue */
+    --sky:#8295FF; --sky-2:#6d7fe0; --sky-lt:#EEEEFF; --sky-md:#B3BFFF;
+    --sky-deep:#5040A8; --teal:#5CE0B0;
+    /* Neutral navy (hero/footer backgrounds — shifted toward brand dark) */
+    --navy:#120228; --navy-2:#1a0335; --navy-3:#200442;
+    --white:#FFFFFF; --offwhite:#F8F7FF; --soft:#EFEDFF;
+    --muted:#7B6D9A; --ink:#1C0236;
+    --border:#DDD9F5; --border-2:#C4BEF0;
+    --amber:#F59E0B; --green:#10B981; --rose:#E0567A;
+    --grad-hero:linear-gradient(135deg,#120228 0%,#1a0335 55%,#200442 100%);
+    --shadow-sm:0 1px 2px rgba(18,2,40,.06);
+    --shadow-md:0 6px 22px rgba(18,2,40,.08);
+    --shadow-lg:0 18px 50px rgba(18,2,40,.14);
+    --font-head:'Sora',sans-serif; --font-body:'DM Sans',sans-serif; --font-mono:'JetBrains Mono',monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font-body);background:var(--offwhite);color:var(--navy);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--sky);color:#fff}
+
+  /* ─────────── NAV ─────────── */
+  nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;
+    padding:0 44px;height:68px;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+  .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+  /* SVG logo replaces mark+wordmark — constrain height, let width be natural */
+  .nav-logo-svg{height:28px;width:auto;display:block}
+  .nav-right{display:flex;align-items:center;gap:22px}
+  .nav-meta{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.04em}
+  .nav-print{background:var(--sky);color:#fff;border:none;cursor:pointer;
+    padding:9px 18px;border-radius:8px;font-family:var(--font-body);font-weight:600;font-size:13px;
+    transition:all .18s}
+  .nav-print:hover{background:var(--sky-2);transform:translateY(-1px)}
+
+  /* ─────────── HERO ─────────── */
+  .hero{padding:124px 44px 70px;background:var(--grad-hero);position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(circle at 80% 30%,rgba(130,149,255,.22) 0%,transparent 55%),
+      radial-gradient(circle at 15% 90%,rgba(92,224,176,.12) 0%,transparent 45%)}
+  .hero::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:62px 62px}
+  .hero-wrap{max-width:1180px;margin:0 auto;position:relative;z-index:1}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(130,149,255,.15);
+    border:1px solid rgba(130,149,255,.40);color:var(--sky-md);font-family:var(--font-mono);
+    font-size:11.5px;font-weight:500;letter-spacing:.9px;text-transform:uppercase;
+    padding:7px 14px;border-radius:100px;margin-bottom:26px}
+  .hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--brand-teal);box-shadow:0 0 10px var(--brand-teal)}
+  .hero h1{font-family:var(--font-head);font-weight:800;font-size:clamp(34px,5vw,58px);
+    line-height:1.06;letter-spacing:-.025em;color:#fff;margin-bottom:20px;max-width:880px}
+  .hero h1 .ac{color:var(--sky-md)}
+  .hero p.lead{font-size:17.5px;line-height:1.65;color:rgba(255,255,255,.78);max-width:660px;margin-bottom:30px}
+  .hero-facts{display:flex;gap:14px;flex-wrap:wrap}
+  .hero-fact{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);
+    border-radius:12px;padding:16px 20px;backdrop-filter:blur(6px)}
+  .hero-fact .n{font-family:var(--font-head);font-weight:700;font-size:24px;color:#fff;line-height:1}
+  .hero-fact .l{font-size:11.5px;color:rgba(255,255,255,.6);margin-top:5px;font-family:var(--font-mono);letter-spacing:.04em}
+
+  /* ─────────── HOW-TO STRIP ─────────── */
+  .howto{background:var(--navy);padding:34px 44px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .howto-wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+  .howto-ic{width:46px;height:46px;border-radius:11px;background:rgba(41,168,224,.16);
+    border:1px solid rgba(41,168,224,.34);display:grid;place-items:center}
+  .howto-ic svg{width:24px;height:24px}
+  .howto-txt h4{font-family:var(--font-head);font-weight:600;font-size:15px;color:#fff;margin-bottom:4px}
+  .howto-txt p{font-size:13.5px;color:rgba(255,255,255,.62);line-height:1.55}
+  .howto-txt strong{color:var(--sky-md);font-weight:600}
+
+  /* ─────────── STREAM NAV (sticky) ─────────── */
+  .stream-nav{position:sticky;top:68px;z-index:150;background:rgba(247,251,254,.96);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);padding:0 44px}
+  .stream-nav-wrap{max-width:1180px;margin:0 auto;display:flex;gap:6px;overflow-x:auto}
+  .stream-tab{flex:1;min-width:200px;padding:16px 18px;background:none;border:none;cursor:pointer;
+    border-bottom:3px solid transparent;text-align:left;transition:all .18s;font-family:var(--font-body)}
+  .stream-tab:hover{background:var(--soft)}
+  .stream-tab.active{border-bottom-color:var(--brand-purple)}
+  .stream-tab .st-no{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.14em;color:var(--brand-purple)}
+  .stream-tab .st-nm{font-family:var(--font-head);font-weight:600;font-size:14.5px;color:var(--navy);margin-top:3px}
+  .stream-tab.active .st-nm{color:var(--brand-purple)}
+  .stream-tab .st-ct{font-size:11.5px;color:var(--muted);margin-top:2px}
+
+  /* ─────────── SECTION SCAFFOLD ─────────── */
+  .stream{padding:72px 44px;display:none}
+  .stream.active{display:block;animation:fade .4s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .container{max-width:1180px;margin:0 auto}
+  .stream-head{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:start;margin-bottom:44px}
+  .sec-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11.5px;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--brand-purple);font-weight:500;margin-bottom:14px}
+  .sec-tag::before{content:'';width:24px;height:1px;background:var(--brand-blue)}
+  .stream-head h2{font-family:var(--font-head);font-weight:700;font-size:clamp(26px,3vw,38px);
+    line-height:1.14;letter-spacing:-.02em;color:var(--navy);margin-bottom:14px}
+  .stream-head h2 em{color:var(--brand-blue);font-style:normal}
+  .stream-head p{font-size:15.5px;color:var(--muted);line-height:1.65;max-width:620px}
+  .stream-meta{background:#fff;border:1px solid var(--border);border-radius:14px;
+    padding:22px 24px;min-width:240px;box-shadow:var(--shadow-sm)}
+  .stream-meta .mrow{display:flex;justify-content:space-between;padding:8px 0;
+    border-bottom:1px dashed var(--border);font-size:13px}
+  .stream-meta .mrow:last-child{border-bottom:none}
+  .stream-meta .mk{color:var(--muted);font-family:var(--font-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase}
+  .stream-meta .mv{color:var(--navy);font-weight:600;text-align:right}
+
+  /* ─────────── SCORE BAR ─────────── */
+  .scorebar{display:flex;align-items:center;gap:20px;background:linear-gradient(135deg,#fff 0%,#F4FAFD 100%);
+    border:1px solid var(--border);border-radius:14px;padding:18px 24px;margin-bottom:30px}
+  .scorebar .sb-lbl{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--muted);white-space:nowrap}
+  .sb-track{flex:1;height:10px;background:var(--soft);border-radius:6px;overflow:hidden}
+  .sb-fill{height:100%;width:0;background:linear-gradient(90deg,var(--brand-purple) 0%,var(--brand-blue) 50%,var(--brand-teal) 100%);
+    border-radius:6px;transition:width .5s ease}
+  .sb-val{font-family:var(--font-head);font-weight:700;font-size:20px;color:var(--brand-purple);min-width:96px;text-align:right}
+  .sb-val small{font-size:12px;color:var(--muted);font-weight:400}
+
+  /* ─────────── QUESTION ACCORDION ─────────── */
+  .q-list{display:flex;flex-direction:column;gap:14px}
+  .q-card{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;
+    transition:box-shadow .2s,border-color .2s}
+  .q-card.open{box-shadow:var(--shadow-md);border-color:var(--sky-md)}
+  .q-head{display:flex;align-items:center;gap:18px;padding:22px 24px;cursor:pointer;user-select:none}
+  .q-head:hover{background:var(--soft)}
+  .q-num{flex:0 0 44px;height:44px;border-radius:11px;background:var(--sky-lt);
+    border:1px solid var(--border-2);display:grid;place-items:center;
+    font-family:var(--font-head);font-weight:700;font-size:15px;color:var(--brand-purple)}
+  .q-card.open .q-num{background:linear-gradient(135deg,var(--brand-purple),var(--brand-blue));color:#fff;border-color:var(--brand-blue)}
+  .q-text{flex:1}
+  .q-text .q-cat{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--brand-purple);margin-bottom:4px}
+  .q-text .q-main{font-family:var(--font-head);font-weight:600;font-size:16.5px;
+    color:var(--navy);line-height:1.4}
+  .q-toggle{flex:0 0 28px;height:28px;border-radius:50%;border:1px solid var(--border-2);
+    display:grid;place-items:center;transition:all .2s;color:var(--brand-purple)}
+  .q-card.open .q-toggle{background:linear-gradient(135deg,var(--brand-purple),var(--brand-blue));border-color:var(--brand-blue);color:#fff;transform:rotate(180deg)}
+  .q-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+  .q-card.open .q-body{max-height:1400px}
+  .q-body-inner{padding:4px 24px 26px 86px}
+
+  .q-block{margin-bottom:20px}
+  .q-block-lbl{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:10.5px;
+    letter-spacing:.14em;text-transform:uppercase;font-weight:500;margin-bottom:8px}
+  .q-block-lbl .ico{width:18px;height:18px;border-radius:5px;display:grid;place-items:center;flex:0 0 18px}
+  .q-block.listen .q-block-lbl{color:var(--brand-purple)}
+  .q-block.listen .ico{background:var(--sky-lt)}
+  .q-block.answer .q-block-lbl{color:var(--green)}
+  .q-block.answer .ico{background:#DCFCE7}
+  .q-block p{font-size:14px;line-height:1.62;color:var(--ink)}
+  .q-block.answer p{background:#F2FBF6;border:1px solid #C9EEDA;border-left:3px solid var(--green);
+    border-radius:8px;padding:14px 16px;color:var(--ink)}
+  .q-block.answer p em{color:var(--green);font-style:normal;font-weight:600}
+
+  /* maturity rubric */
+  .rubric-lbl{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:10px}
+  .rubric{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .r-opt{border:1.5px solid var(--border);border-radius:10px;padding:12px 13px;cursor:pointer;
+    transition:all .18s;background:#fff}
+  .r-opt:hover{border-color:var(--sky-md);transform:translateY(-2px)}
+  .r-opt.sel{border-color:var(--brand-blue);background:var(--sky-lt);box-shadow:0 4px 14px rgba(130,149,255,.22)}
+  .r-opt .r-tier{display:flex;align-items:center;gap:7px;font-family:var(--font-mono);
+    font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;margin-bottom:6px}
+  .r-dot{width:9px;height:9px;border-radius:50%;flex:0 0 9px}
+  .r-opt.t1 .r-dot{background:#CBD5E1} .r-opt.t1 .r-tier{color:#64748B}
+  .r-opt.t2 .r-dot{background:var(--amber)} .r-opt.t2 .r-tier{color:#B45309}
+  .r-opt.t3 .r-dot{background:var(--brand-blue)} .r-opt.t3 .r-tier{color:var(--brand-purple)}
+  .r-opt.t4 .r-dot{background:var(--green)} .r-opt.t4 .r-tier{color:#15803D}
+  .r-opt .r-desc{font-size:12px;line-height:1.5;color:var(--ink)}
+  .r-opt .r-pts{font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-top:7px}
+
+  /* ─────────── SYNTHESIS / RESULTS ─────────── */
+  .synth{padding:80px 44px;background:var(--navy);color:#fff;position:relative;overflow:hidden}
+  .synth::before{content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at 18% 20%,rgba(119,89,217,.22) 0%,transparent 45%),
+      radial-gradient(circle at 85% 85%,rgba(92,224,176,.12) 0%,transparent 50%)}
+  .synth-wrap{max-width:1180px;margin:0 auto;position:relative}
+  .synth .sec-tag{color:var(--brand-teal)} .synth .sec-tag::before{background:var(--brand-teal)}
+  .synth h2{font-family:var(--font-head);font-weight:700;font-size:clamp(26px,3vw,40px);
+    letter-spacing:-.02em;color:#fff;margin-bottom:14px}
+  .synth h2 em{color:var(--brand-teal);font-style:normal}
+  .synth>.synth-wrap>p{font-size:16px;color:rgba(255,255,255,.65);max-width:620px;margin-bottom:42px}
+  .synth-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:40px}
+  .synth-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.10);
+    border-radius:14px;padding:24px}
+  .synth-card .sc-no{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.14em;color:var(--sky-md);margin-bottom:8px}
+  .synth-card .sc-nm{font-family:var(--font-head);font-weight:600;font-size:15px;color:#fff;margin-bottom:14px}
+  .synth-card .sc-score{font-family:var(--font-head);font-weight:800;font-size:36px;line-height:1;
+    background:linear-gradient(135deg,var(--brand-teal),var(--brand-blue));-webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent}
+  .synth-card .sc-bar{height:6px;background:rgba(255,255,255,.10);border-radius:4px;overflow:hidden;margin-top:12px}
+  .synth-card .sc-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand-purple),var(--brand-blue),var(--brand-teal));
+    border-radius:4px;transition:width .6s ease}
+  .synth-card .sc-tier{font-family:var(--font-mono);font-size:10.5px;color:rgba(255,255,255,.55);
+    margin-top:10px;letter-spacing:.06em}
+  .synth-total{display:flex;align-items:center;gap:28px;background:rgba(119,89,217,.10);
+    border:1px solid rgba(130,149,255,.30);border-radius:18px;padding:30px 34px;flex-wrap:wrap}
+  .synth-total .tt-ring{flex:0 0 110px}
+  .synth-total .tt-txt h3{font-family:var(--font-head);font-weight:700;font-size:22px;color:#fff;margin-bottom:6px}
+  .synth-total .tt-txt p{font-size:14px;color:rgba(255,255,255,.66);line-height:1.6;max-width:620px}
+  .synth-total .tt-txt strong{color:var(--brand-teal)}
+
+  /* ─────────── FOOTER ─────────── */
+  .foot{background:var(--navy-2);padding:34px 44px;border-top:1px solid rgba(255,255,255,.07)}
+  .foot-wrap{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;
+    align-items:center;flex-wrap:wrap;gap:16px;font-family:var(--font-mono);
+    font-size:11.5px;color:rgba(255,255,255,.45)}
+  .foot-wrap a{color:var(--brand-teal);text-decoration:none}
+  .foot-wrap a:hover{color:#fff}
+
+  /* ─────────── RESPONSIVE ─────────── */
+  @media(max-width:980px){
+    .stream-head{grid-template-columns:1fr}
+    .synth-grid{grid-template-columns:repeat(2,1fr)}
+    .rubric{grid-template-columns:repeat(2,1fr)}
+    .howto-wrap{grid-template-columns:1fr;gap:14px}
+  }
+  @media(max-width:680px){
+    nav,.hero,.howto,.stream-nav,.stream,.synth,.foot{padding-left:20px;padding-right:20px}
+    .nav-meta{display:none}
+    .hero h1{font-size:32px}
+    .synth-grid{grid-template-columns:1fr}
+    .rubric{grid-template-columns:1fr}
+    .q-body-inner{padding-left:24px}
+    .q-head{padding:18px 16px;gap:12px}
+  }
+  @media print{
+    nav,.stream-nav,.nav-print,.howto{display:none!important}
+    .stream{display:block!important;page-break-before:always;padding:30px}
+    .q-body{max-height:none!important}
+    .q-card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+    .hero,.synth{background:#fff!important;color:var(--navy)!important}
+    .hero h1,.synth h2{color:var(--navy)!important}
+    .synth-card .sc-score{-webkit-text-fill-color:var(--sky-deep)}
+  }
+</style>
+</head>
+<body>
+
+<!-- ─────────── NAV ─────────── -->
+<nav>
+  <a href="#top" class="nav-logo">
+    <!-- SpinSci official SVG logo -->
+    <svg class="nav-logo-svg" width="108" height="31" viewBox="0 0 108 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M24.163 16.4599C23.4433 13.9913 21.8781 11.4141 19.7358 9.1271L22.9391 5.92503L22.3993 5.38513C19.9836 2.96915 17.1827 1.21021 14.5124 0.432617C11.6843 -0.392518 9.30944 -0.0291869 7.82748 1.453C7.27577 2.00479 6.88024 2.67882 6.64089 3.45472C5.86511 3.69241 5.19118 4.0897 4.63948 4.64149C4.08268 5.19837 3.68885 5.87579 3.45289 6.64321C2.6788 6.8809 2.00488 7.27649 1.45487 7.82828C-0.0287907 9.31046 -0.392067 11.6857 0.431246 14.5143C1.15101 16.9829 2.71615 19.5618 4.85846 21.8471L1.65688 25.0492L2.1967 25.5891C5.66649 29.0594 9.67781 30.9796 12.8471 30.9796C14.4174 30.9796 15.7805 30.5076 16.7685 29.5195C17.3253 28.9626 17.7191 28.2852 17.9551 27.5195C18.7207 27.2835 19.398 26.8896 19.9548 26.3327C20.5133 25.7741 20.9071 25.0933 21.1448 24.3259C21.9155 24.0865 22.5911 23.6977 23.1411 23.1476C24.6247 21.6637 24.9863 19.2902 24.163 16.4616V16.4599ZM8.90712 2.53451C9.97658 1.46319 11.815 1.23908 14.0847 1.89952C16.3152 2.54979 18.6646 3.97255 20.7679 5.93522L18.6612 8.0422C16.3746 5.89956 13.7944 4.33928 11.3244 3.6211C10.3331 3.33248 9.39771 3.18986 8.53705 3.18986C8.49461 3.18986 8.45218 3.18986 8.40974 3.18986C8.54894 2.94707 8.7136 2.72975 8.90712 2.5362V2.53451ZM5.71912 5.72299C5.91264 5.52944 6.13162 5.36306 6.37268 5.22553C6.36589 5.61773 6.39474 6.0269 6.44907 6.44966C6.02638 6.39532 5.61896 6.36986 5.22683 6.37665C5.36263 6.13726 5.5256 5.91824 5.71912 5.72299ZM4.75151 7.93694C5.36263 7.87072 6.04335 7.90807 6.78179 8.05069C6.79027 8.08125 6.79537 8.11011 6.80555 8.14067C7.58303 10.8113 9.50975 13.4548 11.759 16.0287C13.6229 18.1628 15.239 20.3174 16.0283 22.4142C13.8623 21.6043 11.6283 20.1119 9.65234 18.1357C6.30138 14.7842 4.45784 10.7163 4.75321 7.93694H4.75151ZM15.6871 28.4397C13.4837 30.6434 8.16529 29.0798 3.82635 25.039L5.93301 22.9337C9.32472 26.1188 13.168 27.8624 16.1811 27.7911C16.0453 28.0288 15.8807 28.2461 15.6871 28.4397ZM16.6581 26.2223C13.8843 26.5161 9.81361 24.6689 6.46434 21.3191L6.46095 21.3157C4.22527 19.0797 2.60411 16.5109 1.89793 14.0864C1.23758 11.8181 1.46336 9.9794 2.53451 8.90808C2.72464 8.71793 2.94702 8.56513 3.18298 8.4276C3.12696 11.6178 5.05028 15.6959 8.56931 19.2155C10.9849 21.6315 13.7859 23.3921 16.4561 24.1697C16.4833 24.1782 16.5105 24.1833 16.5376 24.1901C16.6785 24.9167 16.7243 25.6026 16.6598 26.2223H16.6581ZM18.8751 25.2512C18.6816 25.4447 18.4643 25.6094 18.2267 25.7453C18.2335 25.3514 18.2114 24.9422 18.1588 24.5245C18.5305 24.5721 18.8955 24.6009 19.2435 24.6009C19.2859 24.6009 19.3267 24.5958 19.3691 24.5958C19.2316 24.8369 19.0704 25.056 18.8751 25.2512ZM16.025 11.7587C13.6093 9.34272 10.8084 7.58379 8.13983 6.8045C8.10927 6.79601 8.08041 6.78922 8.04986 6.78073C7.90726 6.04218 7.86652 5.35796 7.93103 4.74675C8.78999 4.65337 9.79154 4.76543 10.8966 5.08631C13.3241 5.7943 15.8925 7.41571 18.1299 9.65342C20.3673 11.8911 21.9884 14.4599 22.6963 16.8878C23.3567 19.1561 23.1309 20.9948 22.0614 22.0661C21.8713 22.2563 21.6489 22.4091 21.413 22.5466C21.469 19.3564 19.5457 15.2783 16.0266 11.7587M14.9453 12.8402C18.2963 16.1917 20.1398 20.2596 19.8444 23.039C19.2367 23.1052 18.5594 23.0678 17.8261 22.9269C17.0978 20.3394 15.2067 17.718 12.8386 14.9472C11.0189 12.8181 9.36376 10.7281 8.55573 8.55664C10.7269 9.36479 12.966 10.8606 14.9453 12.8402Z" fill="url(#logo_grad)"/>
+      <path d="M31.2572 11.0139C31.2572 11.7491 31.8242 12.2975 32.2978 12.6302C32.9802 13.1073 34.3977 13.2635 35.7693 13.4163C38.6602 13.7372 42.6206 14.1787 42.6206 18.3705C42.6206 21.031 39.655 23.1159 35.8712 23.1159C32.0873 23.1159 29.1217 21.031 29.1217 18.3705H31.2555C31.2555 19.9088 33.6881 20.9818 35.8712 20.9818C38.0542 20.9818 40.4868 19.9088 40.4868 18.3705C40.4868 16.3128 38.9013 15.9121 35.5334 15.5386C33.8205 15.3484 32.2028 15.1685 31.0756 14.3807C29.816 13.5012 29.1217 12.306 29.1217 11.0139C29.1217 8.35346 32.0873 6.26855 35.8712 6.26855C39.655 6.26855 42.6206 8.35346 42.6206 11.0139H40.4868C40.4868 9.47572 38.0542 8.4027 35.8712 8.4027C33.6881 8.4027 31.2555 9.47402 31.2555 11.0139H31.2572Z" fill="#1C0236"/>
+      <path d="M56.3436 16.9813C56.3436 20.3922 53.8532 23.1664 50.7943 23.1664C49.1748 23.1664 47.9559 22.3905 47.1649 21.1545V27.1002H45.0311V11.3955H47.1649V12.8098C47.9559 11.5738 49.1748 10.7979 50.7943 10.7979C53.8549 10.7979 56.3436 13.5721 56.3436 16.983V16.9813ZM54.208 16.9813C54.208 14.7181 52.6751 12.8794 50.7926 12.8794C48.91 12.8794 47.1632 14.7198 47.1632 16.9813C47.1632 19.2445 48.9083 21.0849 50.7926 21.0849C52.6768 21.0849 54.208 19.2445 54.208 16.983V16.9813Z" fill="#1C0236"/>
+      <path d="M58.5673 9.88051V7.67676H61.1849V9.88051H58.5673ZM58.8101 22.5394V11.3169H60.9439V22.5394H58.8101Z" fill="#1C0236"/>
+      <path d="M75.2933 16.9242V22.5456H73.1595V16.9259C73.1595 14.6644 71.6266 12.824 69.744 12.824C67.8614 12.824 66.1147 14.6644 66.1147 16.9259V22.5473H63.9808V11.301H66.1147V12.756C66.9057 11.52 68.1246 10.7441 69.744 10.7441C72.8047 10.7441 75.2933 13.5184 75.2933 16.9293V16.9242Z" fill="#1C0236"/>
+      <path d="M79.5576 11.0139C79.5576 11.7491 80.1246 12.2975 80.5982 12.6302C81.2806 13.1073 82.698 13.2635 84.0697 13.4163C86.9606 13.7372 90.921 14.1787 90.921 18.3705C90.921 21.031 87.9571 23.1159 84.1715 23.1159C80.386 23.1159 77.4221 21.031 77.4221 18.3705H79.5559C79.5559 19.9088 81.9885 20.9818 84.1715 20.9818C86.3546 20.9818 88.7872 19.9088 88.7872 18.3705C88.7872 16.3128 87.2016 15.9121 83.8354 15.5386C82.1226 15.3484 80.5048 15.1685 79.3776 14.3807C78.1181 13.5012 77.4238 12.306 77.4238 11.0139C77.4238 8.35346 80.3877 6.26855 84.1732 6.26855C87.9588 6.26855 90.9227 8.35346 90.9227 11.0139H88.7889C88.7889 9.47572 86.3563 8.4027 84.1732 8.4027C81.9902 8.4027 79.5576 9.47402 79.5576 11.0139Z" fill="#1C0236"/>
+      <path d="M103.316 19.2046C102.466 21.5731 100.42 23.1028 98.1049 23.1028C95.0154 23.1028 92.5013 20.332 92.5013 16.9279C92.5013 13.5238 95.0154 10.7529 98.1049 10.7529C100.381 10.7529 102.415 12.2487 103.284 14.5645L101.286 15.3149C100.731 13.8395 99.4833 12.8871 98.1049 12.8871C96.1918 12.8871 94.6351 14.7003 94.6351 16.9279C94.6351 19.1554 96.1918 20.9687 98.1049 20.9687C99.5071 20.9687 100.765 19.9924 101.308 18.4831L103.316 19.2063V19.2046Z" fill="#1C0236"/>
+      <path d="M105.382 9.88051V7.67676H108V9.88051H105.382ZM105.625 22.5394V11.3169H107.759V22.5394H105.625Z" fill="#1C0236"/>
+      <defs>
+        <linearGradient id="logo_grad" x1="0" y1="15.4905" x2="24.5959" y2="15.4905" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#7759D9"/>
+          <stop offset="0.51" stop-color="#8295FF"/>
+          <stop offset="1" stop-color="#5CE0B0"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </a>
+  <div class="nav-right">
+    <span class="nav-meta">Value Workshop · Discovery Question Bank</span>
+    <button class="nav-print" onclick="window.print()">Export PDF</button>
+  </div>
+</nav>
+
+<!-- ─────────── HERO ─────────── -->
+<section class="hero" id="top">
+  <div class="hero-wrap">
+    <div class="hero-badge">Value Workshop · Facilitator Guide</div>
+    <h1>The discovery questions that turn a workshop into an <span class="ac">adoption decision</span>.</h1>
+    <p class="lead">
+      Thirty-two structured discovery questions across the four Value Workshop streams — each
+      with what the facilitator is listening for, what a strong answer sounds like, and a
+      four-tier maturity rubric. Score live during the session; the running tally tells you
+      whether a 90-day pilot is ready to start or whether foundations come first.
+    </p>
+    <div class="hero-facts">
+      <div class="hero-fact"><div class="n">4</div><div class="l">DISCOVERY STREAMS</div></div>
+      <div class="hero-fact"><div class="n">32</div><div class="l">SCORED QUESTIONS</div></div>
+      <div class="hero-fact"><div class="n">4-hr</div><div class="l">WORKSHOP FORMAT</div></div>
+      <div class="hero-fact"><div class="n">1–4</div><div class="l">MATURITY TIERS</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── HOW TO USE ─────────── -->
+<div class="howto">
+  <div class="howto-wrap">
+    <div class="howto-ic">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M9 11l3 3L22 4" stroke="#29A8E0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke="#91D6F5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="howto-txt">
+      <h4>How to run this guide</h4>
+      <p>Work one stream at a time with the right people in the room. Ask the question, listen against the
+      <strong>"what we're listening for"</strong> note, then tap the maturity tier that best matches the customer's
+      answer. The <strong>"strong answer"</strong> block is your reference for what good looks like — not a script to read.
+      Stream and composite scores update live; export to PDF at the end as the workshop record.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────── STREAM NAV ─────────── -->
+<div class="stream-nav">
+  <div class="stream-nav-wrap">
+    <button class="stream-tab active" data-stream="s1" onclick="showStream('s1')">
+      <span class="st-no">STREAM 01</span>
+      <span class="st-nm">Strategic &amp; Operational Context</span>
+      <span class="st-ct">8 questions · Exec + Ops + IT</span>
+    </button>
+    <button class="stream-tab" data-stream="s2" onclick="showStream('s2')">
+      <span class="st-no">STREAM 02</span>
+      <span class="st-nm">Patient Access Workflow</span>
+      <span class="st-ct">8 questions · Ops + Contact Center</span>
+    </button>
+    <button class="stream-tab" data-stream="s3" onclick="showStream('s3')">
+      <span class="st-no">STREAM 03</span>
+      <span class="st-nm">Technical &amp; Governance Readiness</span>
+      <span class="st-ct">8 questions · IT + Security</span>
+    </button>
+    <button class="stream-tab" data-stream="s4" onclick="showStream('s4')">
+      <span class="st-no">STREAM 04</span>
+      <span class="st-nm">Value Realization &amp; Roadmap</span>
+      <span class="st-ct">8 questions · Finance + Sponsor</span>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════ STREAM 01 ═══════════ -->
+<section class="stream active" id="s1">
+  <div class="container">
+    <div class="stream-head">
+      <div>
+        <div class="sec-tag">Stream 01 · Discovery</div>
+        <h2>Strategic &amp; <em>Operational Context</em></h2>
+        <p>Pull the curtain back on the access problem and the business it sits inside. Why now,
+        who owns it, and what leadership will actually be measured against this year.</p>
+      </div>
+      <div class="stream-meta">
+        <div class="mrow"><span class="mk">Duration</span><span class="mv">90 minutes</span></div>
+        <div class="mrow"><span class="mk">In the room</span><span class="mv">Exec sponsor, Ops, IT</span></div>
+        <div class="mrow"><span class="mk">Key artifact</span><span class="mv">Sponsor charter + KPI baseline</span></div>
+        <div class="mrow"><span class="mk">Maps to</span><span class="mv">Assessment D-01, D-06</span></div>
+      </div>
+    </div>
+
+    <div class="scorebar">
+      <span class="sb-lbl">Stream 01 Readiness</span>
+      <div class="sb-track"><div class="sb-fill" id="fill-s1"></div></div>
+      <span class="sb-val" id="val-s1">— <small>/ 32</small></span>
+    </div>
+
+    <div class="q-list" id="qlist-s1"></div>
+  </div>
+</section>
+
+<!-- ═══════════ STREAM 02 ═══════════ -->
+<section class="stream" id="s2">
+  <div class="container">
+    <div class="stream-head">
+      <div>
+        <div class="sec-tag">Stream 02 · Discovery</div>
+        <h2>Patient Access <em>Workflow Deep-Dive</em></h2>
+        <p>Walk the patient journey end-to-end. Find the high-volume, low-variability calls and
+        the high-rework workflows — where deflection becomes completion.</p>
+      </div>
+      <div class="stream-meta">
+        <div class="mrow"><span class="mk">Duration</span><span class="mv">120 minutes</span></div>
+        <div class="mrow"><span class="mk">In the room</span><span class="mv">Ops leaders, Contact Ctr</span></div>
+        <div class="mrow"><span class="mk">Key artifact</span><span class="mv">Workflow heatmap + targets</span></div>
+        <div class="mrow"><span class="mk">Maps to</span><span class="mv">Assessment D-05</span></div>
+      </div>
+    </div>
+
+    <div class="scorebar">
+      <span class="sb-lbl">Stream 02 Readiness</span>
+      <div class="sb-track"><div class="sb-fill" id="fill-s2"></div></div>
+      <span class="sb-val" id="val-s2">— <small>/ 32</small></span>
+    </div>
+
+    <div class="q-list" id="qlist-s2"></div>
+  </div>
+</section>
+
+<!-- ═══════════ STREAM 03 ═══════════ -->
+<section class="stream" id="s3">
+  <div class="container">
+    <div class="stream-head">
+      <div>
+        <div class="sec-tag">Stream 03 · Discovery</div>
+        <h2>Technical &amp; <em>Governance Readiness</em></h2>
+        <p>Score the foundations. EHR write-back, real-time audio streaming, identity and consent,
+        PHI handling, AI governance — the gaps that decide a 4–6 week go-live.</p>
+      </div>
+      <div class="stream-meta">
+        <div class="mrow"><span class="mk">Duration</span><span class="mv">90 minutes</span></div>
+        <div class="mrow"><span class="mk">In the room</span><span class="mv">IT, Security, Compliance</span></div>
+        <div class="mrow"><span class="mk">Key artifact</span><span class="mv">Integration blueprint + risk log</span></div>
+        <div class="mrow"><span class="mk">Maps to</span><span class="mv">Assessment D-02, D-03, D-04, D-08, D-09</span></div>
+      </div>
+    </div>
+
+    <div class="scorebar">
+      <span class="sb-lbl">Stream 03 Readiness</span>
+      <div class="sb-track"><div class="sb-fill" id="fill-s3"></div></div>
+      <span class="sb-val" id="val-s3">— <small>/ 32</small></span>
+    </div>
+
+    <div class="q-list" id="qlist-s3"></div>
+  </div>
+</section>
+
+<!-- ═══════════ STREAM 04 ═══════════ -->
+<section class="stream" id="s4">
+  <div class="container">
+    <div class="stream-head">
+      <div>
+        <div class="sec-tag">Stream 04 · Discovery</div>
+        <h2>Value Realization &amp; <em>Roadmap</em></h2>
+        <p>Quantify the prize. Run the numbers on handle time, no-shows, and capacity — then
+        co-author the pilot scope and the path to expand.</p>
+      </div>
+      <div class="stream-meta">
+        <div class="mrow"><span class="mk">Duration</span><span class="mv">120 minutes</span></div>
+        <div class="mrow"><span class="mk">In the room</span><span class="mv">Finance, Exec sponsor</span></div>
+        <div class="mrow"><span class="mk">Key artifact</span><span class="mv">Business case + 12-mo roadmap</span></div>
+        <div class="mrow"><span class="mk">Maps to</span><span class="mv">Assessment D-07</span></div>
+      </div>
+    </div>
+
+    <div class="scorebar">
+      <span class="sb-lbl">Stream 04 Readiness</span>
+      <div class="sb-track"><div class="sb-fill" id="fill-s4"></div></div>
+      <span class="sb-val" id="val-s4">— <small>/ 32</small></span>
+    </div>
+
+    <div class="q-list" id="qlist-s4"></div>
+  </div>
+</section>
+
+<!-- ─────────── SYNTHESIS ─────────── -->
+<section class="synth">
+  <div class="synth-wrap">
+    <div class="sec-tag">Workshop Synthesis</div>
+    <h2>Where does the customer <em>actually</em> stand?</h2>
+    <p>Composite readiness updates as you score. 75%+ signals a pilot can start in week three;
+    below 50% means foundational work comes first. Export the PDF as the signed workshop record.</p>
+
+    <div class="synth-grid">
+      <div class="synth-card">
+        <div class="sc-no">STREAM 01</div>
+        <div class="sc-nm">Strategic Context</div>
+        <div class="sc-score" id="sc-s1">—</div>
+        <div class="sc-bar"><i id="scbar-s1"></i></div>
+        <div class="sc-tier" id="sctier-s1">Not yet scored</div>
+      </div>
+      <div class="synth-card">
+        <div class="sc-no">STREAM 02</div>
+        <div class="sc-nm">Workflow Deep-Dive</div>
+        <div class="sc-score" id="sc-s2">—</div>
+        <div class="sc-bar"><i id="scbar-s2"></i></div>
+        <div class="sc-tier" id="sctier-s2">Not yet scored</div>
+      </div>
+      <div class="synth-card">
+        <div class="sc-no">STREAM 03</div>
+        <div class="sc-nm">Technical Readiness</div>
+        <div class="sc-score" id="sc-s3">—</div>
+        <div class="sc-bar"><i id="scbar-s3"></i></div>
+        <div class="sc-tier" id="sctier-s3">Not yet scored</div>
+      </div>
+      <div class="synth-card">
+        <div class="sc-no">STREAM 04</div>
+        <div class="sc-nm">Value &amp; Roadmap</div>
+        <div class="sc-score" id="sc-s4">—</div>
+        <div class="sc-bar"><i id="scbar-s4"></i></div>
+        <div class="sc-tier" id="sctier-s4">Not yet scored</div>
+      </div>
+    </div>
+
+    <div class="synth-total">
+      <div class="tt-ring">
+        <svg viewBox="0 0 120 120" width="110" height="110">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="12"/>
+          <circle id="ring" cx="60" cy="60" r="50" fill="none" stroke="#29A8E0" stroke-width="12"
+            stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"
+            transform="rotate(-90 60 60)" style="transition:stroke-dashoffset .6s ease"/>
+          <text id="ring-pct" x="60" y="66" text-anchor="middle" fill="#fff"
+            font-family="Sora" font-weight="800" font-size="26">—</text>
+        </svg>
+      </div>
+      <div class="tt-txt">
+        <h3 id="verdict-title">Composite Readiness — score the streams to begin</h3>
+        <p id="verdict-body">As you tap maturity tiers across all four streams, this verdict resolves into
+        one of three recommendations: <strong>Pilot-ready</strong>, <strong>Targeted prep</strong>, or
+        <strong>Foundational build first</strong> — each with a recommended next move.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── FOOTER ─────────── -->
+<div class="foot">
+  <div class="foot-wrap">
+    <div>SpinSci.ai · Value Workshop Discovery Question Bank · Confidential — For Customer Workshop Use</div>
+    <div><a href="https://spinsci.ai">spinsci.ai</a> &nbsp;·&nbsp; sales@spinsci.ai</div>
+  </div>
+</div>
+
+<script>
+/* ═══════════ DISCOVERY QUESTION DATA ═══════════ */
+const RUBRIC_TIERS = [
+  {tier:'Foundational', cls:'t1', pts:1},
+  {tier:'Building',     cls:'t2', pts:2},
+  {tier:'Capable',      cls:'t3', pts:3},
+  {tier:'Strong',       cls:'t4', pts:4}
+];
+
+const STREAMS = {
+  s1: [
+    {
+      cat:'Strategic Intent',
+      q:'What are the top three strategic outcomes leadership is measured against this year — and where does patient access sit among them?',
+      listen:'You want patient access named explicitly as a priority, tied to a number an executive owns. Vague "improve experience" answers signal a sponsorship gap.',
+      answer:'A strong answer names patient access as a <em>top-three board-level priority</em> — connected to a specific target (e.g. access capacity, cost-to-serve, growth) that a named executive is personally accountable for delivering this fiscal year.',
+      rubric:[
+        'Access is not a named priority; no executive owns it.',
+        'Access matters informally but isn\'t tied to a measurable goal.',
+        'Access is a stated priority with a target, owned by a leader.',
+        'Access is a top-three board priority with an executive owner and a hard number.'
+      ]
+    },
+    {
+      cat:'Burning Platform',
+      q:'What is driving the urgency now — cost pressure, staffing shortage, patient-experience scores, or growth targets?',
+      listen:'A real burning platform makes a pilot move fast. "It would be nice to have" answers predict a stalled project. Listen for a specific, dated pressure.',
+      answer:'A strong answer points to a <em>concrete, time-bound pressure</em> — e.g. a hiring freeze against rising volume, a CSAT decline tied to access, or a growth mandate that current staffing can\'t absorb — that makes inaction the expensive option.',
+      rubric:[
+        'No clear driver; exploring AI because peers are.',
+        'General cost or staffing concern, not quantified or dated.',
+        'A specific pressure identified, with rough sizing.',
+        'A quantified, dated burning platform leadership has already escalated.'
+      ]
+    },
+    {
+      cat:'Sponsorship',
+      q:'Who is the executive sponsor for this initiative, and what does success look like to them personally?',
+      listen:'Patient-access AI fails as an IT-only project. You need a named sponsor — ideally clinical or operations — who can clear roadblocks and will be seen to win or lose.',
+      answer:'A strong answer names a <em>single accountable executive sponsor</em> in operations or clinical leadership (not IT alone), who can articulate, in their own words, the specific outcome that makes this a personal success.',
+      rubric:[
+        'IT project only; no executive or clinical sponsor.',
+        'A sponsor exists but is passive or purely IT-side.',
+        'A named operations/clinical sponsor, engaged and supportive.',
+        'An invested executive sponsor with clinical alignment and a personal stake.'
+      ]
+    },
+    {
+      cat:'Volume Baseline',
+      q:'What is your current annual inbound contact volume across voice, web, and SMS — and how is it trending?',
+      listen:'You need a real number to size the prize. If they can\'t produce volume by channel, that itself is a finding for the technical stream.',
+      answer:'A strong answer gives <em>annual volume broken out by channel</em> with a clear trend line — e.g. "roughly 850K patient engagements last year, voice-dominant, up ~8% year over year" — pulled directly from CCaaS reporting.',
+      rubric:[
+        'Volume is unknown or anecdotal.',
+        'A rough total exists but not split by channel.',
+        'Annual volume by channel is known, with a trend.',
+        'Volume by channel, trend, and seasonality are reported and trusted.'
+      ]
+    },
+    {
+      cat:'Access Gap',
+      q:'What percentage of patient calls go unanswered or abandoned during peak periods?',
+      listen:'30–40% unanswered at peak is the industry reality. A precise number shows operational maturity; "we\'re not sure" sizes both the problem and a data gap.',
+      answer:'A strong answer cites a <em>measured abandonment / unanswered rate</em> with peak-period context — and ideally connects it to lost appointments or revenue leakage the team already tracks.',
+      rubric:[
+        'Abandonment rate is not measured.',
+        'A ballpark figure exists; no peak-period view.',
+        'Abandonment is measured, including peak periods.',
+        'Abandonment is measured, trended, and tied to revenue impact.'
+      ]
+    },
+    {
+      cat:'Experience Baseline',
+      q:'What is your current patient-satisfaction posture for access and the contact center — CSAT, HCAHPS, or an NPS proxy?',
+      listen:'A baseline experience score lets the pilot prove lift. Listen for an owned metric, not a guess — and whether access specifically is isolated within it.',
+      answer:'A strong answer provides a <em>current, owned access/contact-center satisfaction score</em> with a baseline date — so the workshop can set a measurable 90-day improvement target against it.',
+      rubric:[
+        'No satisfaction metric for access or contact center.',
+        'A general satisfaction score exists; access isn\'t isolated.',
+        'An access-specific satisfaction baseline is tracked.',
+        'Access satisfaction is baselined, trended, and reported to leadership.'
+      ]
+    },
+    {
+      cat:'Prior Attempts',
+      q:'Have you attempted patient-access automation before — IVR, chatbot, digital front door? What happened?',
+      listen:'Past scars shape expectations. A failed chatbot means you must clearly separate SpinSci\'s completion model from deflection. Listen for the lesson they took away.',
+      answer:'A strong answer is <em>honest about prior attempts and their limits</em> — typically a digital front door or IVR that expanded access points but still left manual bottlenecks — and shows appetite to move from deflection to true task completion.',
+      rubric:[
+        'Prior attempts failed and left organizational skepticism.',
+        'Some tooling exists but underperforms; lessons unclear.',
+        'Prior efforts delivered partial value; clear lessons drawn.',
+        'A mature digital front door exists; ready to evolve to an AI front door.'
+      ]
+    },
+    {
+      cat:'Change Readiness',
+      q:'How does the organization typically absorb operational change, and who leads change management for the contact center?',
+      listen:'Agentic AI changes how staff work. A named change owner and a real method predict adoption; "we\'ll figure it out" predicts resistance at go-live.',
+      answer:'A strong answer describes a <em>defined change-management process with a named owner</em>, plus respected frontline champions in the contact center who can carry adoption — not a top-down mandate alone.',
+      rubric:[
+        'No change-management process; change is top-down and ad hoc.',
+        'Informal change handling; no consistent owner.',
+        'A defined process exists with a named change owner.',
+        'Mature change capability with frontline champions already identified.'
+      ]
+    }
+  ],
+
+  s2: [
+    {
+      cat:'Call Mix',
+      q:'What are your highest-volume call types, and which are the most repetitive and low-variability?',
+      listen:'High-volume, low-variability calls (refills, FAQ, simple scheduling) are the ideal first targets. Listen for the team\'s own sense of which calls "anyone could handle."',
+      answer:'A strong answer identifies a <em>concentrated set of repetitive, rules-based call types</em> — scheduling, prescription refills, location/hours, simple billing questions — that together represent a large share of volume and an obvious automation entry point.',
+      rubric:[
+        'Call mix is not categorized or measured.',
+        'Broad categories known; volume share is estimated.',
+        'Top call types and their volume share are measured.',
+        'Call types segmented by volume and variability, ready to prioritize.'
+      ]
+    },
+    {
+      cat:'Scheduling Flow',
+      q:'Walk us through appointment scheduling end-to-end — where does it break, and where do staff improvise?',
+      listen:'Scheduling is where AI completion proves itself. Listen for the manual workarounds, the template confusion, the steps that depend on tribal knowledge.',
+      answer:'A strong answer traces the <em>full scheduling path and names the specific break points</em> — provider-template complexity, insurance checks, manual callbacks — making clear where an agent with EHR write-back removes friction the team feels daily.',
+      rubric:[
+        'Scheduling is fragmented and undocumented.',
+        'The flow is roughly understood; break points are anecdotal.',
+        'The flow is documented with known friction points.',
+        'Scheduling is mapped, measured, and break points are quantified.'
+      ]
+    },
+    {
+      cat:'Verification Cost',
+      q:'How long does patient identity verification take per call today, and is it consistent across agents?',
+      listen:'Verification is a 40–50 second tax on every call that AI removes instantly. A precise number here directly feeds the ROI model in Stream 04.',
+      answer:'A strong answer gives a <em>measured average verification time per call</em> — SpinSci customers commonly report 40–50 seconds — and acknowledges variability across agents that a consistent automated step eliminates.',
+      rubric:[
+        'Verification time is unknown.',
+        'A rough estimate exists; consistency unclear.',
+        'Average verification time is measured.',
+        'Verification time is measured, trended, and its cost is understood.'
+      ]
+    },
+    {
+      cat:'No-Show Rate',
+      q:'What is your current no-show rate, and what outbound effort goes into reducing it today?',
+      listen:'No-shows are direct revenue leakage. Listen for the rate, the staffing cost of reminder campaigns, and whether outbound is reactive or systematic.',
+      answer:'A strong answer states a <em>measured no-show rate with the current outbound reminder approach</em> — and recognizes that proactive, multi-channel AI outreach can both lift the rate and free the staff currently making those calls.',
+      rubric:[
+        'No-show rate is not tracked.',
+        'Rate is known; outbound reminders are manual and limited.',
+        'Rate is tracked; a structured reminder process exists.',
+        'No-show rate is tracked, trended, and tied to revenue recovery targets.'
+      ]
+    },
+    {
+      cat:'First-Contact Resolution',
+      q:'What is your first-contact resolution rate, and what drives patients to call back?',
+      listen:'Repeat calls multiply cost. Listen for whether they measure FCR at all, and whether they understand the root causes of rework.',
+      answer:'A strong answer provides an <em>FCR rate and a clear view of repeat-call drivers</em> — incomplete resolution, missing information, hand-off failures — the exact gaps an orchestrated agent closes by completing the task the first time.',
+      rubric:[
+        'FCR is not measured; repeat calls are invisible.',
+        'Repeat calls are noticed but not quantified.',
+        'FCR is measured; main repeat drivers are known.',
+        'FCR is measured, trended, and root-caused by call type.'
+      ]
+    },
+    {
+      cat:'Escalation Handoff',
+      q:'When a call escalates from self-service to a human, what context transfers with it?',
+      listen:'A cold handoff destroys trust and wastes time. Listen for whether the agent receives transcript, intent, and patient ID — or starts from zero.',
+      answer:'A strong answer recognizes today\'s handoff as a <em>weak point</em> — patients repeat themselves, agents start cold — and sees the value of SpinSci passing full transcript, recognized intent, and patient identity into the agent\'s screen automatically.',
+      rubric:[
+        'Escalations are cold; the patient repeats everything.',
+        'Some basic data passes; the agent still re-verifies.',
+        'Transcript and patient ID transfer on escalation.',
+        'Full context — transcript, intent, identity, history — transfers seamlessly.'
+      ]
+    },
+    {
+      cat:'Outbound Campaigns',
+      q:'What outbound campaigns do you run today — reminders, refills, care-gap outreach — and how are they staffed?',
+      listen:'Outbound is where SpinSci customers report a 5× capacity increase. Listen for which campaigns are wished-for but unstaffed.',
+      answer:'A strong answer describes <em>current outbound campaigns and their staffing ceiling</em> — and names the proactive outreach (recalls, care gaps, balance reminders) the team would run if capacity weren\'t the constraint.',
+      rubric:[
+        'No structured outbound; staff react to inbound only.',
+        'Limited outbound campaigns, manually staffed.',
+        'Several outbound campaigns run on a regular cadence.',
+        'Outbound is systematic and multi-channel, but capacity-constrained.'
+      ]
+    },
+    {
+      cat:'Rework Hotspots',
+      q:'Which workflows generate the most rework, manual cleanup, or downstream correction?',
+      listen:'Rework is hidden cost. Listen for the workflows where errors get fixed after the fact — registration, referral routing, data entry — and how often.',
+      answer:'A strong answer names the <em>specific high-rework workflows</em> — mis-keyed registration, mis-routed referrals, incomplete records — and the volume of correction events, which a high EHR write-back success rate directly reduces.',
+      rubric:[
+        'Rework is not tracked or visible.',
+        'Rework hotspots are known anecdotally.',
+        'Rework events are measured for key workflows.',
+        'Rework is measured, root-caused, and its cost is quantified.'
+      ]
+    }
+  ],
+
+  s3: [
+    {
+      cat:'EHR Write-Back',
+      q:'Which EHR(s) do you run, and do they support real-time bi-directional writes — not just reads?',
+      listen:'This is the single biggest predictor of how far automation can go. Read-only limits AI to FAQ and routing; full write-back enables end-to-end completion.',
+      answer:'A strong answer confirms a <em>SpinSci-supported EHR</em> — Epic, Oracle Health, athenahealth, MEDITECH, NextGen, Veradigm, or eClinicalWorks — with real-time bi-directional write capability, so agents can book, reschedule, and update records without staff touching them.',
+      rubric:[
+        'EHR is read-only or lacks API access; manual entry required.',
+        'Limited or batch write capability; asynchronous only.',
+        'Real-time write-back is available on a supported EHR.',
+        'Full real-time bi-directional API write-back, already proven in production.'
+      ]
+    },
+    {
+      cat:'CCaaS Platform',
+      q:'What is your contact-center platform, and does it support real-time audio streaming via SIP or gRPC?',
+      listen:'Voice AI orchestration needs streaming audio. Cloud-native CCaaS is ready now; legacy on-prem needs a cloud-gateway step before live voice agents.',
+      answer:'A strong answer names a <em>cloud-native CCaaS — Cisco, Genesys, Zoom, or Amazon Connect — with real-time streaming support</em>, so SpinSci\'s voice agents and live-agent handoff can be configured without re-platforming.',
+      rubric:[
+        'Legacy on-prem telephony; no streaming API.',
+        'Hybrid environment with standard API access only.',
+        'Cloud CCaaS with real-time streaming support.',
+        'Cloud-native CCaaS, streaming-ready, with AI handoff already configured.'
+      ]
+    },
+    {
+      cat:'Identity & Consent',
+      q:'How do you handle patient identity, authentication, and consent across channels today?',
+      listen:'Secure authentication and consent are non-negotiable for autonomous action. Listen for role-based controls and a consistent cross-channel approach.',
+      answer:'A strong answer describes <em>consistent, secure authentication with role-based access and explicit consent capture</em> across voice and digital — the foundation SpinSci builds on for autonomous, permission-bound agent actions.',
+      rubric:[
+        'Identity handling is inconsistent; consent is ad hoc.',
+        'Basic authentication exists; gaps across channels.',
+        'Consistent authentication and consent across channels.',
+        'Strong identity, role-based access, and auditable consent enterprise-wide.'
+      ]
+    },
+    {
+      cat:'PHI Data Handling',
+      q:'How is sensitive patient data — SSN, date of birth, PHI — handled during real-time processing?',
+      listen:'Real-time PII/PHI redaction is the floor for HIPAA-safe AI. Standard agent-level encryption alone needs a specialized redaction layer.',
+      answer:'A strong answer confirms <em>real-time PII/PHI masking and redaction</em> with encryption in transit and at rest — aligning with SpinSci\'s zero-trust, PHI-safe data handling from transcription through storage.',
+      rubric:[
+        'Standard encryption only; no real-time redaction layer.',
+        'Some masking in place; coverage is partial.',
+        'Real-time PII/PHI redaction is enabled.',
+        'Real-time redaction, zero-trust handling, audited and continuously monitored.'
+      ]
+    },
+    {
+      cat:'Training Data',
+      q:'Do you have access to historical call transcripts or labeled interaction data to tune intent recognition?',
+      listen:'Labeled transcripts are ideal "ground truth" for rapid deployment. Raw recordings need a labeling phase; nothing means a cold start.',
+      answer:'A strong answer indicates <em>historical transcripts are available — ideally labeled with intent mapping</em> — giving SpinSci ground truth to tune recognition for the organization\'s specific accents, terms, and call patterns.',
+      rubric:[
+        'No transcripts available; cold-start data gathering needed.',
+        'Raw recordings exist but are unlabeled.',
+        'Transcripts available; some intent labeling done.',
+        'Labeled transcripts with intent mapping, ready for tuning.'
+      ]
+    },
+    {
+      cat:'AI Governance',
+      q:'Do you have an AI governance framework, and how often is it reviewed for compliance?',
+      listen:'A reviewed governance framework speeds vendor approval and de-risks scale. Listen for cadence and a named owner — not a dusty policy.',
+      answer:'A strong answer describes an <em>approved AI governance framework with a defined review cadence and a named owner</em> — covering safety, fairness, and accountability — so a SpinSci deployment slots into existing oversight rather than triggering new policy work.',
+      rubric:[
+        'No formal AI governance framework exists.',
+        'Draft guidelines exist; review is rare or informal.',
+        'An approved framework is reviewed on a set cadence.',
+        'Governance is continuously updated with dedicated owners and audit trails.'
+      ]
+    },
+    {
+      cat:'Vendor & Security Review',
+      q:'What is your security review and procurement process for a new vendor, and what is the typical timeline?',
+      listen:'This often sets the real go-live date. Surface it early so the 90-day plan reflects the actual approval path, not an optimistic one.',
+      answer:'A strong answer lays out a <em>clear, predictable security-review and procurement path with a known timeline</em> — and ideally confirms SOC 2 and HIPAA evidence will satisfy it, keeping the 4–6 week implementation realistic.',
+      rubric:[
+        'Procurement path is unclear; timelines unpredictable.',
+        'A process exists but is slow or poorly defined.',
+        'A defined review process with a known typical timeline.',
+        'Streamlined process; SOC 2 / HIPAA evidence pre-cleared for AI vendors.'
+      ]
+    },
+    {
+      cat:'Integration Capability',
+      q:'What API management and integration capability exists today, and who owns it?',
+      listen:'An API platform and an owning team make integration fast. Point-to-point spaghetti or no owner predicts delay in the design-and-build phase.',
+      answer:'A strong answer describes a <em>managed API or integration platform with a clear owning team</em> — the technical muscle that lets SpinSci\'s Bridge connect to EHR and CCaaS quickly and be maintained after go-live.',
+      rubric:[
+        'No API management; integrations are point-to-point.',
+        'Some API capability; no clear owner or standards.',
+        'A managed integration platform with an owning team.',
+        'Mature API platform, governed, scalable, and well-resourced.'
+      ]
+    }
+  ],
+
+  s4: [
+    {
+      cat:'Cost Per Call',
+      q:'What is your fully loaded agent cost per call or per hour?',
+      listen:'This is the multiplier for every efficiency gain. SpinSci benchmarks use ~$28/agent-hour or ~$3.50/call — get the customer\'s real figure.',
+      answer:'A strong answer provides a <em>fully loaded cost per call or per agent-hour</em> — including overtime and contract labor — giving the ROI model a defensible figure the CFO will recognize and accept.',
+      rubric:[
+        'Cost per call is unknown.',
+        'A rough figure exists; not fully loaded.',
+        'A fully loaded cost per call or hour is known.',
+        'Cost per call is known, fully loaded, and trended over time.'
+      ]
+    },
+    {
+      cat:'Handle-Time Value',
+      q:'What is your average handle time, and what would 30 seconds saved per call be worth across your volume?',
+      listen:'30 seconds × annual volume × cost is the headline ROI line. Listen for whether the team can do this math live — it builds belief in the case.',
+      answer:'A strong answer connects <em>average handle time to a quantified savings figure</em> — e.g. 30 seconds across ~850K calls at the loaded rate — landing a multi-million-dollar annual number, the pattern SpinSci customers consistently report.',
+      rubric:[
+        'Handle time is not measured.',
+        'Handle time is known; savings not quantified.',
+        'Handle time is measured; savings can be estimated.',
+        'Handle time, savings, and 3-year value are modeled and owned by finance.'
+      ]
+    },
+    {
+      cat:'No-Show Revenue',
+      q:'What is the revenue impact of your no-show rate — revenue per visit times missed appointments?',
+      listen:'No-show recovery is often the largest single ROI line. You need revenue per visit and daily appointment volume to size it.',
+      answer:'A strong answer supplies <em>revenue per visit and appointment volume</em> so a 15% no-show reduction converts into a hard recovered-revenue figure — frequently the biggest line in the SpinSci business case.',
+      rubric:[
+        'No-show revenue impact has never been calculated.',
+        'The impact is acknowledged but not sized.',
+        'Revenue per visit and volume are known; impact estimable.',
+        'No-show revenue impact is modeled and tracked by finance.'
+      ]
+    },
+    {
+      cat:'Value Tracking',
+      q:'How is ROI or value realization tracked for technology investments today?',
+      listen:'If there is no method to track value, the pilot\'s success can\'t be proven. Listen for a dashboard, an owner, and a post-launch review habit.',
+      answer:'A strong answer describes a <em>standardized way to track financial and operational value post-launch</em> — a dashboard or ROI framework with an owner — so the pilot\'s lift is measured credibly and reported to leadership.',
+      rubric:[
+        'No formal value tracking for technology investments.',
+        'Value is discussed informally; no structured reporting.',
+        'Key KPIs are tracked post-launch against a baseline.',
+        'ROI and operational value are reported organization-wide on a cadence.'
+      ]
+    },
+    {
+      cat:'Budget & Approval',
+      q:'What is the budget envelope for this initiative, and what is the approval path and timeline?',
+      listen:'A funded initiative with a known approval path can move now. "We\'d need to find budget" means the workshop\'s job is to build the case for a future cycle.',
+      answer:'A strong answer confirms an <em>identified budget and a clear approval path with a timeline</em> — or, at minimum, the exact business case and sponsor needed to secure funding in the next cycle.',
+      rubric:[
+        'No budget identified; approval path unclear.',
+        'Budget is possible but unfunded; path is vague.',
+        'Budget is identified with a known approval path.',
+        'Initiative is funded and approved, ready to contract.'
+      ]
+    },
+    {
+      cat:'Pilot Scope',
+      q:'Which single workflow should the pilot target to prove value fastest?',
+      listen:'A focused pilot beats a broad one. Listen for alignment on one high-volume, high-confidence workflow — and resist scope creep into three at once.',
+      answer:'A strong answer converges on <em>one high-volume, low-variability, high-confidence workflow</em> — commonly scheduling or refills — scoped tightly enough to go live in week three and prove a clear, measurable lift.',
+      rubric:[
+        'No agreement on where to start; scope is broad.',
+        'A general area is favored; not yet narrowed.',
+        'One workflow is chosen as the pilot target.',
+        'A tightly scoped pilot workflow with success metrics agreed.'
+      ]
+    },
+    {
+      cat:'Success Definition',
+      q:'What must a 90-day pilot demonstrate to unlock funding for expansion?',
+      listen:'Define the win before you start. Listen for specific, measurable thresholds — containment %, handle-time delta, CSAT lift — that the sponsor will accept as proof.',
+      answer:'A strong answer states <em>explicit, measurable success thresholds</em> — e.g. a target containment rate, a handle-time reduction, a CSAT lift — that the executive sponsor agrees in advance will justify scaling.',
+      rubric:[
+        'Success is undefined; "see how it goes".',
+        'Success is described qualitatively only.',
+        'Specific success metrics are proposed.',
+        'Success thresholds are explicit and pre-agreed by the sponsor.'
+      ]
+    },
+    {
+      cat:'Expansion Path',
+      q:'What adjacent workflows, service lines, or regions are the natural expansion candidates after the pilot?',
+      listen:'A pilot is the start of a land-and-expand path. Listen for a credible sequence — billing, referrals, transfer center, new regions — that turns one win into a program.',
+      answer:'A strong answer sketches a <em>credible 12-month expansion sequence</em> — additional agents such as billing, referrals, or transfer center, then new regions or service lines — turning the pilot into a multi-year SpinSci program.',
+      rubric:[
+        'No expansion thinking beyond the pilot.',
+        'Expansion is desired but unsequenced.',
+        'A rough expansion sequence is identified.',
+        'A prioritized 12-month expansion roadmap is drafted.'
+      ]
+    }
+  ]
+};
+
+/* ═══════════ RENDER ═══════════ */
+const scores = { s1:{}, s2:{}, s3:{}, s4:{} };
+
+function renderStream(sid){
+  const list = document.getElementById('qlist-'+sid);
+  STREAMS[sid].forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = sid+'-q'+i;
+
+    const rubricHtml = RUBRIC_TIERS.map((t, ti) => `
+      <div class="r-opt ${t.cls}" onclick="pickTier('${sid}',${i},${ti})" id="${sid}-q${i}-r${ti}">
+        <div class="r-tier"><span class="r-dot"></span>${t.tier}</div>
+        <div class="r-desc">${item.rubric[ti]}</div>
+        <div class="r-pts">${t.pts} pt${t.pts>1?'s':''}</div>
+      </div>`).join('');
+
+    card.innerHTML = `
+      <div class="q-head" onclick="toggleQ('${sid}',${i})">
+        <div class="q-num">${i+1}</div>
+        <div class="q-text">
+          <div class="q-cat">${item.cat}</div>
+          <div class="q-main">${item.q}</div>
+        </div>
+        <div class="q-toggle">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="q-body">
+        <div class="q-body-inner">
+          <div class="q-block listen">
+            <div class="q-block-lbl"><span class="ico">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1018 0 9 9 0 00-18 0z" stroke="#006BA6" stroke-width="2"/><path d="M12 8v5l3 2" stroke="#006BA6" stroke-width="2" stroke-linecap="round"/></svg>
+            </span>What we're listening for</div>
+            <p>${item.listen}</p>
+          </div>
+          <div class="q-block answer">
+            <div class="q-block-lbl"><span class="ico">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#10B981" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>What a strong answer sounds like</div>
+            <p>${item.answer}</p>
+          </div>
+          <div class="q-block">
+            <div class="rubric-lbl">Score the customer's answer · tap one tier</div>
+            <div class="rubric">${rubricHtml}</div>
+          </div>
+        </div>
+      </div>`;
+    list.appendChild(card);
+  });
+}
+['s1','s2','s3','s4'].forEach(renderStream);
+
+/* ═══════════ INTERACTIONS ═══════════ */
+function toggleQ(sid, i){
+  document.getElementById(sid+'-q'+i).classList.toggle('open');
+}
+
+function pickTier(sid, qi, ti){
+  scores[sid][qi] = RUBRIC_TIERS[ti].pts;
+  RUBRIC_TIERS.forEach((_, t) => {
+    document.getElementById(sid+'-q'+qi+'-r'+t).classList.toggle('sel', t === ti);
+  });
+  updateStream(sid);
+  updateSynthesis();
+}
+
+function streamScore(sid){
+  const vals = Object.values(scores[sid]);
+  return { sum: vals.reduce((a,b)=>a+b,0), answered: vals.length, max: STREAMS[sid].length*4 };
+}
+
+function updateStream(sid){
+  const s = streamScore(sid);
+  const pct = s.max ? Math.round(s.sum/s.max*100) : 0;
+  document.getElementById('fill-'+sid).style.width = pct+'%';
+  document.getElementById('val-'+sid).innerHTML = s.answered
+    ? `${s.sum} <small>/ ${s.max}</small>`
+    : `— <small>/ ${s.max}</small>`;
+}
+
+function tierLabel(pct){
+  if(pct>=75) return ['Pilot-ready','#10B981'];
+  if(pct>=50) return ['Targeted prep','#29A8E0'];
+  if(pct>0)   return ['Foundational build','#F59E0B'];
+  return ['Not yet scored','rgba(255,255,255,.55)'];
+}
+
+function updateSynthesis(){
+  let totalSum=0, totalMax=0, totalAnswered=0;
+  ['s1','s2','s3','s4'].forEach(sid => {
+    const s = streamScore(sid);
+    totalSum+=s.sum; totalMax+=s.max; totalAnswered+=s.answered;
+    const pct = s.answered ? Math.round(s.sum/s.max*100) : 0;
+    const [lbl,col] = tierLabel(s.answered ? pct : 0);
+    document.getElementById('sc-'+sid).textContent = s.answered ? pct+'%' : '—';
+    document.getElementById('scbar-'+sid).style.width = pct+'%';
+    const tEl = document.getElementById('sctier-'+sid);
+    tEl.textContent = s.answered ? `${lbl} · ${s.answered}/${STREAMS[sid].length} scored` : 'Not yet scored';
+    tEl.style.color = col;
+  });
+
+  const compPct = totalMax && totalAnswered ? Math.round(totalSum/totalMax*100) : 0;
+  const ring = document.getElementById('ring');
+  ring.style.strokeDashoffset = 314 - (314*compPct/100);
+  document.getElementById('ring-pct').textContent = totalAnswered ? compPct+'%' : '—';
+
+  const title = document.getElementById('verdict-title');
+  const body  = document.getElementById('verdict-body');
+  const totalQ = 32;
+
+  if(!totalAnswered){
+    title.textContent = 'Composite Readiness — score the streams to begin';
+    body.innerHTML = 'As you tap maturity tiers across all four streams, this verdict resolves into '
+      +'one of three recommendations: <strong>Pilot-ready</strong>, <strong>Targeted prep</strong>, or '
+      +'<strong>Foundational build first</strong> — each with a recommended next move.';
+    ring.setAttribute('stroke','#8295FF');
+    return;
+  }
+
+  const progress = ` Scored ${totalAnswered} of ${totalQ} questions.`;
+  if(compPct>=75){
+    ring.setAttribute('stroke','#5CE0B0');
+    title.textContent = 'Pilot-ready — start the 90-day plan';
+    body.innerHTML = '<strong>Composite '+compPct+'%.</strong> Foundations are strong enough to begin. '
+      +'Lock the pilot scope from Stream 04, confirm the integration blueprint, and target a '
+      +'production agent live in week three.'+progress;
+  } else if(compPct>=50){
+    ring.setAttribute('stroke','#8295FF');
+    title.textContent = 'Targeted prep — close two or three gaps, then pilot';
+    body.innerHTML = '<strong>Composite '+compPct+'%.</strong> The opportunity is real but specific gaps '
+      +'need closing first. Address the lowest-scoring stream — most often Technical Readiness — '
+      +'on a short runway, then start the pilot.'+progress;
+  } else {
+    ring.setAttribute('stroke','#F59E0B');
+    title.textContent = 'Foundational build first — sequence the groundwork';
+    body.innerHTML = '<strong>Composite '+compPct+'%.</strong> A pilot now would be high-risk. Use the '
+      +'workshop output to sequence foundational work — sponsorship, EHR/CCaaS readiness, or governance — '
+      +'and re-run this assessment before committing to a go-live date.'+progress;
+  }
+}
+
+/* ═══════════ STREAM TABS ═══════════ */
+function showStream(sid){
+  document.querySelectorAll('.stream').forEach(s => s.classList.toggle('active', s.id===sid));
+  document.querySelectorAll('.stream-tab').forEach(t =>
+    t.classList.toggle('active', t.dataset.stream===sid));
+  window.scrollTo({ top: document.querySelector('.stream-nav').offsetTop - 4, behavior:'smooth' });
+}
+
+['s1','s2','s3','s4'].forEach(updateStream);
+updateSynthesis();
+</script>
+</body>
+</html>
