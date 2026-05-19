@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpinSci | Patient Access ROI Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; background-color: #f8fafc; color: #1a1a3f; }
+        .spinsci-navy { background-color: #1a1a3f; }
+        .spinsci-cyan { background-color: #00bcd4; }
+        .spinsci-text-cyan { color: #00bcd4; }
+        .card { background: white; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-top: 4px solid #00bcd4; }
+        input[type="range"] { accent-color: #00bcd4; }
+
+        /* Formula guide */
+        .formula-guide { display: none; }
+        .formula-guide.open { display: block; }
+        .formula-box {
+            background: #f0fdff;
+            border: 1px solid #b2ebf2;
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-top: 10px;
+            font-size: 0.78rem;
+            line-height: 1.6;
+            color: #0e4f5f;
+        }
+        .formula-box code {
+            display: block;
+            background: #e0f7fa;
+            border-radius: 5px;
+            padding: 7px 10px;
+            margin: 7px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.80rem;
+            color: #006064;
+            white-space: pre-wrap;
+        }
+        .formula-box .var-list { margin-top: 8px; }
+        .formula-box .var-list li { margin-bottom: 3px; }
+        .toggle-btn {
+            font-size: 0.70rem;
+            color: #00bcd4;
+            cursor: pointer;
+            user-select: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 6px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        .toggle-btn:hover { color: #0097a7; }
+        .toggle-icon { transition: transform 0.2s; }
+        .toggle-icon.rotated { transform: rotate(90deg); }
+
+        /* Validation warning */
+        .val-warn {
+            font-size: 0.70rem;
+            color: #c62828;
+            background: #fff3f3;
+            border: 1px solid #ffcdd2;
+            border-radius: 5px;
+            padding: 4px 8px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        /* Assumption category label */
+        .asm-label {
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #9e9e9e;
+            margin: 16px 0 6px;
+        }
+        .asm-label:first-child { margin-top: 0; }
+    </style>
+</head>
+<body>
+
+<header class="spinsci-navy text-white py-6 px-8 flex justify-between items-center">
+    <div>
+        <h1 class="text-2xl font-bold tracking-tight">SpinSci<span class="spinsci-text-cyan">.ai</span></h1>
+        <p class="text-xs uppercase tracking-widest opacity-80">Patient Access AI Orchestration</p>
+    </div>
+    <div class="text-right">
+        <p class="font-semibold text-lg">VoiceAI Cost Savings Model</p>
+        <p class="text-sm opacity-70">Empowering Health Systems at Scale</p>
+    </div>
+</header>
+
+<main class="max-w-7xl mx-auto p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+    <!-- ── LEFT COLUMN: ASSUMPTIONS ── -->
+    <section class="lg:col-span-1 space-y-6">
+        <div class="card p-6">
+            <h2 class="text-lg font-bold mb-4 border-b pb-2">📊 Assumptions</h2>
+
+            <div class="asm-label">Call Volume &amp; Cost</div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium">Monthly Inbound Calls</label>
+                    <input type="number" id="calls" value="500000" min="1" class="w-full border p-2 rounded mt-1" oninput="validateInputs(); calculateROI()">
+                    <p class="text-xs text-gray-400 mt-1">Total calls received per month across all queues.</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Cost per Agent-Handled Call ($)</label>
+                    <input type="number" id="agentCost" value="3.50" step="0.10" min="0.01" class="w-full border p-2 rounded mt-1" oninput="validateInputs(); calculateROI()">
+                    <p class="text-xs text-gray-400 mt-1">Fully-loaded cost when a live agent handles a call.</p>
+                </div>
+            </div>
+
+            <div class="asm-label">Repeat Calls</div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium">Current Repeat Call Rate (%)</label>
+                    <input type="number" id="repeatRate" value="18" min="1" max="100" class="w-full border p-2 rounded mt-1" oninput="syncRepeatBound(); validateInputs(); calculateROI()">
+                    <p class="text-xs text-gray-400 mt-1">% of calls that are follow-ups for the same issue.</p>
+                    <div id="warn-repeat-base" class="val-warn">Must be between 1% and 100%.</div>
+                </div>
+            </div>
+
+            <div class="asm-label">AI Containment</div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium">Current AI Containment Rate (%)</label>
+                    <input type="number" id="currentContainment" value="15" min="0" max="89" class="w-full border p-2 rounded mt-1" oninput="syncContainmentBound(); validateInputs(); calculateROI()">
+                    <p class="text-xs text-gray-400 mt-1">% of calls currently resolved by AI without live transfer. Typical pre-SpinSci baseline is 10–20%.</p>
+                    <div id="warn-contain-base" class="val-warn">Must be between 0% and 89%.</div>
+                </div>
+            </div>
+
+            <div class="asm-label">EHR Automation &amp; Rework</div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium">Current EHR Automation Success Rate (%)</label>
+                    <input type="number" id="currentEHR" value="92" min="50" max="99" class="w-full border p-2 rounded mt-1" oninput="syncEHRBound(); validateInputs(); calculateROI()">
+                    <p class="text-xs text-gray-400 mt-1">% of EHR write-back transactions completed without manual correction. Industry baseline is ~88–93%.</p>
+                    <div id="warn-ehr-base" class="val-warn">Must be between 50% and 99%.</div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Monthly Rework Events</label>
+                    <input type="number" id="rework" value="8000" min="0" class="w-full border p-2 rounded mt-1" oninput="validateInputs(); calculateROI()">
+                    <p class="text-xs text-gray-400 mt-1">Number of EHR transactions that fail and require manual correction each month.</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Cost per Rework Event ($)</label>
+                    <input type="number" id="reworkCost" value="8.00" step="0.50" min="0.50" class="w-full border p-2 rounded mt-1" oninput="validateInputs(); calculateROI()">
+                    <p class="text-xs text-gray-400 mt-1">Staff time + system cost to manually correct one failed EHR transaction. Typical range: $5–$15.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-cyan-50 p-5 rounded-xl border border-cyan-200">
+            <p class="text-sm italic text-cyan-800">"SpinSci integrates natively with your EHR (Epic, Oracle Health, athenahealth) to drive these efficiencies through real-time write-backs — completing tasks, not just conversations."</p>
+        </div>
+    </section>
+
+    <!-- ── RIGHT COLUMN: TARGETS + RESULTS ── -->
+    <section class="lg:col-span-2 space-y-8">
+
+        <!-- OPTIMIZATION TARGETS -->
+        <div class="card p-6">
+            <h2 class="text-lg font-bold mb-6">🎯 Optimization Targets</h2>
+
+            <div class="space-y-8">
+
+                <!-- CONTAINMENT SLIDER -->
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-semibold">Target AI Containment Rate</span>
+                        <span class="spinsci-text-cyan font-bold" id="containmentLabel">65%</span>
+                    </div>
+                    <input type="range" id="containment" min="16" max="90" value="65" class="w-full" oninput="updateLabels(); calculateROI();">
+                    <p class="text-xs text-gray-500 mt-1">Target % of calls fully resolved by AI — no live agent transfer needed.</p>
+                    <div id="warn-contain-target" class="val-warn">Target must exceed Current AI Containment Rate.</div>
+
+                    <span class="toggle-btn" onclick="toggleGuide('guide-containment', this)">
+                        <span class="toggle-icon">▶</span> How is this calculated?
+                    </span>
+                    <div id="guide-containment" class="formula-guide">
+                        <div class="formula-box">
+                            <strong>Containment Savings = additional calls AI handles × cost avoided per call</strong>
+                            <code>Monthly Savings =
+  (Target Containment% − Current Containment%) × Monthly Calls × Cost/Agent Call</code>
+                            <div class="var-list">
+                                <ul>
+                                    <li><strong>Target Containment%</strong> — the slider value you set above</li>
+                                    <li><strong>Current Containment%</strong> — your baseline from the Assumptions panel</li>
+                                    <li><strong>Monthly Calls</strong> — total inbound calls per month</li>
+                                    <li><strong>Cost/Agent Call</strong> — fully-loaded cost when a live agent handles a call</li>
+                                </ul>
+                            </div>
+                            <p style="margin-top:8px;"><em>Example: Moving from 15% → 65% containment on 500,000 calls at $3.50/call saves (0.65−0.15) × 500,000 × $3.50 = <strong>$875,000/month</strong>.</em></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- REPEAT SLIDER -->
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-semibold">Target Repeat Call Rate</span>
+                        <span class="spinsci-text-cyan font-bold" id="repeatLabel">8%</span>
+                    </div>
+                    <input type="range" id="targetRepeat" min="1" max="18" value="8" class="w-full" oninput="updateLabels(); calculateROI();">
+                    <p class="text-xs text-gray-500 mt-1">Target % of calls that are follow-up repeats — lower is better. Driven by first-contact resolution (FCR).</p>
+                    <div id="warn-repeat-target" class="val-warn">Target must be lower than Current Repeat Rate.</div>
+
+                    <span class="toggle-btn" onclick="toggleGuide('guide-repeat', this)">
+                        <span class="toggle-icon">▶</span> How is this calculated?
+                    </span>
+                    <div id="guide-repeat" class="formula-guide">
+                        <div class="formula-box">
+                            <strong>Repeat Call Savings = fewer repeat calls × cost avoided per call</strong>
+                            <code>Monthly Savings =
+  (Current Repeat Rate% − Target Repeat Rate%) × Monthly Calls × Cost/Agent Call</code>
+                            <div class="var-list">
+                                <ul>
+                                    <li><strong>Current Repeat Rate%</strong> — baseline from Assumptions panel</li>
+                                    <li><strong>Target Repeat Rate%</strong> — the slider value you set above</li>
+                                    <li><strong>Monthly Calls</strong> — total inbound calls per month</li>
+                                    <li><strong>Cost/Agent Call</strong> — cost per live-agent-handled call</li>
+                                </ul>
+                            </div>
+                            <p style="margin-top:8px;"><em>Example: Reducing repeat rate from 18% → 8% on 500,000 calls at $3.50/call saves (0.18−0.08) × 500,000 × $3.50 = <strong>$175,000/month</strong>.</em></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EHR SLIDER -->
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-semibold">Target EHR Automation Success Rate</span>
+                        <span class="spinsci-text-cyan font-bold" id="ehrLabel">98%</span>
+                    </div>
+                    <input type="range" id="targetEHR" min="80" max="100" value="98" class="w-full" oninput="updateLabels(); calculateROI();">
+                    <p class="text-xs text-gray-500 mt-1">Target % of EHR write-backs completing without manual correction. Higher rate = fewer rework events.</p>
+                    <div id="warn-ehr-target" class="val-warn">Target must exceed Current EHR Success Rate.</div>
+
+                    <span class="toggle-btn" onclick="toggleGuide('guide-ehr', this)">
+                        <span class="toggle-icon">▶</span> How is this calculated?
+                    </span>
+                    <div id="guide-ehr" class="formula-guide">
+                        <div class="formula-box">
+                            <strong>Rework Savings = fraction of current rework events eliminated × cost per event</strong>
+                            <code>Fraction Eliminated =
+  (Target EHR% − Current EHR%) ÷ (100% − Current EHR%)
+
+Monthly Savings =
+  Fraction Eliminated × Monthly Rework Events × Cost per Rework Event</code>
+                            <div class="var-list">
+                                <ul>
+                                    <li><strong>Target EHR%</strong> — slider value above</li>
+                                    <li><strong>Current EHR%</strong> — baseline from Assumptions panel</li>
+                                    <li><strong>Monthly Rework Events</strong> — current number of failed EHR transactions per month</li>
+                                    <li><strong>Cost per Rework Event</strong> — staff + system cost to manually fix one failed transaction</li>
+                                </ul>
+                            </div>
+                            <p style="margin-top:8px;"><strong>Why this formula?</strong> The denominator <code>(100% − Current EHR%)</code> normalizes against the <em>improvable gap</em>. If you are already at 92% success, the remaining 8% failure rate represents all current rework events. Moving from 92% → 98% eliminates (6/8) = 75% of those events.</p>
+                            <p style="margin-top:6px;"><em>Example: 75% of 8,000 events at $8.00 each = <strong>$48,000/month</strong>.</em></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- RESULTS CARDS -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="card p-6 text-center">
+                <p class="text-sm uppercase text-gray-500 font-bold">Total Annual Savings</p>
+                <p class="text-4xl font-bold spinsci-text-cyan mt-2" id="annualSavings">$0</p>
+            </div>
+            <div class="card p-6 text-center">
+                <p class="text-sm uppercase text-gray-500 font-bold">3-Year Projected Benefit</p>
+                <p class="text-4xl font-bold text-white p-2 rounded inline-block mt-2 spinsci-navy" id="threeYearSavings">$0</p>
+            </div>
+        </div>
+
+        <!-- SAVINGS BREAKDOWN TABLE -->
+        <div class="card overflow-hidden">
+            <div class="px-6 pt-5 pb-2">
+                <h3 class="font-bold text-base">Monthly Savings Breakdown</h3>
+                <p class="text-xs text-gray-400 mt-1">Each row shows how the saving is derived. Expand any row with "How is this calculated?" above.</p>
+            </div>
+            <table class="w-full text-left">
+                <thead class="bg-gray-50 text-xs uppercase text-gray-600">
+                    <tr>
+                        <th class="px-6 py-3">Value Driver</th>
+                        <th class="px-6 py-3 text-right">Monthly Savings</th>
+                        <th class="px-6 py-3 text-right">Annual Savings</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y text-sm">
+                    <tr>
+                        <td class="px-6 py-4">
+                            <p class="font-medium">Call Containment Efficiency</p>
+                            <p class="text-xs text-gray-400 mt-0.5">(Target − Current) containment × calls × cost/call</p>
+                        </td>
+                        <td class="px-6 py-4 text-right font-semibold spinsci-text-cyan" id="savingsContainment">$0</td>
+                        <td class="px-6 py-4 text-right text-gray-500" id="savingsContainmentAnnual">$0</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4">
+                            <p class="font-medium">Repeat Call Reduction</p>
+                            <p class="text-xs text-gray-400 mt-0.5">(Current − Target) repeat rate × calls × cost/call</p>
+                        </td>
+                        <td class="px-6 py-4 text-right font-semibold spinsci-text-cyan" id="savingsRepeat">$0</td>
+                        <td class="px-6 py-4 text-right text-gray-500" id="savingsRepeatAnnual">$0</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4">
+                            <p class="font-medium">EHR / Rework Mitigation</p>
+                            <p class="text-xs text-gray-400 mt-0.5">[(Target − Current) ÷ (100% − Current)] × rework events × cost/event</p>
+                        </td>
+                        <td class="px-6 py-4 text-right font-semibold spinsci-text-cyan" id="savingsEHR">$0</td>
+                        <td class="px-6 py-4 text-right text-gray-500" id="savingsEHRAnnual">$0</td>
+                    </tr>
+                    <tr class="bg-gray-50 font-bold">
+                        <td class="px-6 py-4">Total</td>
+                        <td class="px-6 py-4 text-right spinsci-text-cyan" id="savingsTotal">$0</td>
+                        <td class="px-6 py-4 text-right" id="annualSavings2">$0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- FORMULA GLOSSARY -->
+        <div class="card p-6">
+            <h2 class="text-base font-bold mb-3 border-b pb-2">📐 Formula Reference</h2>
+            <p class="text-xs text-gray-500 mb-4">All three value drivers use the same principle: <em>delta improvement × unit volume × unit cost</em>. Below is the complete formula set.</p>
+            <div class="space-y-4 text-xs">
+                <div>
+                    <p class="font-bold text-sm mb-1">1. Call Containment Efficiency</p>
+                    <div class="formula-box" style="display:block;">
+                        <code>Monthly = (TargetContainment − CurrentContainment) × MonthlyCalls × CostPerAgentCall
+Annual  = Monthly × 12</code>
+                        <p><strong>Interpretation:</strong> Each percentage point of additional containment eliminates that share of calls from live-agent queues. The saving is the agent cost avoided for those calls.</p>
+                    </div>
+                </div>
+                <div>
+                    <p class="font-bold text-sm mb-1">2. Repeat Call Reduction</p>
+                    <div class="formula-box" style="display:block;">
+                        <code>Monthly = (CurrentRepeatRate − TargetRepeatRate) × MonthlyCalls × CostPerAgentCall
+Annual  = Monthly × 12</code>
+                        <p><strong>Interpretation:</strong> Each repeat call is effectively a second paid handling of the same patient issue. First-contact resolution (FCR) driven by SpinSci's EHR write-backs prevents that second call entirely.</p>
+                    </div>
+                </div>
+                <div>
+                    <p class="font-bold text-sm mb-1">3. EHR / Rework Mitigation</p>
+                    <div class="formula-box" style="display:block;">
+                        <code>FractionEliminated = (TargetEHR − CurrentEHR) ÷ (1 − CurrentEHR)
+Monthly = FractionEliminated × MonthlyReworkEvents × CostPerReworkEvent
+Annual  = Monthly × 12</code>
+                        <p><strong>Why normalize by (1 − CurrentEHR)?</strong> The monthly rework events represent the current failure population. The denominator converts the raw EHR improvement into the fraction of that failure population that is eliminated — giving an accurate rework count reduction regardless of starting baseline.</p>
+                        <p style="margin-top:6px;"><strong>Example:</strong> Current EHR 92% → Target 98%, 8,000 rework events, $8.00/event:<br>
+                        Fraction = (0.98−0.92)/(1−0.92) = 0.75 → 6,000 events eliminated → $48,000/month saved.</p>
+                    </div>
+                </div>
+                <div>
+                    <p class="font-bold text-sm mb-1">4. Annual &amp; 3-Year Totals</p>
+                    <div class="formula-box" style="display:block;">
+                        <code>Annual Savings  = (Containment + Repeat + Rework) × 12
+3-Year Benefit  = Annual Savings × 3</code>
+                        <p><strong>Note:</strong> The 3-year figure assumes steady-state performance and flat volume. For growth-adjusted projections, apply your expected call volume CAGR to Monthly Calls before using this calculator.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>
+
+<script>
+    /* ── TOGGLE FORMULA GUIDES ── */
+    function toggleGuide(id, btn) {
+        const el = document.getElementById(id);
+        const icon = btn.querySelector('.toggle-icon');
+        const isOpen = el.classList.contains('open');
+        el.classList.toggle('open', !isOpen);
+        icon.classList.toggle('rotated', !isOpen);
+        btn.childNodes[1].textContent = isOpen ? ' How is this calculated?' : ' Hide formula';
+    }
+
+    /* ── SYNC SLIDER BOUNDS TO BASELINE INPUTS ── */
+    function syncContainmentBound() {
+        const current = parseFloat(document.getElementById('currentContainment').value) || 15;
+        const slider  = document.getElementById('containment');
+        slider.min = Math.min(current + 1, 90);
+        if (parseFloat(slider.value) <= current) {
+            slider.value = Math.min(current + 1, 90);
+        }
+        updateLabels();
+    }
+
+    function syncRepeatBound() {
+        const current = parseFloat(document.getElementById('repeatRate').value) || 18;
+        const slider  = document.getElementById('targetRepeat');
+        slider.max = Math.max(current - 1, 1);
+        if (parseFloat(slider.value) >= current) {
+            slider.value = Math.max(current - 1, 1);
+        }
+        updateLabels();
+    }
+
+    function syncEHRBound() {
+        const current = parseFloat(document.getElementById('currentEHR').value) || 92;
+        const slider  = document.getElementById('targetEHR');
+        slider.min = Math.min(current + 1, 100);
+        if (parseFloat(slider.value) <= current) {
+            slider.value = Math.min(current + 1, 100);
+        }
+        updateLabels();
+    }
+
+    /* ── INPUT VALIDATION ── */
+    function validateInputs() {
+        const currentContainment = parseFloat(document.getElementById('currentContainment').value);
+        const targetContainment  = parseFloat(document.getElementById('containment').value);
+        const currentRepeat      = parseFloat(document.getElementById('repeatRate').value);
+        const targetRepeat       = parseFloat(document.getElementById('targetRepeat').value);
+        const currentEHR         = parseFloat(document.getElementById('currentEHR').value);
+        const targetEHR          = parseFloat(document.getElementById('targetEHR').value);
+
+        showWarn('warn-contain-base',  isNaN(currentContainment) || currentContainment < 0 || currentContainment > 89);
+        showWarn('warn-contain-target', targetContainment <= currentContainment);
+        showWarn('warn-repeat-base',   isNaN(currentRepeat) || currentRepeat < 1 || currentRepeat > 100);
+        showWarn('warn-repeat-target', targetRepeat >= currentRepeat);
+        showWarn('warn-ehr-base',      isNaN(currentEHR) || currentEHR < 50 || currentEHR > 99);
+        showWarn('warn-ehr-target',    targetEHR <= currentEHR);
+    }
+
+    function showWarn(id, condition) {
+        document.getElementById(id).style.display = condition ? 'block' : 'none';
+    }
+
+    /* ── LABEL UPDATES ── */
+    function updateLabels() {
+        document.getElementById('containmentLabel').innerText = document.getElementById('containment').value + '%';
+        document.getElementById('repeatLabel').innerText      = document.getElementById('targetRepeat').value + '%';
+        document.getElementById('ehrLabel').innerText         = document.getElementById('targetEHR').value + '%';
+    }
+
+    /* ── CORE CALCULATION ── */
+    function calculateROI() {
+        const calls          = parseFloat(document.getElementById('calls').value)           || 0;
+        const agentCost      = parseFloat(document.getElementById('agentCost').value)       || 0;
+        const currentRepeat  = parseFloat(document.getElementById('repeatRate').value)      / 100 || 0;
+        const reworkEvents   = parseFloat(document.getElementById('rework').value)          || 0;
+        const reworkCostVal  = parseFloat(document.getElementById('reworkCost').value)      || 0;
+        const currentContain = parseFloat(document.getElementById('currentContainment').value) / 100 || 0;
+        const currentEHR     = parseFloat(document.getElementById('currentEHR').value)      / 100 || 0;
+
+        const targetContain  = parseFloat(document.getElementById('containment').value)    / 100;
+        const targetRepeat   = parseFloat(document.getElementById('targetRepeat').value)   / 100;
+        const targetEHR      = parseFloat(document.getElementById('targetEHR').value)      / 100;
+
+        /* 1. Containment Savings */
+        const deltaContainment   = Math.max(0, targetContain - currentContain);
+        const mSavingsContainment = deltaContainment * calls * agentCost;
+
+        /* 2. Repeat Call Savings */
+        const deltaRepeat   = Math.max(0, currentRepeat - targetRepeat);
+        const mSavingsRepeat = deltaRepeat * calls * agentCost;
+
+        /* 3. EHR / Rework Savings
+           FractionEliminated = (targetEHR − currentEHR) / (1 − currentEHR)
+           Guards against divide-by-zero when currentEHR = 100% */
+        const improvableGap = 1 - currentEHR;
+        const fractionEliminated = improvableGap > 0 ? Math.max(0, (targetEHR - currentEHR) / improvableGap) : 0;
+        const mSavingsEHR = fractionEliminated * reworkEvents * reworkCostVal;
+
+        const totalMonthly = mSavingsContainment + mSavingsRepeat + mSavingsEHR;
+        const totalAnnual  = totalMonthly * 12;
+        const total3Year   = totalAnnual  * 3;
+
+        const fmt = v => new Intl.NumberFormat('en-US', { style:'currency', currency:'USD', maximumFractionDigits:0 }).format(v);
+
+        document.getElementById('annualSavings').innerText         = fmt(totalAnnual);
+        document.getElementById('threeYearSavings').innerText      = fmt(total3Year);
+        document.getElementById('savingsContainment').innerText    = fmt(mSavingsContainment);
+        document.getElementById('savingsContainmentAnnual').innerText = fmt(mSavingsContainment * 12);
+        document.getElementById('savingsRepeat').innerText         = fmt(mSavingsRepeat);
+        document.getElementById('savingsRepeatAnnual').innerText   = fmt(mSavingsRepeat * 12);
+        document.getElementById('savingsEHR').innerText            = fmt(mSavingsEHR);
+        document.getElementById('savingsEHRAnnual').innerText      = fmt(mSavingsEHR * 12);
+        document.getElementById('savingsTotal').innerText          = fmt(totalMonthly);
+        document.getElementById('annualSavings2').innerText        = fmt(totalAnnual);
+    }
+
+    /* ── INIT ── */
+    syncContainmentBound();
+    syncRepeatBound();
+    syncEHRBound();
+    updateLabels();
+    validateInputs();
+    calculateROI();
+</script>
+</body>
+</html>

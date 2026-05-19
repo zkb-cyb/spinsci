@@ -1,0 +1,1773 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reimagining Patient Access with AI — SpinSci Strategic Whitepaper 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+/* ── Brand tokens ── */
+:root {
+  --brand-purple: #7759D9;
+  --brand-blue:   #8295FF;
+  --brand-teal:   #5CE0B0;
+  --brand-dark:   #1C0236;
+  --navy:         #120228;
+  --navy2:        #1a0335;
+  --ink:          #1C0236;
+  --mid:          #3d2260;
+  --soft:         #6b5a8a;
+  --border:       #DDD9F5;
+  --off:          #F8F7FF;
+  --sky-lt:       #EEEEFF;
+}
+
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #fff;
+  color: var(--ink);
+  line-height: 1.75;
+}
+
+/* ── Page layout ── */
+.page-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  background: #fff;
+}
+
+/* ── Pagination ── */
+@page { size: A4; margin: 0; }
+.chapter { break-before: page; page-break-before: always; }
+.keep-together { break-inside: avoid; }
+
+/* ── Sticky header ── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--navy);
+  padding: 12px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(130,149,255,0.25);
+}
+.site-header .doc-label {
+  font-family: 'Sora', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--brand-teal);
+}
+
+/* ── Cover page ── */
+.cover {
+  background: linear-gradient(145deg, var(--navy) 0%, #1a0842 55%, #0e1a40 100%);
+  min-height: 96vh;
+  display: flex;
+  flex-direction: column;
+  padding: 48px 64px 56px;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(130,149,255,0.15);
+  pointer-events: none;
+}
+.cover::after {
+  content: '';
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(92,224,176,0.12);
+  pointer-events: none;
+}
+.cover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: auto;
+}
+.cover-badge {
+  font-family: 'Sora', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(92,224,176,0.85);
+}
+.cover-spine {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-family: 'Sora', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(130,149,255,0.5);
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+}
+.cover-body {
+  margin-top: auto;
+  padding-top: 120px;
+}
+.cover-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.cover-eyebrow-line {
+  width: 36px;
+  height: 2px;
+  background: var(--brand-teal);
+}
+.cover-eyebrow span {
+  font-family: 'Sora', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--brand-teal);
+}
+.cover-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1.08;
+  color: #fff;
+  margin-bottom: 28px;
+}
+.cover-title em {
+  font-style: normal;
+  color: var(--brand-teal);
+}
+.cover-sub {
+  font-size: 18px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.55;
+  max-width: 520px;
+  margin-bottom: 36px;
+}
+.cover-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(130,149,255,0.2);
+}
+.cover-intro {
+  font-size: 13.5px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.65;
+  max-width: 420px;
+}
+.cover-brand {
+  text-align: right;
+}
+.cover-brand .wordmark {
+  font-family: 'Sora', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.cover-brand .tagline {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--brand-teal);
+}
+
+/* ── Table of Contents ── */
+.toc-section {
+  padding: 64px 64px 56px;
+  background: var(--off);
+  border-bottom: 1px solid var(--border);
+}
+.toc-logo { margin-bottom: 32px; }
+.toc-heading {
+  font-family: 'Sora', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--brand-dark);
+  margin-bottom: 32px;
+}
+.toc-list { list-style: none; }
+.toc-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.toc-list li:last-child { border-bottom: none; }
+.toc-num {
+  font-family: 'Sora', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--brand-purple);
+  min-width: 24px;
+}
+.toc-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  flex: 1;
+}
+.toc-sub {
+  font-size: 12px;
+  color: var(--soft);
+  margin-top: 3px;
+  font-weight: 400;
+}
+.toc-page {
+  font-family: 'Sora', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--brand-teal);
+  min-width: 28px;
+  text-align: right;
+}
+.toc-note {
+  margin-top: 24px;
+  padding: 16px 20px;
+  background: rgba(119,89,217,0.06);
+  border-left: 3px solid var(--brand-purple);
+  border-radius: 0 6px 6px 0;
+  font-size: 13px;
+  color: var(--mid);
+  line-height: 1.6;
+}
+
+/* ── Inner page wrapper ── */
+.inner {
+  padding: 64px 64px 56px;
+}
+
+/* ── Section chrome ── */
+.section-num {
+  font-family: 'Sora', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--brand-purple);
+  margin-bottom: 4px;
+}
+.section-tag {
+  font-family: 'Sora', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--soft);
+  margin-bottom: 16px;
+}
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.eyebrow-line { width: 28px; height: 2px; background: var(--brand-purple); }
+.eyebrow span {
+  font-family: 'Sora', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--brand-purple);
+}
+
+/* ── Typography ── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Sora', sans-serif;
+  color: var(--ink);
+  line-height: 1.2;
+}
+h1 { font-size: 44px; font-weight: 800; margin-bottom: 20px; }
+h2 { font-size: 32px; font-weight: 700; margin-bottom: 16px; }
+h3 { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+h4 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+h5 { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft); margin-bottom: 12px; }
+
+p { margin-bottom: 16px; }
+p:last-child { margin-bottom: 0; }
+
+.lead {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--mid);
+  margin-bottom: 24px;
+}
+
+/* ── Accent headings ── */
+.accent-teal { color: var(--brand-teal); }
+.accent-purple { color: var(--brand-purple); }
+.accent-blue { color: var(--brand-blue); }
+
+/* ── Divider ── */
+.rule {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* ── Premise hero ── */
+.premise-hero {
+  padding: 64px 64px 48px;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+.premise-hero h1 {
+  font-size: 46px;
+  font-weight: 800;
+  line-height: 1.12;
+  color: var(--ink);
+  max-width: 640px;
+  margin-bottom: 28px;
+}
+
+/* ── Stats grid ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 32px 0;
+}
+.stat-cell {
+  background: #fff;
+  padding: 24px 20px;
+  text-align: left;
+}
+.stat-val {
+  font-family: 'Sora', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--brand-purple);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-label {
+  font-size: 12.5px;
+  color: var(--soft);
+  line-height: 1.45;
+}
+.stat-source {
+  font-size: 11px;
+  color: #9b8ab4;
+  margin-top: 16px;
+}
+
+/* ── Blueprint grid (inside page 2) ── */
+.blueprint-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 32px 0;
+}
+.blueprint-cell {
+  padding: 24px 22px;
+  border-right: 1px solid var(--border);
+}
+.blueprint-cell:last-child { border-right: none; }
+.bp-bar { width: 32px; height: 3px; border-radius: 2px; margin-bottom: 14px; }
+.bp-bar-1 { background: var(--brand-purple); }
+.bp-bar-2 { background: var(--brand-blue); }
+.bp-bar-3 { background: var(--brand-teal); }
+.bp-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.bp-body { font-size: 13px; color: var(--soft); line-height: 1.6; }
+
+/* ── Callout box ── */
+.callout {
+  background: linear-gradient(135deg, rgba(119,89,217,0.07) 0%, rgba(92,224,176,0.07) 100%);
+  border: 1px solid rgba(119,89,217,0.2);
+  border-left: 4px solid var(--brand-purple);
+  border-radius: 0 10px 10px 0;
+  padding: 22px 24px;
+  margin: 28px 0;
+}
+.callout p { font-size: 14px; color: var(--mid); margin: 0; line-height: 1.65; }
+.callout strong { color: var(--brand-purple); }
+
+/* ── Stat signal cards ── */
+.signal-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 28px 0;
+}
+.signal-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px 22px;
+  background: var(--off);
+}
+.signal-big {
+  font-family: 'Sora', sans-serif;
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--brand-purple);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.signal-label { font-size: 12.5px; color: var(--soft); line-height: 1.45; }
+
+/* ── Market signals (3-up) ── */
+.market-signals {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 28px 0;
+}
+.mkt-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px 20px;
+  background: #fff;
+}
+.mkt-val {
+  font-family: 'Sora', sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  color: var(--brand-purple);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.mkt-label { font-size: 12.5px; color: var(--soft); line-height: 1.5; }
+
+/* ── Challenge list ── */
+.challenge-list { list-style: none; margin: 24px 0; }
+.challenge-item {
+  display: flex;
+  gap: 20px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--border);
+}
+.challenge-item:last-child { border-bottom: none; }
+.ch-num {
+  font-family: 'Sora', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--brand-purple);
+  min-width: 36px;
+  opacity: 0.4;
+  line-height: 1;
+  padding-top: 2px;
+}
+.ch-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.ch-body { font-size: 13.5px; color: var(--soft); line-height: 1.6; }
+
+/* ── Journey steps ── */
+.journey-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 28px 0;
+}
+.journey-step {
+  background: var(--off);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px 20px;
+}
+.js-num {
+  font-family: 'Sora', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--brand-purple);
+  opacity: 0.3;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.js-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.js-body { font-size: 12.5px; color: var(--soft); line-height: 1.55; }
+
+/* ── AI impact table ── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  margin: 24px 0;
+}
+thead tr { background: var(--navy); color: #fff; }
+thead th {
+  font-family: 'Sora', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 14px 16px;
+  text-align: left;
+}
+tbody tr { border-bottom: 1px solid var(--border); }
+tbody tr:nth-child(even) { background: var(--off); }
+tbody td { padding: 13px 16px; color: var(--ink); vertical-align: top; line-height: 1.5; }
+tbody td:last-child {
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  color: var(--brand-purple);
+}
+.table-caption {
+  font-family: 'Sora', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--brand-teal);
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* ── Quote ── */
+.pullquote {
+  border-left: 4px solid var(--brand-teal);
+  margin: 32px 0;
+  padding: 20px 28px;
+  background: rgba(92,224,176,0.06);
+  border-radius: 0 8px 8px 0;
+}
+.pullquote p {
+  font-family: 'Sora', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.45;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+.pullquote cite {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--soft);
+  font-style: normal;
+}
+
+/* ── Dark section for ROI ── */
+.dark-section {
+  background: linear-gradient(135deg, var(--navy) 0%, #1a0842 100%);
+  padding: 48px 64px;
+  color: #fff;
+}
+.dark-section h2 { color: #fff; }
+.dark-section .soft-txt { color: rgba(255,255,255,0.6); }
+.dark-section .border-t { border-top: 1px solid rgba(130,149,255,0.2); }
+
+/* ── ROI stat row ── */
+.roi-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(130,149,255,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 28px 0;
+}
+.roi-cell {
+  background: rgba(255,255,255,0.06);
+  padding: 24px 18px;
+  text-align: center;
+}
+.roi-val {
+  font-family: 'Sora', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--brand-teal);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.roi-label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.45;
+}
+
+/* ── Drivers grid ── */
+.drivers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 28px 0;
+}
+.driver-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px 20px;
+  background: #fff;
+}
+.driver-card h4 {
+  font-family: 'Sora', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--brand-purple);
+  margin-bottom: 8px;
+}
+.driver-card p { font-size: 13px; color: var(--soft); line-height: 1.6; margin: 0; }
+
+/* ── Technology pillars ── */
+.tech-pillars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 28px 0;
+}
+.tech-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px 22px;
+  background: var(--off);
+}
+.tech-card h4 {
+  font-family: 'Sora', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.tech-card p { font-size: 13px; color: var(--soft); line-height: 1.6; margin: 0; }
+
+/* ── EHR integration strip ── */
+.ehr-strip {
+  background: var(--off);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin: 24px 0;
+}
+.ehr-strip h5 {
+  font-family: 'Sora', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--soft);
+  margin-bottom: 12px;
+}
+.ehr-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+}
+.ehr-list li {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-family: 'Sora', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ── Voice workflow list ── */
+.voice-list { list-style: none; margin: 20px 0; }
+.voice-list li {
+  display: flex;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13.5px;
+  color: var(--mid);
+  line-height: 1.5;
+}
+.voice-list li:last-child { border-bottom: none; }
+.voice-list li::before {
+  content: '→';
+  color: var(--brand-teal);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── ROI components ── */
+.roi-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin: 28px 0;
+}
+.roi-col h4 {
+  font-family: 'Sora', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--brand-purple);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--brand-purple);
+}
+.roi-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.roi-item:last-child { border-bottom: none; }
+.roi-item-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.roi-item-body { font-size: 12.5px; color: var(--soft); line-height: 1.55; }
+
+/* ── Big cost metric ── */
+.big-metric {
+  text-align: center;
+  padding: 36px 24px;
+  background: linear-gradient(135deg, rgba(119,89,217,0.08) 0%, rgba(92,224,176,0.08) 100%);
+  border: 1px solid rgba(119,89,217,0.2);
+  border-radius: 12px;
+  margin: 28px 0;
+}
+.big-metric-val {
+  font-family: 'Sora', sans-serif;
+  font-size: 72px;
+  font-weight: 800;
+  color: var(--brand-purple);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.big-metric-label {
+  font-family: 'Sora', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.big-metric-desc { font-size: 13.5px; color: var(--soft); margin-top: 10px; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+
+/* ── Conclusion steps ── */
+.conclusion-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 28px 0;
+}
+.conc-step {
+  background: var(--off);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px 20px;
+}
+.conc-step-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--brand-purple);
+  margin-bottom: 8px;
+}
+.conc-step-body { font-size: 12.5px; color: var(--soft); line-height: 1.6; }
+
+/* ── CTA block ── */
+.cta-block {
+  background: linear-gradient(135deg, var(--brand-purple) 0%, #5244b0 100%);
+  border-radius: 12px;
+  padding: 32px 36px;
+  margin: 28px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  color: #fff;
+}
+.cta-text h3 {
+  font-family: 'Sora', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.cta-text p { font-size: 13.5px; color: rgba(255,255,255,0.75); margin: 0; line-height: 1.5; }
+.cta-btn {
+  display: inline-block;
+  background: var(--brand-teal);
+  color: var(--navy);
+  font-family: 'Sora', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 12px 28px;
+  border-radius: 6px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* ── Back cover ── */
+.back-cover {
+  background: linear-gradient(145deg, var(--navy) 0%, #1a0842 55%, #0e1a40 100%);
+  padding: 80px 64px;
+  color: #fff;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  min-height: 600px;
+  justify-content: center;
+}
+.back-cover h1 {
+  font-family: 'Sora', sans-serif;
+  font-size: 42px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  max-width: 520px;
+  margin: 0 auto;
+}
+.back-cover h1 em { font-style: normal; color: var(--brand-teal); }
+.back-cover p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.7);
+  max-width: 460px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 32px;
+  margin-top: 8px;
+}
+.contact-item { text-align: center; }
+.contact-label {
+  font-family: 'Sora', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--brand-teal);
+  margin-bottom: 6px;
+}
+.contact-val {
+  font-size: 14px;
+  color: #fff;
+  font-weight: 500;
+}
+.back-copyright {
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 1px;
+}
+
+/* ── Footer strip on inner pages ── */
+.page-footer {
+  background: var(--off);
+  border-top: 1px solid var(--border);
+  padding: 12px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--soft);
+}
+.page-footer strong { color: var(--brand-purple); }
+
+/* ── References ── */
+.references {
+  background: var(--off);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px 28px;
+  margin: 32px 0 0;
+}
+.references h5 {
+  font-family: 'Sora', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--soft);
+  margin-bottom: 16px;
+}
+.references ol { padding-left: 20px; }
+.references li {
+  font-size: 12px;
+  color: var(--soft);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+/* ── Print safety ── */
+@media print {
+  .site-header { display: none; }
+  .cover { min-height: auto; height: 297mm; }
+}
+</style>
+
+</head><body>
+
+<!-- Sticky nav header -->
+<header class="site-header" data-cid="0gs_Qi">
+  <svg width="108" height="31" viewBox="0 0 108 31" fill="none" xmlns="http://www.w3.org/2000/svg" data-cid="iKtoMA">
+    <path d="M24.163 16.4599C23.4433 13.9913 21.8781 11.4141 19.7358 9.1271L22.9391 5.92503L22.3993 5.38513C19.9836 2.96915 17.1827 1.21021 14.5124 0.432617C11.6843 -0.392518 9.30944 -0.0291869 7.82748 1.453C7.27577 2.00479 6.88024 2.67882 6.64089 3.45472C5.86511 3.69241 5.19118 4.0897 4.63948 4.64149C4.08268 5.19837 3.68885 5.87579 3.45289 6.64321C2.6788 6.8809 2.00488 7.27649 1.45487 7.82828C-0.0287907 9.31046 -0.392067 11.6857 0.431246 14.5143C1.15101 16.9829 2.71615 19.5618 4.85846 21.8471L1.65688 25.0492L2.1967 25.5891C5.66649 29.0594 9.67781 30.9796 12.8471 30.9796C14.4174 30.9796 15.7805 30.5076 16.7685 29.5195C17.3253 28.9626 17.7191 28.2852 17.9551 27.5195C18.7207 27.2835 19.398 26.8896 19.9548 26.3327C20.5133 25.7741 20.9071 25.0933 21.1448 24.3259C21.9155 24.0865 22.5911 23.6977 23.1411 23.1476C24.6247 21.6637 24.9863 19.2902 24.163 16.4616V16.4599ZM8.90712 2.53451C9.97658 1.46319 11.815 1.23908 14.0847 1.89952C16.3152 2.54979 18.6646 3.97255 20.7679 5.93522L18.6612 8.0422C16.3746 5.89956 13.7944 4.33928 11.3244 3.6211C10.3331 3.33248 9.39771 3.18986 8.53705 3.18986C8.49461 3.18986 8.45218 3.18986 8.40974 3.18986C8.54894 2.94707 8.7136 2.72975 8.90712 2.5362V2.53451ZM5.71912 5.72299C5.91264 5.52944 6.13162 5.36306 6.37268 5.22553C6.36589 5.61773 6.39474 6.0269 6.44907 6.44966C6.02638 6.39532 5.61896 6.36986 5.22683 6.37665C5.36263 6.13726 5.5256 5.91824 5.71912 5.72299ZM4.75151 7.93694C5.36263 7.87072 6.04335 7.90807 6.78179 8.05069C6.79027 8.08125 6.79537 8.11011 6.80555 8.14067C7.58303 10.8113 9.50975 13.4548 11.759 16.0287C13.6229 18.1628 15.239 20.3174 16.0283 22.4142C13.8623 21.6043 11.6283 20.1119 9.65234 18.1357C6.30138 14.7842 4.45784 10.7163 4.75321 7.93694H4.75151ZM15.6871 28.4397C13.4837 30.6434 8.16529 29.0798 3.82635 25.039L5.93301 22.9337C9.32472 26.1188 13.168 27.8624 16.1811 27.7911C16.0453 28.0288 15.8807 28.2461 15.6871 28.4397ZM16.6581 26.2223C13.8843 26.5161 9.81361 24.6689 6.46434 21.3191L6.46095 21.3157C4.22527 19.0797 2.60411 16.5109 1.89793 14.0864C1.23758 11.8181 1.46336 9.9794 2.53451 8.90808C2.72464 8.71793 2.94702 8.56513 3.18298 8.4276C3.12696 11.6178 5.05028 15.6959 8.56931 19.2155C10.9849 21.6315 13.7859 23.3921 16.4561 24.1697C16.4833 24.1782 16.5105 24.1833 16.5376 24.1901C16.6785 24.9167 16.7243 25.6026 16.6598 26.2223H16.6581ZM18.8751 25.2512C18.6816 25.4447 18.4643 25.6094 18.2267 25.7453C18.2335 25.3514 18.2114 24.9422 18.1588 24.5245C18.5305 24.5721 18.8955 24.6009 19.2435 24.6009C19.2859 24.6009 19.3267 24.5958 19.3691 24.5958C19.2316 24.8369 19.0704 25.056 18.8751 25.2512ZM16.025 11.7587C13.6093 9.34272 10.8084 7.58379 8.13983 6.8045C8.10927 6.79601 8.08041 6.78922 8.04986 6.78073C7.90726 6.04218 7.86652 5.35796 7.93103 4.74675C8.78999 4.65337 9.79154 4.76543 10.8966 5.08631C13.3241 5.7943 15.8925 7.41571 18.1299 9.65342C20.3673 11.8911 21.9884 14.4599 22.6963 16.8878C23.3567 19.1561 23.1309 20.9948 22.0614 22.0661C21.8713 22.2563 21.6489 22.4091 21.413 22.5466C21.469 19.3564 19.5457 15.2783 16.0266 11.7587M14.9453 12.8402C18.2963 16.1917 20.1398 20.2596 19.8444 23.039C19.2367 23.1052 18.5594 23.0678 17.8261 22.9269C17.0978 20.3394 15.2067 17.718 12.8386 14.9472C11.0189 12.8181 9.36376 10.7281 8.55573 8.55664C10.7269 9.36479 12.966 10.8606 14.9453 12.8402Z" fill="url(#wp_logo_g)" data-cid="jIIwY9"></path>
+    <path d="M31.2572 11.0139C31.2572 11.7491 31.8242 12.2975 32.2978 12.6302C32.9802 13.1073 34.3977 13.2635 35.7693 13.4163C38.6602 13.7372 42.6206 14.1787 42.6206 18.3705C42.6206 21.031 39.655 23.1159 35.8712 23.1159C32.0873 23.1159 29.1217 21.031 29.1217 18.3705H31.2555C31.2555 19.9088 33.6881 20.9818 35.8712 20.9818C38.0542 20.9818 40.4868 19.9088 40.4868 18.3705C40.4868 16.3128 38.9013 15.9121 35.5334 15.5386C33.8205 15.3484 32.2028 15.1685 31.0756 14.3807C29.816 13.5012 29.1217 12.306 29.1217 11.0139C29.1217 8.35346 32.0873 6.26855 35.8712 6.26855C39.655 6.26855 42.6206 8.35346 42.6206 11.0139H40.4868C40.4868 9.47572 38.0542 8.4027 35.8712 8.4027C33.6881 8.4027 31.2555 9.47402 31.2555 11.0139H31.2572Z" fill="#1C0236" data-cid="pteKye"></path>
+    <path d="M56.3436 16.9813C56.3436 20.3922 53.8532 23.1664 50.7943 23.1664C49.1748 23.1664 47.9559 22.3905 47.1649 21.1545V27.1002H45.0311V11.3955H47.1649V12.8098C47.9559 11.5738 49.1748 10.7979 50.7943 10.7979C53.8549 10.7979 56.3436 13.5721 56.3436 16.983V16.9813ZM54.208 16.9813C54.208 14.7181 52.6751 12.8794 50.7926 12.8794C48.91 12.8794 47.1632 14.7198 47.1632 16.9813C47.1632 19.2445 48.9083 21.0849 50.7926 21.0849C52.6768 21.0849 54.208 19.2445 54.208 16.983V16.9813Z" fill="#1C0236" data-cid="Dksr3U"></path>
+    <path d="M58.5673 9.88051V7.67676H61.1849V9.88051H58.5673ZM58.8101 22.5394V11.3169H60.9439V22.5394H58.8101Z" fill="#1C0236" data-cid="ffW8NA"></path>
+    <path d="M75.2933 16.9242V22.5456H73.1595V16.9259C73.1595 14.6644 71.6266 12.824 69.744 12.824C67.8614 12.824 66.1147 14.6644 66.1147 16.9259V22.5473H63.9808V11.301H66.1147V12.756C66.9057 11.52 68.1246 10.7441 69.744 10.7441C72.8047 10.7441 75.2933 13.5184 75.2933 16.9293V16.9242Z" fill="#1C0236" data-cid="tawJ6O"></path>
+    <path d="M79.5576 11.0139C79.5576 11.7491 80.1246 12.2975 80.5982 12.6302C81.2806 13.1073 82.698 13.2635 84.0697 13.4163C86.9606 13.7372 90.921 14.1787 90.921 18.3705C90.921 21.031 87.9571 23.1159 84.1715 23.1159C80.386 23.1159 77.4221 21.031 77.4221 18.3705H79.5559C79.5559 19.9088 81.9885 20.9818 84.1715 20.9818C86.3546 20.9818 88.7872 19.9088 88.7872 18.3705C88.7872 16.3128 87.2016 15.9121 83.8354 15.5386C82.1226 15.3484 80.5048 15.1685 79.3776 14.3807C78.1181 13.5012 77.4238 12.306 77.4238 11.0139C77.4238 8.35346 80.3877 6.26855 84.1732 6.26855C87.9588 6.26855 90.9227 8.35346 90.9227 11.0139H88.7889C88.7889 9.47572 86.3563 8.4027 84.1732 8.4027C81.9902 8.4027 79.5576 9.47402 79.5576 11.0139Z" fill="#1C0236" data-cid="HmWXz1"></path>
+    <path d="M103.316 19.2046C102.466 21.5731 100.42 23.1028 98.1049 23.1028C95.0154 23.1028 92.5013 20.332 92.5013 16.9279C92.5013 13.5238 95.0154 10.7529 98.1049 10.7529C100.381 10.7529 102.415 12.2487 103.284 14.5645L101.286 15.3149C100.731 13.8395 99.4833 12.8871 98.1049 12.8871C96.1918 12.8871 94.6351 14.7003 94.6351 16.9279C94.6351 19.1554 96.1918 20.9687 98.1049 20.9687C99.5071 20.9687 100.765 19.9924 101.308 18.4831L103.316 19.2063V19.2046Z" fill="#1C0236" data-cid="3xBA9L"></path>
+    <path d="M105.382 9.88051V7.67676H108V9.88051H105.382ZM105.625 22.5394V11.3169H107.759V22.5394H105.625Z" fill="#1C0236" data-cid="U1IJqh"></path>
+    <defs data-cid="3zlesd">
+      <linearGradient id="wp_logo_g" x1="6.7689e-05" y1="15.4905" x2="24.5959" y2="15.4905" gradientUnits="userSpaceOnUse" data-cid="OJyAOM">
+        <stop stop-color="#7759D9" data-cid="ynlv-K"></stop>
+        <stop offset="0.51" stop-color="#8295FF" data-cid="ksL7te"></stop>
+        <stop offset="1" stop-color="#5CE0B0" data-cid="74cnS5"></stop>
+      </linearGradient>
+    </defs>
+  </svg>
+  <span class="doc-label" data-cid="bqRsS0">Strategic Whitepaper · 2026</span>
+</header>
+
+<div class="page-wrap" data-cid="3NbzoZ">
+
+  <!-- ══════════════════════════════════════
+       COVER PAGE
+  ══════════════════════════════════════ -->
+  <section class="cover" data-cid="4l1-ZV">
+    <div class="cover-spine" data-cid="-quHlV">PATIENT ACCESS &nbsp;·&nbsp; AI BLUEPRINT</div>
+    <div class="cover-header" data-cid="HDRKoO">
+      <!-- SpinSci SVG logo (white wordmark for dark bg) -->
+      <svg width="108" height="31" viewBox="0 0 108 31" fill="none" xmlns="http://www.w3.org/2000/svg" data-cid="-IMksC">
+        <path d="M24.163 16.4599C23.4433 13.9913 21.8781 11.4141 19.7358 9.1271L22.9391 5.92503L22.3993 5.38513C19.9836 2.96915 17.1827 1.21021 14.5124 0.432617C11.6843 -0.392518 9.30944 -0.0291869 7.82748 1.453C7.27577 2.00479 6.88024 2.67882 6.64089 3.45472C5.86511 3.69241 5.19118 4.0897 4.63948 4.64149C4.08268 5.19837 3.68885 5.87579 3.45289 6.64321C2.6788 6.8809 2.00488 7.27649 1.45487 7.82828C-0.0287907 9.31046 -0.392067 11.6857 0.431246 14.5143C1.15101 16.9829 2.71615 19.5618 4.85846 21.8471L1.65688 25.0492L2.1967 25.5891C5.66649 29.0594 9.67781 30.9796 12.8471 30.9796C14.4174 30.9796 15.7805 30.5076 16.7685 29.5195C17.3253 28.9626 17.7191 28.2852 17.9551 27.5195C18.7207 27.2835 19.398 26.8896 19.9548 26.3327C20.5133 25.7741 20.9071 25.0933 21.1448 24.3259C21.9155 24.0865 22.5911 23.6977 23.1411 23.1476C24.6247 21.6637 24.9863 19.2902 24.163 16.4616V16.4599ZM8.90712 2.53451C9.97658 1.46319 11.815 1.23908 14.0847 1.89952C16.3152 2.54979 18.6646 3.97255 20.7679 5.93522L18.6612 8.0422C16.3746 5.89956 13.7944 4.33928 11.3244 3.6211C10.3331 3.33248 9.39771 3.18986 8.53705 3.18986C8.49461 3.18986 8.45218 3.18986 8.40974 3.18986C8.54894 2.94707 8.7136 2.72975 8.90712 2.5362V2.53451ZM5.71912 5.72299C5.91264 5.52944 6.13162 5.36306 6.37268 5.22553C6.36589 5.61773 6.39474 6.0269 6.44907 6.44966C6.02638 6.39532 5.61896 6.36986 5.22683 6.37665C5.36263 6.13726 5.5256 5.91824 5.71912 5.72299ZM4.75151 7.93694C5.36263 7.87072 6.04335 7.90807 6.78179 8.05069C6.79027 8.08125 6.79537 8.11011 6.80555 8.14067C7.58303 10.8113 9.50975 13.4548 11.759 16.0287C13.6229 18.1628 15.239 20.3174 16.0283 22.4142C13.8623 21.6043 11.6283 20.1119 9.65234 18.1357C6.30138 14.7842 4.45784 10.7163 4.75321 7.93694H4.75151ZM15.6871 28.4397C13.4837 30.6434 8.16529 29.0798 3.82635 25.039L5.93301 22.9337C9.32472 26.1188 13.168 27.8624 16.1811 27.7911C16.0453 28.0288 15.8807 28.2461 15.6871 28.4397ZM16.6581 26.2223C13.8843 26.5161 9.81361 24.6689 6.46434 21.3191L6.46095 21.3157C4.22527 19.0797 2.60411 16.5109 1.89793 14.0864C1.23758 11.8181 1.46336 9.9794 2.53451 8.90808C2.72464 8.71793 2.94702 8.56513 3.18298 8.4276C3.12696 11.6178 5.05028 15.6959 8.56931 19.2155C10.9849 21.6315 13.7859 23.3921 16.4561 24.1697C16.4833 24.1782 16.5105 24.1833 16.5376 24.1901C16.6785 24.9167 16.7243 25.6026 16.6598 26.2223H16.6581ZM18.8751 25.2512C18.6816 25.4447 18.4643 25.6094 18.2267 25.7453C18.2335 25.3514 18.2114 24.9422 18.1588 24.5245C18.5305 24.5721 18.8955 24.6009 19.2435 24.6009C19.2859 24.6009 19.3267 24.5958 19.3691 24.5958C19.2316 24.8369 19.0704 25.056 18.8751 25.2512ZM16.025 11.7587C13.6093 9.34272 10.8084 7.58379 8.13983 6.8045C8.10927 6.79601 8.08041 6.78922 8.04986 6.78073C7.90726 6.04218 7.86652 5.35796 7.93103 4.74675C8.78999 4.65337 9.79154 4.76543 10.8966 5.08631C13.3241 5.7943 15.8925 7.41571 18.1299 9.65342C20.3673 11.8911 21.9884 14.4599 22.6963 16.8878C23.3567 19.1561 23.1309 20.9948 22.0614 22.0661C21.8713 22.2563 21.6489 22.4091 21.413 22.5466C21.469 19.3564 19.5457 15.2783 16.0266 11.7587M14.9453 12.8402C18.2963 16.1917 20.1398 20.2596 19.8444 23.039C19.2367 23.1052 18.5594 23.0678 17.8261 22.9269C17.0978 20.3394 15.2067 17.718 12.8386 14.9472C11.0189 12.8181 9.36376 10.7281 8.55573 8.55664C10.7269 9.36479 12.966 10.8606 14.9453 12.8402Z" fill="url(#cov_grad)" data-cid="J63yD6"></path>
+        <path d="M31.2572 11.0139C31.2572 11.7491 31.8242 12.2975 32.2978 12.6302C32.9802 13.1073 34.3977 13.2635 35.7693 13.4163C38.6602 13.7372 42.6206 14.1787 42.6206 18.3705C42.6206 21.031 39.655 23.1159 35.8712 23.1159C32.0873 23.1159 29.1217 21.031 29.1217 18.3705H31.2555C31.2555 19.9088 33.6881 20.9818 35.8712 20.9818C38.0542 20.9818 40.4868 19.9088 40.4868 18.3705C40.4868 16.3128 38.9013 15.9121 35.5334 15.5386C33.8205 15.3484 32.2028 15.1685 31.0756 14.3807C29.816 13.5012 29.1217 12.306 29.1217 11.0139C29.1217 8.35346 32.0873 6.26855 35.8712 6.26855C39.655 6.26855 42.6206 8.35346 42.6206 11.0139H40.4868C40.4868 9.47572 38.0542 8.4027 35.8712 8.4027C33.6881 8.4027 31.2555 9.47402 31.2555 11.0139H31.2572Z" fill="white" data-cid="V1xBn7"></path>
+        <path d="M56.3436 16.9813C56.3436 20.3922 53.8532 23.1664 50.7943 23.1664C49.1748 23.1664 47.9559 22.3905 47.1649 21.1545V27.1002H45.0311V11.3955H47.1649V12.8098C47.9559 11.5738 49.1748 10.7979 50.7943 10.7979C53.8549 10.7979 56.3436 13.5721 56.3436 16.983V16.9813ZM54.208 16.9813C54.208 14.7181 52.6751 12.8794 50.7926 12.8794C48.91 12.8794 47.1632 14.7198 47.1632 16.9813C47.1632 19.2445 48.9083 21.0849 50.7926 21.0849C52.6768 21.0849 54.208 19.2445 54.208 16.983V16.9813Z" fill="white" data-cid="3sHICs"></path>
+        <path d="M58.5673 9.88051V7.67676H61.1849V9.88051H58.5673ZM58.8101 22.5394V11.3169H60.9439V22.5394H58.8101Z" fill="white" data-cid="-wrlxz"></path>
+        <path d="M75.2933 16.9242V22.5456H73.1595V16.9259C73.1595 14.6644 71.6266 12.824 69.744 12.824C67.8614 12.824 66.1147 14.6644 66.1147 16.9259V22.5473H63.9808V11.301H66.1147V12.756C66.9057 11.52 68.1246 10.7441 69.744 10.7441C72.8047 10.7441 75.2933 13.5184 75.2933 16.9293V16.9242Z" fill="white" data-cid="hQwvPx"></path>
+        <path d="M79.5576 11.0139C79.5576 11.7491 80.1246 12.2975 80.5982 12.6302C81.2806 13.1073 82.698 13.2635 84.0697 13.4163C86.9606 13.7372 90.921 14.1787 90.921 18.3705C90.921 21.031 87.9571 23.1159 84.1715 23.1159C80.386 23.1159 77.4221 21.031 77.4221 18.3705H79.5559C79.5559 19.9088 81.9885 20.9818 84.1715 20.9818C86.3546 20.9818 88.7872 19.9088 88.7872 18.3705C88.7872 16.3128 87.2016 15.9121 83.8354 15.5386C82.1226 15.3484 80.5048 15.1685 79.3776 14.3807C78.1181 13.5012 77.4238 12.306 77.4238 11.0139C77.4238 8.35346 80.3877 6.26855 84.1732 6.26855C87.9588 6.26855 90.9227 8.35346 90.9227 11.0139H88.7889C88.7889 9.47572 86.3563 8.4027 84.1732 8.4027C81.9902 8.4027 79.5576 9.47402 79.5576 11.0139Z" fill="white" data-cid="yXrTt_"></path>
+        <path d="M103.316 19.2046C102.466 21.5731 100.42 23.1028 98.1049 23.1028C95.0154 23.1028 92.5013 20.332 92.5013 16.9279C92.5013 13.5238 95.0154 10.7529 98.1049 10.7529C100.381 10.7529 102.415 12.2487 103.284 14.5645L101.286 15.3149C100.731 13.8395 99.4833 12.8871 98.1049 12.8871C96.1918 12.8871 94.6351 14.7003 94.6351 16.9279C94.6351 19.1554 96.1918 20.9687 98.1049 20.9687C99.5071 20.9687 100.765 19.9924 101.308 18.4831L103.316 19.2063V19.2046Z" fill="white" data-cid="yjGLQp"></path>
+        <path d="M105.382 9.88051V7.67676H108V9.88051H105.382ZM105.625 22.5394V11.3169H107.759V22.5394H105.625Z" fill="white" data-cid="XDdh4S"></path>
+        <defs data-cid="3_Izdv">
+          <linearGradient id="cov_grad" x1="6.7689e-05" y1="15.4905" x2="24.5959" y2="15.4905" gradientUnits="userSpaceOnUse" data-cid="WbPqzC">
+            <stop stop-color="#7759D9" data-cid="m_9Ioe"></stop>
+            <stop offset="0.51" stop-color="#8295FF" data-cid="Izq61g"></stop>
+            <stop offset="1" stop-color="#5CE0B0" data-cid="Rg9IQD"></stop>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="cover-badge" data-cid="dTAjpl">Strategic Whitepaper · 2026</div>
+    </div>
+
+    <div class="cover-body" data-cid="rww-Ej">
+      <div class="cover-eyebrow" data-cid="xAQZwM">
+        <div class="cover-eyebrow-line editor-empty-block" data-cid="DF71U-"></div>
+        <span data-cid="uc4zNc">The Future of Healthcare Engagement</span>
+      </div>
+      <h1 class="cover-title" data-cid="UCevDJ">Reimagining<br data-cid="jSBfgU">Patient Access<br data-cid="qKCkdo">with <em data-cid="Ekm7KH">AI</em></h1>
+      <p class="cover-sub" data-cid="lB-1hu">A strategic blueprint for the agentic future of patient engagement and healthcare operations.</p>
+
+      <div class="cover-footer" data-cid="q3UeXf">
+        <p class="cover-intro" data-cid="avmauU">Agentic AI is reshaping how health systems connect patients to care — automating access workflows end to end while raising the bar on experience, capacity, and cost.</p>
+        <div class="cover-brand" data-cid="SG34PB">
+          <div class="wordmark" data-cid="0hmYXq">spinsci.ai</div>
+          <div class="tagline" data-cid="w5pBB6">Built Exclusively for Healthcare</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div style="break-before: page" class="editor-empty-block" data-cid="tSDEsm"></div>
+
+  <!-- ══════════════════════════════════════
+       PAGE 2: PREMISE
+  ══════════════════════════════════════ -->
+  <article class="chapter" data-cid="v7Sre1">
+    <div class="premise-hero" data-cid="GUiHTy">
+      <div class="eyebrow" data-cid="39E0OA"><div class="eyebrow-line editor-empty-block" data-cid="Y2_fCP"></div><span data-cid="ISzkwi">The Premise</span></div>
+      <h1 data-cid="477PXS">Patients no longer judge a health system by clinical excellence alone. They judge it by how <span class="accent-purple" data-cid="pXyM05">effortless</span> it is to <span class="accent-teal" data-cid="JXlzaP">reach care.</span></h1>
+      <p data-cid="l0wOZt">Yet patient access — scheduling, referrals, billing, prescriptions, and the contact center that ties them together — remains one of the most manual, fragmented, and costly functions in healthcare. Agentic AI changes the equation. This blueprint examines how purpose-built healthcare AI agents automate access workflows end to end, and the measurable results health systems are already seeing.</p>
+    </div>
+
+    <div class="inner" data-cid="muijUf">
+      <h5 data-cid="8EMImz">Inside This Blueprint</h5>
+      <div class="blueprint-grid" data-cid="vYsJvG">
+        <div class="blueprint-cell" data-cid="jUJzWS">
+          <div class="bp-bar bp-bar-1 editor-empty-block" data-cid="f3Js8z"></div>
+          <div class="bp-title" data-cid="V_iBkc">The Market</div>
+          <div class="bp-body" data-cid="jmbiqa">Why AI in patient access is among the fastest-growing categories in healthcare technology — and what is fueling it.</div>
+        </div>
+        <div class="blueprint-cell" data-cid="lz5G5_">
+          <div class="bp-bar bp-bar-2 editor-empty-block" data-cid="_atLSm"></div>
+          <div class="bp-title" data-cid="FRb8f1">The Technology</div>
+          <div class="bp-body" data-cid="AqA6o5">How voice, notification, and clinical AI agents — orchestrated on a healthcare-native framework — resolve access workflows.</div>
+        </div>
+        <div class="blueprint-cell" data-cid="WLBRAc">
+          <div class="bp-bar bp-bar-3 editor-empty-block" data-cid="ZYVZip"></div>
+          <div class="bp-title" data-cid="eoeLS1">The Return</div>
+          <div class="bp-body" data-cid="5KG_Vr">The documented ROI — cost savings, capacity gains, and patient experience lift — health systems realize today.</div>
+        </div>
+      </div>
+
+      <h5 style="margin-top: 32px;" data-cid="XzfmxV">SpinSci at a Glance</h5>
+      <div class="stats-grid" data-cid="y7IBTP">
+        <div class="stat-cell" data-cid="xkbMHU">
+          <div class="stat-val" data-cid="_UyWBY">165</div>
+          <div class="stat-label" data-cid="IIW0rf">Health systems trust SpinSci for patient access</div>
+        </div>
+        <div class="stat-cell" data-cid="Djzj3z">
+          <div class="stat-val" data-cid="BDGXRq">70M</div>
+          <div class="stat-label" data-cid="TcCRJ9">Patients reached across the SpinSci network annually</div>
+        </div>
+        <div class="stat-cell" data-cid="TN54uC">
+          <div class="stat-val" data-cid="oxgx8L">400M</div>
+          <div class="stat-label" data-cid="y41we0">Patient &amp; EHR interactions automated each year</div>
+        </div>
+        <div class="stat-cell" data-cid="lvJLoo">
+          <div class="stat-val" data-cid="ykfSwb">~20<small style="font-size:16px;font-weight:600" data-cid="FAWsLZ"> yrs</small></div>
+          <div class="stat-label" data-cid="X2b_1I">Focused exclusively on healthcare technology</div>
+        </div>
+      </div>
+      <p class="stat-source" data-cid="pZWw7Z">Source: SpinSci company data, 2026.</p>
+    </div>
+
+    <div class="page-footer" data-cid="K8p9Zu">
+      <strong data-cid="sw4WD6">SpinSci</strong> · Reimagining Patient Access with AI
+      <span data-cid="JkO0S3">02</span>
+    </div>
+  </article>
+
+  <!-- ══════════════════════════════════════
+       PAGE 3: TABLE OF CONTENTS
+  ══════════════════════════════════════ -->
+  <article class="chapter toc-section" data-cid="3TQLbh">
+    <div class="toc-logo" data-cid="yjOYS0">
+      <svg width="108" height="31" viewBox="0 0 108 31" fill="none" xmlns="http://www.w3.org/2000/svg" data-cid="yqbkrH">
+        <path d="M24.163 16.4599C23.4433 13.9913 21.8781 11.4141 19.7358 9.1271L22.9391 5.92503L22.3993 5.38513C19.9836 2.96915 17.1827 1.21021 14.5124 0.432617C11.6843 -0.392518 9.30944 -0.0291869 7.82748 1.453C7.27577 2.00479 6.88024 2.67882 6.64089 3.45472C5.86511 3.69241 5.19118 4.0897 4.63948 4.64149C4.08268 5.19837 3.68885 5.87579 3.45289 6.64321C2.6788 6.8809 2.00488 7.27649 1.45487 7.82828C-0.0287907 9.31046 -0.392067 11.6857 0.431246 14.5143C1.15101 16.9829 2.71615 19.5618 4.85846 21.8471L1.65688 25.0492L2.1967 25.5891C5.66649 29.0594 9.67781 30.9796 12.8471 30.9796C14.4174 30.9796 15.7805 30.5076 16.7685 29.5195C17.3253 28.9626 17.7191 28.2852 17.9551 27.5195C18.7207 27.2835 19.398 26.8896 19.9548 26.3327C20.5133 25.7741 20.9071 25.0933 21.1448 24.3259C21.9155 24.0865 22.5911 23.6977 23.1411 23.1476C24.6247 21.6637 24.9863 19.2902 24.163 16.4616V16.4599ZM8.90712 2.53451C9.97658 1.46319 11.815 1.23908 14.0847 1.89952C16.3152 2.54979 18.6646 3.97255 20.7679 5.93522L18.6612 8.0422C16.3746 5.89956 13.7944 4.33928 11.3244 3.6211C10.3331 3.33248 9.39771 3.18986 8.53705 3.18986C8.49461 3.18986 8.45218 3.18986 8.40974 3.18986C8.54894 2.94707 8.7136 2.72975 8.90712 2.5362V2.53451ZM5.71912 5.72299C5.91264 5.52944 6.13162 5.36306 6.37268 5.22553C6.36589 5.61773 6.39474 6.0269 6.44907 6.44966C6.02638 6.39532 5.61896 6.36986 5.22683 6.37665C5.36263 6.13726 5.5256 5.91824 5.71912 5.72299ZM4.75151 7.93694C5.36263 7.87072 6.04335 7.90807 6.78179 8.05069C6.79027 8.08125 6.79537 8.11011 6.80555 8.14067C7.58303 10.8113 9.50975 13.4548 11.759 16.0287C13.6229 18.1628 15.239 20.3174 16.0283 22.4142C13.8623 21.6043 11.6283 20.1119 9.65234 18.1357C6.30138 14.7842 4.45784 10.7163 4.75321 7.93694H4.75151ZM15.6871 28.4397C13.4837 30.6434 8.16529 29.0798 3.82635 25.039L5.93301 22.9337C9.32472 26.1188 13.168 27.8624 16.1811 27.7911C16.0453 28.0288 15.8807 28.2461 15.6871 28.4397ZM16.6581 26.2223C13.8843 26.5161 9.81361 24.6689 6.46434 21.3191L6.46095 21.3157C4.22527 19.0797 2.60411 16.5109 1.89793 14.0864C1.23758 11.8181 1.46336 9.9794 2.53451 8.90808C2.72464 8.71793 2.94702 8.56513 3.18298 8.4276C3.12696 11.6178 5.05028 15.6959 8.56931 19.2155C10.9849 21.6315 13.7859 23.3921 16.4561 24.1697C16.4833 24.1782 16.5105 24.1833 16.5376 24.1901C16.6785 24.9167 16.7243 25.6026 16.6598 26.2223H16.6581ZM18.8751 25.2512C18.6816 25.4447 18.4643 25.6094 18.2267 25.7453C18.2335 25.3514 18.2114 24.9422 18.1588 24.5245C18.5305 24.5721 18.8955 24.6009 19.2435 24.6009C19.2859 24.6009 19.3267 24.5958 19.3691 24.5958C19.2316 24.8369 19.0704 25.056 18.8751 25.2512ZM16.025 11.7587C13.6093 9.34272 10.8084 7.58379 8.13983 6.8045C8.10927 6.79601 8.08041 6.78922 8.04986 6.78073C7.90726 6.04218 7.86652 5.35796 7.93103 4.74675C8.78999 4.65337 9.79154 4.76543 10.8966 5.08631C13.3241 5.7943 15.8925 7.41571 18.1299 9.65342C20.3673 11.8911 21.9884 14.4599 22.6963 16.8878C23.3567 19.1561 23.1309 20.9948 22.0614 22.0661C21.8713 22.2563 21.6489 22.4091 21.413 22.5466C21.469 19.3564 19.5457 15.2783 16.0266 11.7587M14.9453 12.8402C18.2963 16.1917 20.1398 20.2596 19.8444 23.039C19.2367 23.1052 18.5594 23.0678 17.8261 22.9269C17.0978 20.3394 15.2067 17.718 12.8386 14.9472C11.0189 12.8181 9.36376 10.7281 8.55573 8.55664C10.7269 9.36479 12.966 10.8606 14.9453 12.8402Z" fill="url(#toc_grad)" data-cid="au908C"></path>
+        <path d="M31.2572 11.0139C31.2572 11.7491 31.8242 12.2975 32.2978 12.6302C32.9802 13.1073 34.3977 13.2635 35.7693 13.4163C38.6602 13.7372 42.6206 14.1787 42.6206 18.3705C42.6206 21.031 39.655 23.1159 35.8712 23.1159C32.0873 23.1159 29.1217 21.031 29.1217 18.3705H31.2555C31.2555 19.9088 33.6881 20.9818 35.8712 20.9818C38.0542 20.9818 40.4868 19.9088 40.4868 18.3705C40.4868 16.3128 38.9013 15.9121 35.5334 15.5386C33.8205 15.3484 32.2028 15.1685 31.0756 14.3807C29.816 13.5012 29.1217 12.306 29.1217 11.0139C29.1217 8.35346 32.0873 6.26855 35.8712 6.26855C39.655 6.26855 42.6206 8.35346 42.6206 11.0139H40.4868C40.4868 9.47572 38.0542 8.4027 35.8712 8.4027C33.6881 8.4027 31.2555 9.47402 31.2555 11.0139H31.2572Z" fill="#1C0236" data-cid="PAP_JL"></path>
+        <path d="M56.3436 16.9813C56.3436 20.3922 53.8532 23.1664 50.7943 23.1664C49.1748 23.1664 47.9559 22.3905 47.1649 21.1545V27.1002H45.0311V11.3955H47.1649V12.8098C47.9559 11.5738 49.1748 10.7979 50.7943 10.7979C53.8549 10.7979 56.3436 13.5721 56.3436 16.983V16.9813ZM54.208 16.9813C54.208 14.7181 52.6751 12.8794 50.7926 12.8794C48.91 12.8794 47.1632 14.7198 47.1632 16.9813C47.1632 19.2445 48.9083 21.0849 50.7926 21.0849C52.6768 21.0849 54.208 19.2445 54.208 16.983V16.9813Z" fill="#1C0236" data-cid="YVfzbB"></path>
+        <path d="M58.5673 9.88051V7.67676H61.1849V9.88051H58.5673ZM58.8101 22.5394V11.3169H60.9439V22.5394H58.8101Z" fill="#1C0236" data-cid="MeOzCA"></path>
+        <path d="M75.2933 16.9242V22.5456H73.1595V16.9259C73.1595 14.6644 71.6266 12.824 69.744 12.824C67.8614 12.824 66.1147 14.6644 66.1147 16.9259V22.5473H63.9808V11.301H66.1147V12.756C66.9057 11.52 68.1246 10.7441 69.744 10.7441C72.8047 10.7441 75.2933 13.5184 75.2933 16.9293V16.9242Z" fill="#1C0236" data-cid="xYp2dB"></path>
+        <path d="M79.5576 11.0139C79.5576 11.7491 80.1246 12.2975 80.5982 12.6302C81.2806 13.1073 82.698 13.2635 84.0697 13.4163C86.9606 13.7372 90.921 14.1787 90.921 18.3705C90.921 21.031 87.9571 23.1159 84.1715 23.1159C80.386 23.1159 77.4221 21.031 77.4221 18.3705H79.5559C79.5559 19.9088 81.9885 20.9818 84.1715 20.9818C86.3546 20.9818 88.7872 19.9088 88.7872 18.3705C88.7872 16.3128 87.2016 15.9121 83.8354 15.5386C82.1226 15.3484 80.5048 15.1685 79.3776 14.3807C78.1181 13.5012 77.4238 12.306 77.4238 11.0139C77.4238 8.35346 80.3877 6.26855 84.1732 6.26855C87.9588 6.26855 90.9227 8.35346 90.9227 11.0139H88.7889C88.7889 9.47572 86.3563 8.4027 84.1732 8.4027C81.9902 8.4027 79.5576 9.47402 79.5576 11.0139Z" fill="#1C0236" data-cid="2HZjOG"></path>
+        <path d="M103.316 19.2046C102.466 21.5731 100.42 23.1028 98.1049 23.1028C95.0154 23.1028 92.5013 20.332 92.5013 16.9279C92.5013 13.5238 95.0154 10.7529 98.1049 10.7529C100.381 10.7529 102.415 12.2487 103.284 14.5645L101.286 15.3149C100.731 13.8395 99.4833 12.8871 98.1049 12.8871C96.1918 12.8871 94.6351 14.7003 94.6351 16.9279C94.6351 19.1554 96.1918 20.9687 98.1049 20.9687C99.5071 20.9687 100.765 19.9924 101.308 18.4831L103.316 19.2063V19.2046Z" fill="#1C0236" data-cid="y1CJM7"></path>
+        <path d="M105.382 9.88051V7.67676H108V9.88051H105.382ZM105.625 22.5394V11.3169H107.759V22.5394H105.625Z" fill="#1C0236" data-cid="2Bee1v"></path>
+        <defs data-cid="1kSKxA"><linearGradient id="toc_grad" x1="0" y1="15.49" x2="24.6" y2="15.49" gradientUnits="userSpaceOnUse" data-cid="ux81MD"><stop stop-color="#7759D9" data-cid="9kzA0Q"></stop><stop offset="0.51" stop-color="#8295FF" data-cid="mV41An"></stop><stop offset="1" stop-color="#5CE0B0" data-cid="dz86KV"></stop></linearGradient></defs>
+      </svg>
+    </div>
+
+    <h2 class="toc-heading" data-cid="07rx2q">Table of Contents</h2>
+    <ul class="toc-list" data-cid="oQtk8a">
+      <li data-cid="3rcdmp">
+        <span class="toc-num" data-cid="HjEgP8">04</span>
+        <div data-cid="DqB0I2">
+          <div class="toc-title" data-cid="hoJ9rl">Executive Summary</div>
+          <div class="toc-sub" data-cid="P0eSyV">The case for agentic AI in patient access — and the results it delivers.</div>
+        </div>
+        <span class="toc-page" data-cid="OZ_TUh">04</span>
+      </li>
+      <li data-cid="wVufo-">
+        <span class="toc-num" data-cid="FWz7jH">02</span>
+        <div data-cid="LFwVyB">
+          <div class="toc-title" data-cid="f9cV2l">The Patient Access Imperative</div>
+          <div class="toc-sub" data-cid="hI7v6Y">Why Patient Access Defines Performance &nbsp;·&nbsp; Challenges in Traditional Access</div>
+        </div>
+        <span class="toc-page" data-cid="8k6sGS">06</span>
+      </li>
+      <li data-cid="ItpxZb">
+        <span class="toc-num" data-cid="6l1Rua">03</span>
+        <div data-cid="0iZWw3">
+          <div class="toc-title" data-cid="G14L3M">The Rise of AI in Patient Access</div>
+          <div class="toc-sub" data-cid="i84uMW">Market Size &amp; Growth &nbsp;·&nbsp; Key Drivers for AI Adoption</div>
+        </div>
+        <span class="toc-page" data-cid="zCX1rX">08</span>
+      </li>
+      <li data-cid="PWnUwR">
+        <span class="toc-num" data-cid="OAjoKC">04</span>
+        <div data-cid="1CGdj8">
+          <div class="toc-title" data-cid="bxVf3-">Transformative AI Technologies</div>
+          <div class="toc-sub" data-cid="kIwKeP">The Healthcare AI Framework &nbsp;·&nbsp; Voice AI &nbsp;·&nbsp; Notification, Contact Center &amp; Clinical AI</div>
+        </div>
+        <span class="toc-page" data-cid="Vi79l6">10</span>
+      </li>
+      <li data-cid="tPXoi5">
+        <span class="toc-num" data-cid="AZBZyr">05</span>
+        <div data-cid="8gtdY0">
+          <div class="toc-title" data-cid="LEY0Kh">Return on Investment</div>
+          <div class="toc-sub" data-cid="zBR1qx">Proven Impact &amp; Customer Results &nbsp;·&nbsp; ROI Components &nbsp;·&nbsp; Impact Scorecard</div>
+        </div>
+        <span class="toc-page" data-cid="hQ6lmt">13</span>
+      </li>
+      <li data-cid="DpGlae">
+        <span class="toc-num" data-cid="HrpAWH">06</span>
+        <div data-cid="gPLI1n">
+          <div class="toc-title" data-cid="pYjzS_">Conclusion</div>
+          <div class="toc-sub" data-cid="Y8np_-">The agentic future of healthcare access — and where to begin.</div>
+        </div>
+        <span class="toc-page" data-cid="KjDPet">16</span>
+      </li>
+    </ul>
+    <div class="toc-note" data-cid="nkF8eV">
+      Sections build from market context to platform capability to measurable ROI. Decision-makers short on time can start with the Executive Summary and the Impact Scorecard on page 15.
+    </div>
+
+    <div class="page-footer" style="margin-top:32px;" data-cid="tQgKwV">
+      <strong data-cid="MXT8Pz">SpinSci</strong> · Reimagining Patient Access with AI
+      <span data-cid="FfeJ5R">03</span>
+    </div>
+  </article>
+
+  <!-- ══════════════════════════════════════
+       SECTION 01: EXECUTIVE SUMMARY
+  ══════════════════════════════════════ -->
+  <article class="chapter inner" data-cid="rWMbVn">
+    <div class="section-num" data-cid="1J_gi2">01</div>
+    <div class="section-tag" data-cid="PfYq44">Executive Summary</div>
+    <h2 data-cid="7WrRin">Executive Summary</h2>
+    <p class="lead" data-cid="mzICca">The future of healthcare access is intelligent, automated, and orchestrated — and it is already operating inside the largest health systems in the country.</p>
+
+    <p data-cid="aUf4WZ">Healthcare is being reshaped by a simple expectation: patients want to reach care without friction. Yet the front door to most health systems — appointment scheduling, referral management, prescription refills, billing questions, and the contact centers that handle them — still runs on manual processes, disconnected systems, and overburdened staff. The result is long hold times, abandoned calls, missed appointments, and revenue that quietly leaks away before a claim is ever submitted.</p>
+
+    <p data-cid="mcNIa3">This whitepaper examines how Artificial Intelligence — and specifically agentic AI built exclusively for healthcare — is transforming patient access. By combining Natural Language Understanding, machine reasoning, and deep, native integration with Electronic Health Record (EHR) systems, AI agents now resolve entire access workflows autonomously, from a patient's first contact to a confirmed outcome.</p>
+
+    <p data-cid="3bXuXF">We explore the market trajectory, the forces driving adoption, the technologies behind modern patient access, and — most importantly — the documented return on investment health systems achieve when AI agents are deployed across voice, digital, and clinical communication channels.</p>
+
+    <hr class="rule" data-cid="RUJ7d3">
+
+    <h5 data-cid="Az8NnC">Market Signal</h5>
+    <div class="signal-row" data-cid="u7tQyE">
+      <div class="signal-card" data-cid="XWZI64">
+        <div class="signal-big" data-cid="ooJcFt">44%</div>
+        <div class="signal-label" data-cid="3RPtZM">Projected CAGR for AI agents in healthcare through 2030.</div>
+      </div>
+      <div class="signal-card" data-cid="MTFbCL">
+        <div class="signal-big" data-cid="KTS4Xn">10M</div>
+        <div class="signal-label" data-cid="bJUhY5">Global healthcare worker shortfall expected by 2030 (WHO).</div>
+      </div>
+    </div>
+
+    <p data-cid="2MCcOI">The integration of AI into patient access is not an incremental upgrade. It is a structural shift in how health systems engage patients, deploy their workforce, and protect their margins. The organizations that move first are turning a historically reactive cost center into a measurable competitive advantage.</p>
+
+    <div class="tech-pillars" style="margin-top:24px;" data-cid="LbCnRQ">
+      <div class="tech-card" data-cid="uZPVDZ">
+        <h4 data-cid="MX_M9i">Voice &amp; Conversational AI Agents</h4>
+        <p data-cid="RMkrcf">Resolve scheduling, billing, prescription, and referral calls autonomously — cutting hold times and deflecting volume away from strained contact centers.</p>
+      </div>
+      <div class="tech-card" data-cid="7PZjI8">
+        <h4 data-cid="TJZZ4Q">Proactive Notification AI</h4>
+        <p data-cid="dKT5PT">Drives multi-channel outreach across SMS, voice, and email — reducing no-shows, recovering referrals, and lifting prescription and payment completion.</p>
+      </div>
+    </div>
+
+    <hr class="rule" data-cid="3ijZPh">
+
+    <h4 data-cid="-owcDU">AI Patient Access — Impact at a Glance</h4>
+    <p style="font-size:13.5px;color:var(--soft);margin-bottom:16px;" data-cid="5VBiVk">The table below summarizes the measurable gains health systems realize when AI agents are deployed across patient access workflows. Ranges reflect SpinSci customer outcomes alongside independent industry research.</p>
+
+    <div class="sk-doc-native-table-frame" data-scroll-left-active="false" data-scroll-right-active="false" data-scrolling="false" data-cid="5wZTG6"><table data-cid="JhwUNC">
+      <thead data-cid="R2R4sc">
+        <tr data-cid="Y_e4z0">
+          <th data-cid="c1HTdy">Domain</th>
+          <th data-cid="6UQJKU">Metric</th>
+          <th data-cid="f1bLw9">AI Impact</th>
+        </tr>
+      </thead>
+      <tbody data-cid="iTwFw5">
+        <tr data-cid="MWX-XC"><td data-cid="vCvFAs">Patient No-Shows</td><td data-cid="27HnTt">Reduction in no-show / missed appointment rate</td><td data-cid="TU7s8U">Up to 51%</td></tr>
+        <tr data-cid="tGEaQ5"><td data-cid="XicDq-">Call Handle Time</td><td data-cid="1TZ6Qe">Average time saved per patient interaction</td><td data-cid="ypdpgY">30–43 sec</td></tr>
+        <tr data-cid="DLtAbO"><td data-cid="2yfzP5">Self-Service Containment</td><td data-cid="FPzCVO">Share of contact center calls resolved without an agent</td><td data-cid="0uc1bR">50%+</td></tr>
+        <tr data-cid="riUybM"><td data-cid="aaWb0v">Cost to Serve</td><td data-cid="QtHsRB">Reduction in patient access operating cost</td><td data-cid="ZbfCBR">Up to 40%</td></tr>
+        <tr data-cid="Izf2f1"><td data-cid="SRKj-S">Proactive Outreach</td><td data-cid="D6AG_K">Increase in outreach capacity without added staff</td><td data-cid="Ylciw5">Up to 5×</td></tr>
+        <tr data-cid="4mifaT"><td data-cid="HVr2us">Patient Response</td><td data-cid="OOc5VK">Lift in response rates to automated outreach</td><td data-cid="oQ1kKX">+22.8%</td></tr>
+        <tr data-cid="EMibMN"><td data-cid="bjM2rC">Contact Center CSAT</td><td data-cid="qNP6gV">Improvement in patient satisfaction with access</td><td data-cid="G6PPxf">Up to 3×</td></tr>
+        <tr data-cid="fWDQ8G"><td data-cid="a7scTl">Time to Value</td><td data-cid="eRDHtZ">Typical implementation timeline with pre-built workflows</td><td data-cid="ipmGHz">4–6 weeks</td></tr>
+      </tbody>
+    </table></div>
+    <div class="table-caption" data-cid="Jqz4u5">SpinSci AI Agent ROI Potential</div>
+
+    <div class="pullquote" data-cid="TTqoEG">
+      <p data-cid="H2W6e0">"These outcomes validate a simple thesis: when AI agents own patient access workflows end to end, the gains compound — lower cost, higher capacity, and a materially better patient experience, all at once."</p>
+    </div>
+
+    <div class="references" data-cid="G4i8HJ">
+      <h5 data-cid="V0lvJ6">References &amp; Sources</h5>
+      <ol data-cid="Iat9JX">
+        <li data-cid="qPfNvQ">MarketsandMarkets. AI Agents in Healthcare Market — global market valued at USD 0.76B (2024), projected USD 6.92B by 2030 at 44.1% CAGR.</li>
+        <li data-cid="e_C0BF">Grand View Research. AI Voice Agents in Healthcare Market Report, 2030 &amp; Agentic AI in Healthcare Market Report, 2030.</li>
+        <li data-cid="IOSfrC">World Health Organization — projected global shortfall of 10 million health workers by 2030.</li>
+        <li data-cid="d6-GhS">SpinSci Technologies — customer results, datasheets, and case studies (spinsci.ai). Ranges reflect outcomes across deployed health systems.</li>
+      </ol>
+    </div>
+
+    <div class="page-footer" style="margin-top:32px;" data-cid="6Ksx7n">
+      <strong data-cid="Cj3gSV">SpinSci</strong> · Executive Summary
+      <span data-cid="z5ldWO">04–05</span>
+    </div>
+  </article>
+
+  <!-- ══════════════════════════════════════
+       SECTION 02: PATIENT ACCESS IMPERATIVE
+  ══════════════════════════════════════ -->
+  <article class="chapter inner" data-cid="-qVSrc">
+    <div class="section-num" data-cid="IQEL3_">02</div>
+    <div class="section-tag" data-cid="SKBjcO">Section Two</div>
+    <h2 data-cid="ByErz3">The Patient Access Imperative</h2>
+    <p class="lead" data-cid="BJOHuc">Before any AI conversation matters, it helps to be precise about what patient access is — and why it has become the single most consequential operational function in a modern health system.</p>
+
+    <h3 data-cid="_PpID9">Why Patient Access Defines Performance</h3>
+    <p data-cid="2zhDJc">Patient access is the connective tissue between a person who needs care and the health system that delivers it. It spans every administrative and communication step in the patient journey — from the first attempt to book an appointment, through registration, eligibility, and referral, to billing, payment, and follow-up. Done well, it is invisible. Done poorly, it is the reason a patient delays care, switches providers, or leaves a bill unpaid. Access is not a back-office function; it is the experience layer of healthcare and a direct driver of capacity, cash flow, and loyalty.</p>
+
+    <p data-cid="VRk_uC">The journey unfolds across three connected stages:</p>
+
+    <div class="journey-steps" data-cid="cV7TcT">
+      <div class="journey-step" data-cid="yXPeTy">
+        <div class="js-num" data-cid="1fY93g">1</div>
+        <div class="js-title" data-cid="Cd2R7v">Find Care</div>
+        <div class="js-body" data-cid="PG8k8b">Scheduling, registration, eligibility verification, and referral intake. This is the digital front door — where access is won or lost before care begins.</div>
+      </div>
+      <div class="journey-step" data-cid="n0AMdC">
+        <div class="js-num" data-cid="78P8-W">2</div>
+        <div class="js-title" data-cid="A5MjcE">Access Care</div>
+        <div class="js-body" data-cid="pnFnVf">Intake, check-in, clinical communication, and care coordination across teams — ensuring patients arrive prepared and clinicians have what they need.</div>
+      </div>
+      <div class="journey-step" data-cid="OOo6Qa">
+        <div class="js-num" data-cid="Ccyj4c">3</div>
+        <div class="js-title" data-cid="lpYnhU">Resolve &amp; Pay</div>
+        <div class="js-body" data-cid="BaoyIP">Billing questions, payment, prescription refills, results, and follow-up outreach. Where revenue is captured and loyalty is confirmed.</div>
+      </div>
+    </div>
+
+    <div class="callout" data-cid="ArTXaP">
+      <p data-cid="pL-DAa"><strong data-cid="EU_vO-">1 in 3</strong> medical group leaders reported an increase in patient no-shows over the prior year — a clear signal that traditional, manual access models are breaking down under modern volume and complexity.<br data-cid="UbZkkI"><small style="color:var(--soft);" data-cid="4bxj2O">Source: MGMA poll, 2025.</small></p>
+    </div>
+
+    <hr class="rule" data-cid="UJhlfb">
+
+    <div class="eyebrow" data-cid="Qlj4OF"><div class="eyebrow-line editor-empty-block" data-cid="e48DvB"></div><span data-cid="7RG3gW">Challenges in Traditional Patient Access</span></div>
+    <h3 data-cid="bUs1AR">Where the Front Door Breaks Down</h3>
+    <p data-cid="dVqqnl">Traditional patient access depends on people, phones, and disconnected screens. As volume, payer complexity, and consumer expectations rise, that model strains in predictable ways — each one carrying a real cost in revenue, capacity, and patient trust.</p>
+
+    <ul class="challenge-list" data-cid="TFwmeS">
+      <li class="challenge-item" data-cid="asOmvc">
+        <div class="ch-num" data-cid="RUUrWS">01</div>
+        <div data-cid="EBmPdV">
+          <div class="ch-title" data-cid="acojbH">Overwhelmed Contact Centers</div>
+          <div class="ch-body" data-cid="U5p1mo">Inbound call volume routinely exceeds staffed capacity, producing long hold times, high abandonment rates, and a frustrating first impression for patients trying to reach care.</div>
+        </div>
+      </li>
+      <li class="challenge-item" data-cid="sE63Mf">
+        <div class="ch-num" data-cid="F8QjFQ">02</div>
+        <div data-cid="ir0wSa">
+          <div class="ch-title" data-cid="5agDE1">Costly No-Shows &amp; Missed Visits</div>
+          <div class="ch-body" data-cid="fXoCaZ">Every missed appointment is an empty slot, delayed care, and lost revenue. Manual reminder calls reach only a fraction of patients and rarely close the loop with a reschedule.</div>
+        </div>
+      </li>
+      <li class="challenge-item" data-cid="Qvz0z2">
+        <div class="ch-num" data-cid="YMsbSd">03</div>
+        <div data-cid="hlXVUr">
+          <div class="ch-title" data-cid="Vkl7Tr">Workforce Shortages &amp; Burnout</div>
+          <div class="ch-body" data-cid="ZnOyL9">Access roles are hard to fill and harder to retain. Repetitive, high-volume tasks drive turnover, while every vacancy lengthens queues and erodes service consistency.</div>
+        </div>
+      </li>
+      <li class="challenge-item" data-cid="6aA10_">
+        <div class="ch-num" data-cid="WI9Mx5">04</div>
+        <div data-cid="NYzbDL">
+          <div class="ch-title" data-cid="RVYSvu">Fragmented Systems &amp; Data Silos</div>
+          <div class="ch-body" data-cid="JlCRNr">EHR, telephony, scheduling, and billing systems rarely speak to one another. Staff toggle between screens and re-key data, turning a five-minute task into a twenty-minute one.</div>
+        </div>
+      </li>
+      <li class="challenge-item" data-cid="GMr7fZ">
+        <div class="ch-num" data-cid="GBl-UM">05</div>
+        <div data-cid="N9JQ4D">
+          <div class="ch-title" data-cid="r3G3fW">Revenue Leakage Before the Claim</div>
+          <div class="ch-body" data-cid="HRjdKt">Revenue is lost long before billing — in unscheduled referrals, abandoned bookings, unfilled prescriptions, and patient-owed balances left unresolved due to confusion or friction.</div>
+        </div>
+      </li>
+      <li class="challenge-item" data-cid="OBnak9">
+        <div class="ch-num" data-cid="95QIFn">06</div>
+        <div data-cid="M9U6RE">
+          <div class="ch-title" data-cid="hLQUnH">Inconsistent Patient Experience</div>
+          <div class="ch-body" data-cid="-58SNC">Service quality varies by which staff member answers, which channel a patient chooses, and the time of day. Patients experience a system that feels bureaucratic, not responsive.</div>
+        </div>
+      </li>
+    </ul>
+
+    <p data-cid="_VjGx6">These challenges are not isolated. They are symptoms of a single root cause — a patient access model built for lower volumes and simpler journeys than healthcare faces today. Addressing them requires more than additional staff or another point tool. It requires intelligent automation that can resolve work end to end.</p>
+
+    <div class="page-footer" style="margin-top:32px;" data-cid="zq3r7E">
+      <strong data-cid="B0Ay1R">SpinSci</strong> · The Patient Access Imperative
+      <span data-cid="RLee98">06–07</span>
+    </div>
+  </article>
+
+  <!-- ══════════════════════════════════════
+       SECTION 03: RISE OF AI
+  ══════════════════════════════════════ -->
+  <article class="chapter inner" data-cid="Wo4AJ2">
+    <div class="section-num" data-cid="VRVZZh">03</div>
+    <div class="section-tag" data-cid="Jsq-Kh">Section Three</div>
+    <h2 data-cid="yZBem-">The Rise of AI in Patient Access</h2>
+    <p class="lead" data-cid="8It_Cq">The pressures on patient access have created fertile ground for AI — and the market is responding with some of the fastest growth rates in all of healthcare technology.</p>
+
+    <h3 data-cid="XIlvlI">Market Size &amp; Growth</h3>
+    <p data-cid="IkpTe7">Investment in AI for healthcare engagement is accelerating sharply. Independent analysts converge on a clear picture: AI agents are moving from experimental pilots to core infrastructure for how health systems interact with patients.</p>
+
+    <div class="market-signals" data-cid="hWEa0K">
+      <div class="mkt-card" data-cid="MdAp3M">
+        <div class="mkt-val" data-cid="n_aZgU">$6.9B</div>
+        <div class="mkt-label" data-cid="krgM08">Projected global AI agents in healthcare market by 2030 — up from $0.76B in 2024, a 44.1% CAGR.</div>
+      </div>
+      <div class="mkt-card" data-cid="hMta0X">
+        <div class="mkt-val" data-cid="Am5HBE">37.8%</div>
+        <div class="mkt-label" data-cid="cJ-uVa">CAGR for AI voice agents in healthcare through 2030, reaching an estimated $3.2B.</div>
+      </div>
+      <div class="mkt-card" data-cid="gOdhr7">
+        <div class="mkt-val" data-cid="6-O0uV">$23B</div>
+        <div class="mkt-label" data-cid="ubkxV6">Projected AI in patient engagement market by 2030, growing at a 21.2% CAGR.</div>
+      </div>
+    </div>
+
+    <p data-cid="zgmfCg">The agentic AI segment — autonomous agents that reason and complete tasks rather than follow scripts — is the fastest-moving of all, forecast to grow at roughly a 45% CAGR through 2030. Hospitals and health systems represent the largest share of demand, driven by acute labor pressure and the search for operational efficiency. The signal is unambiguous: AI-driven patient access is shifting from competitive edge to baseline expectation.</p>
+
+    <div class="callout" data-cid="xwhruk">
+      <p data-cid="x2lNF5">Independent forecasts agree on the direction: AI agents in healthcare are growing at a <strong data-cid="o6NBdW">~44% compound annual rate</strong> — among the fastest in all of health technology.<br data-cid="OCmrDb"><small style="color:var(--soft);" data-cid="i69eCF">Synthesis of MarketsandMarkets &amp; Grand View Research, 2025–2030 Outlooks.</small></p>
+    </div>
+
+    <hr class="rule" data-cid="cMenBL">
+
+    <div class="eyebrow" data-cid="_jjr3X"><div class="eyebrow-line editor-empty-block" data-cid="d_H_LK"></div><span data-cid="Rjwf9I">Key Drivers for AI Adoption</span></div>
+    <h3 data-cid="4aJqtB">What Is Fueling the Shift</h3>
+    <p data-cid="0SKFu7">Adoption is not driven by hype. It is driven by converging operational, economic, and technological forces that make AI in patient access both necessary and — finally — practical.</p>
+
+    <div class="drivers-grid" data-cid="SbFcVf">
+      <div class="driver-card" data-cid="qrHFDv">
+        <h4 data-cid="3MDvNr">Acute Workforce Shortages</h4>
+        <p data-cid="iSSoVX">The WHO projects a global shortfall of 10 million health workers by 2030. Access and contact center roles are among the hardest to staff — and AI agents fill the gap without adding headcount.</p>
+      </div>
+      <div class="driver-card" data-cid="K_U5km">
+        <h4 data-cid="KSod8v">Rising Volumes &amp; Consumer Expectations</h4>
+        <p data-cid="6LPV_0">Patients now expect the same instant, 24/7, omnichannel service they receive in every other industry. Manual phone-based access cannot meet that expectation at scale.</p>
+      </div>
+      <div class="driver-card" data-cid="WfLQJB">
+        <h4 data-cid="BOhLmg">Margin Pressure &amp; Cost to Serve</h4>
+        <p data-cid="KJRY34">With reimbursement tightening and costs rising, health systems must do more with the same resources. AI automation lowers cost-to-serve while expanding capacity.</p>
+      </div>
+      <div class="driver-card" data-cid="IuNW_j">
+        <h4 data-cid="1l-TB_">The Maturity of Agentic AI</h4>
+        <p data-cid="3p13b8">Advances in large language models and Natural Language Understanding mean AI agents can now reason, make decisions, and complete tasks autonomously — not merely follow a fixed script.</p>
+      </div>
+      <div class="driver-card" data-cid="0TR6Jk">
+        <h4 data-cid="CORTTA">Deep EHR Integration Is Now Possible</h4>
+        <p data-cid="AurNm5">Native connectivity to EHR and contact center platforms turns a conversation into a completed action — an agent can now schedule, reschedule, or process a refill, not just talk about it.</p>
+      </div>
+      <div class="driver-card" data-cid="4fsVyl">
+        <h4 data-cid="wOx_6j">Access as a Growth Strategy</h4>
+        <p data-cid="2QIJe8">Leaders increasingly treat patient access as a competitive lever — fuller schedules, recovered referrals, and faster revenue — rather than a back-office cost center.</p>
+      </div>
+    </div>
+
+    <p data-cid="mkYf3n">Together, these forces explain why AI adoption in patient access has moved from the innovation agenda to the operating plan. The question for most health systems is no longer whether to deploy AI agents — but how quickly they can do so responsibly.</p>
+
+    <div class="page-footer" style="margin-top:32px;" data-cid="JF0e1D">
+      <strong data-cid="ObYiY7">SpinSci</strong> · The Rise of AI in Patient Access
+      <span data-cid="qOy1-J">08–09</span>
+    </div>
+  </article>
+
+  <!-- ══════════════════════════════════════
+       SECTION 04: TRANSFORMATIVE AI TECHNOLOGIES
+  ══════════════════════════════════════ -->
+  <article class="chapter inner" data-cid="EhfcjZ">
+    <div class="section-num" data-cid="EZ6QSw">04</div>
+    <div class="section-tag" data-cid="WtNrFA">Section Four</div>
+    <h2 data-cid="ZcrO9t">Transformative AI Technologies</h2>
+    <p class="lead" data-cid="SJjrmK">General-purpose AI can approximate healthcare. Resolving real patient access work requires AI built for it — trained on healthcare interactions and wired into the systems care runs on.</p>
+
+    <h3 data-cid="LW8LsY">The Healthcare AI Framework</h3>
+    <p data-cid="smr0AX">Every SpinSci AI agent runs on a proprietary healthcare AI framework — the intelligence layer that makes automation reliable in a clinical setting. It extracts an EHR's decision logic, ingests the unstructured data a health system runs on every day, and converts both into an AI-ready foundation. It is not a product deployed on its own; it is what makes purpose-built agents materially smarter and more capable than anything built on a generic platform.</p>
+
+    <div class="tech-pillars" data-cid="I5C-Yo">
+      <div class="tech-card" data-cid="O5-viY">
+        <h4 data-cid="JIg2rJ">Healthcare-Native Intelligence</h4>
+        <p data-cid="cOS8FS">Trained on millions of real patient–provider interactions, the framework understands clinical workflows, scheduling logic, and billing rules — not just language in general.</p>
+      </div>
+      <div class="tech-card" data-cid="5Ec2dY">
+        <h4 data-cid="bPVwZB">Deep, Native System Integration</h4>
+        <p data-cid="TWmaro">Agents connect directly to EHR, telephony, and contact center systems — so AI works inside the existing stack, not around it, and conversation becomes completed action.</p>
+      </div>
+      <div class="tech-card" data-cid="UhmSA5">
+        <h4 data-cid="wPhaS2">Orchestration Across Touchpoints</h4>
+        <p data-cid="6Mavh6">A unified framework coordinates agents across scheduling, billing, pharmacy, and referrals — and across voice, digital, and human-led channels — as one continuous workflow.</p>
+      </div>
+      <div class="tech-card" data-cid="DIcayi">
+        <h4 data-cid="DSXsHU">Trust, Guardrails &amp; Observability</h4>
+        <p data-cid="Xwj-Jj">Guardrails, system reliability, and deep observability are embedded in every workflow, with strict healthcare privacy standards and consent honored by design.</p>
+      </div>
+    </div>
+
+    <div class="ehr-strip" data-cid="I6MtbE">
+      <h5 data-cid="FVQLHn">Native EHR &amp; Contact Center Integration</h5>
+      <p style="font-size:12.5px;color:var(--soft);margin-bottom:14px;" data-cid="3Z1zCl">SpinSci integrates natively with the platforms that power the majority of large U.S. health systems — so AI agents can read, reason, and act on live patient data.</p>
+      <ul class="ehr-list" data-cid="7vH0ir">
+        <li data-cid="h2X6o4">Epic</li>
+        <li data-cid="SaaHaO">Oracle Health</li>
+        <li data-cid="zrO5tl">athenahealth</li>
+        <li data-cid="6L0ZFf">MEDITECH</li>
+        <li data-cid="bCSo5v">NextGen</li>
+        <li data-cid="SgRBez">Veradigm</li>
+        <li data-cid="YvJJ7W">eClinicalWorks</li>
+      </ul>
+    </div>
+
+    <hr class="rule" data-cid="8odEDO">
+
+    <div class="eyebrow" data-cid="j4EvxC"><div class="eyebrow-line editor-empty-block" data-cid="-3SKYM"></div><span data-cid="wBpNBG">Voice AI Agents</span></div>
+    <h3 data-cid="D1aDa4">Voice AI: Resolving the Call, Not Just Answering It</h3>
+    <p data-cid="kQBKKq">Voice is still how most patients reach a health system — and where the most staff time is spent. Voice AI agents simulate natural conversation to handle patient and payer interactions autonomously. Their effectiveness rests on two technological pillars.</p>
+
+    <div class="tech-pillars" data-cid="qZ_BFQ">
+      <div class="tech-card" data-cid="Ruqm4i">
+        <h4 data-cid="L9tWHj">Speech Recognition</h4>
+        <p data-cid="E8vx5G">Converts spoken language into accurate text in real time — capturing patient demographics, policy numbers, service dates, and intent without manual entry, even across accents and noisy lines.</p>
+      </div>
+      <div class="tech-card" data-cid="0IGjeZ">
+        <h4 data-cid="YK_9jP">Natural Language Understanding</h4>
+        <p data-cid="H3GfvY">Interprets meaning, context, and sentiment — so the agent can reason about what a patient actually needs, navigate payer protocols, and respond with relevant, empathetic answers.</p>
+      </div>
+    </div>
+
+    <h4 data-cid="pzPRTD">What Voice AI Agents Resolve</h4>
+    <p data-cid="oSwV39">Connected to the EHR, a voice AI agent does not hand off — it completes the workflow:</p>
+    <ul class="voice-list" data-cid="kZF5j8">
+      <li data-cid="S-YUjK">Scheduling &amp; rescheduling — books, moves, and cancels appointments against live availability.</li>
+      <li data-cid="qH0uC0">Billing &amp; payment — answers balance questions and takes secure, PCI-compliant payment by voice.</li>
+      <li data-cid="2l2AjW">Prescription refills — captures and routes refill requests directly into pharmacy workflows.</li>
+      <li data-cid="QEW_Kf">Referral management — progresses referrals toward a scheduled specialty appointment.</li>
+      <li data-cid="YL-DbU">Secure authentication — verifies patient identity with voice and risk-aware intent recognition.</li>
+      <li data-cid="V5t1Qe">Information &amp; triage routing — answers FAQs and steers complex needs to the right team.</li>
+    </ul>
+
+    <div class="pullquote" data-cid="shL8e3">
+      <p data-cid="T8bb8G">"An agent that isn't connected to your EHR can only have a conversation. An agent that is connected can actually complete the task — schedule the visit, process the refill, update the record — with no staff member ever touching it."</p>
+      <cite data-cid="pyxwYz">The SpinSci Platform · Patient Access AI</cite>
+    </div>
+
+    <hr class="rule" data-cid="F3tz8u">
+
+    <div class="eyebrow" data-cid="MWLapO"><div class="eyebrow-line editor-empty-block" data-cid="OhqpzB"></div><span data-cid="TaSo7J">A Digital Workforce of AI Agents</span></div>
+    <h3 data-cid="wYAMvD">Beyond Voice: The Full Agent Fabric</h3>
+    <p data-cid="9SU8HO">Voice is one channel. Real transformation comes from a coordinated set of AI agents working across every patient access touchpoint — orchestrated so the patient experiences one connected health system, not a series of disconnected tools.</p>
+
+    <div class="drivers-grid" data-cid="GjXN3N">
+      <div class="driver-card" data-cid="0WboAY">
+        <h4 data-cid="cRppc9">Patient Notification AI</h4>
+        <p data-cid="3kzfhK">Proactive, personalized outreach across SMS, voice, and email — triggered by real EHR events. Multi-touch reminder sequences reduce no-shows, recover stalled referrals, and lift prescription refill and payment completion.</p>
+      </div>
+      <div class="driver-card" data-cid="IGFI79">
+        <h4 data-cid="vqnarT">Contact Center AI</h4>
+        <p data-cid="zyriVC">AI agents that work alongside human staff — intelligent call steering, a full 360° patient view delivered the moment a call connects, real-time agent assist, and automated after-call notes. Faster first-contact resolution, shorter handle times.</p>
+      </div>
+      <div class="driver-card" data-cid="9eKaLH">
+        <h4 data-cid="JmR697">Clinical Communications</h4>
+        <p data-cid="X0w42k">Unified operator console and transfer center for clinical teams — secure messaging, on-call scheduling, paging, and AI-assisted conferencing with automatic note capture. Connect, transfer, and collaborate without delay.</p>
+      </div>
+      <div class="driver-card" data-cid="qSGg4D">
+        <h4 data-cid="m9Ed8U">Secure Payments &amp; Predictive Intelligence</h4>
+        <p data-cid="_UNupG">PCI-compliant digital and voice bill pay removes friction from collections, while predictive analytics forecast no-shows and payment delays — letting health systems intervene before revenue is lost.</p>
+      </div>
+    </div>
+
+    <div class="callout" data-cid="jWALiJ">
+      <p data-cid="DvvNaL">When a patient asks about a lab result, a bill, and a prescription in a single call, orchestration pulls the right data from each system, preserves context between them, and feeds it to the agent in real time — <strong data-cid="FC1zkU">one coordinated response instead of three transfers.</strong></p>
+    </div>
+
+    <div class="signal-row" data-cid="gZglnF">
+      <div class="signal-card" data-cid="Ns4UG9">
+        <div class="signal-big" data-cid="2DX3jI">4–6<small style="font-size:18px;font-weight:600" data-cid="AnyFcl"> wks</small></div>
+        <div class="signal-label" data-cid="25WL9r">Typical time to value — pre-built workflows and AI-enabled integrations replace year-long enterprise rollouts.</div>
+      </div>
+    </div>
+
+    <div class="page-footer" style="margin-top:32px;" data-cid="KOX_sl">
+      <strong data-cid="huix8j">SpinSci</strong> · Transformative AI Technologies
+      <span data-cid="NxEGgB">10–12</span>
+    </div>
+  </article>
+
+  <!-- ══════════════════════════════════════
+       SECTION 05: RETURN ON INVESTMENT
+  ══════════════════════════════════════ -->
+  <article class="chapter inner" data-cid="Raosa7">
+    <div class="section-num" data-cid="pwE4ff">05</div>
+    <div class="section-tag" data-cid="nJkXkl">Section Five</div>
+    <h2 data-cid="KbW36L">Return on Investment</h2>
+    <p class="lead" data-cid="Mxfmrw">The case for AI in patient access is not theoretical. It is measured every day across the health systems already running AI agents in production.</p>
+
+    <h3 data-cid="XRL6qn">Proven Impact in Production</h3>
+    <p data-cid="fYJ7bh">Health systems that deploy AI agents across patient access report consistent improvement across the metrics that matter most — capacity, cost, speed, and patient experience. The results below reflect outcomes from SpinSci customer deployments.</p>
+
+    <div class="roi-stats" style="background:var(--border);border-radius:10px;overflow:hidden;margin:24px 0;" data-cid="6Qndg_">
+      <div style="background:#fff;padding:24px 18px;text-align:left;border-right:1px solid var(--border);" data-cid="gFcE6A">
+        <div style="font-family:'Sora',sans-serif;font-size:34px;font-weight:800;color:var(--brand-purple);line-height:1;margin-bottom:8px;" data-cid="VxlWvR">51%</div>
+        <div style="font-size:12px;color:var(--soft);line-height:1.45;" data-cid="SkqTkm">Reduction in patient no-shows at Mercy Health</div>
+      </div>
+      <div style="background:#fff;padding:24px 18px;text-align:left;border-right:1px solid var(--border);" data-cid="uRkQkW">
+        <div style="font-family:'Sora',sans-serif;font-size:34px;font-weight:800;color:var(--brand-purple);line-height:1;margin-bottom:8px;" data-cid="EAXU9N">25→76%</div>
+        <div style="font-size:12px;color:var(--soft);line-height:1.45;" data-cid="mEPoSc">Jump in contact center satisfaction at a Midwest health system</div>
+      </div>
+      <div style="background:#fff;padding:24px 18px;text-align:left;border-right:1px solid var(--border);" data-cid="2p65_y">
+        <div style="font-family:'Sora',sans-serif;font-size:34px;font-weight:800;color:var(--brand-purple);line-height:1;margin-bottom:8px;" data-cid="sqFV3_">43 sec</div>
+        <div style="font-size:12px;color:var(--soft);line-height:1.45;" data-cid="eaiNHw">Average time saved on every patient call</div>
+      </div>
+      <div style="background:#fff;padding:24px 18px;text-align:left;" data-cid="tsr-yt">
+        <div style="font-family:'Sora',sans-serif;font-size:34px;font-weight:800;color:var(--brand-purple);line-height:1;margin-bottom:8px;" data-cid="wHhlsn">300K+</div>
+        <div style="font-size:12px;color:var(--soft);line-height:1.45;" data-cid="uZl9u-">Minutes of agent time saved via Transfer Center</div>
+      </div>
+    </div>
+
+    <p style="font-size:11.5px;color:var(--soft);" data-cid="5dt6AT">Source: SpinSci customer results &amp; case studies, spinsci.ai.</p>
+
+    <div class="pullquote" data-cid="QIeESh">
+      <p data-cid="OwoIne">"Sometimes we're not very adaptive to new technology — but our nursing staff loved SpinSci and saw the value the minute we went live."</p>
+      <cite data-cid="sdIUFC">Nursing Executive · Mercy Health</cite>
+    </div>
+
+    <div class="tech-pillars" data-cid="x0bJne">
+      <div class="tech-card" data-cid="0TX8v3">
+        <h4 data-cid="KB_tFc">Capacity without headcount</h4>
+        <p data-cid="tHXNzY">One health system saw a 5× increase in its ability to proactively reach patients, and a 22.8% lift in outreach response rates — all without adding staff.</p>
+      </div>
+      <div class="tech-card" data-cid="ovzcwn">
+        <h4 data-cid="VkBJng">Self-service that scales</h4>
+        <p data-cid="zZ2l5V">Once access workflows were unified, more than half of all contact center calls were resolved through self-service — freeing staff for complex, high-value cases.</p>
+      </div>
+    </div>
+
+    <hr class="rule" data-cid="sGAtYM">
+
+    <div class="eyebrow" data-cid="WIUJWv"><div class="eyebrow-line editor-empty-block" data-cid="PjnBtR"></div><span data-cid="92YHPS">Return on Investment — Components</span></div>
+    <h3 data-cid="v6E2XY">Where the Value Comes From</h3>
+    <p data-cid="YkmWPM">The return on AI in patient access falls into two reinforcing categories — direct cost savings from automating volume, and efficiency gains from doing the remaining work faster and better.</p>
+
+    <div class="roi-cols" data-cid="Lro7_3">
+      <div class="roi-col" data-cid="C07Kee">
+        <h4 data-cid="ljjNnS">Direct Cost Savings</h4>
+        <div class="roi-item" data-cid="cL9xZz">
+          <div class="roi-item-title" data-cid="DnXvPI">Reduced Staffing Pressure</div>
+          <div class="roi-item-body" data-cid="LCbWjU">AI agents absorb high-volume routine calls and tasks, eliminating the need to add administrative headcount as demand grows.</div>
+        </div>
+        <div class="roi-item" data-cid="3m-rg_">
+          <div class="roi-item-title" data-cid="Sl4pM3">Lower Contact Center Overhead</div>
+          <div class="roi-item-body" data-cid="CTgveu">Less dependence on overflow lines, seasonal hiring, and the office space and equipment that scale with a larger team.</div>
+        </div>
+        <div class="roi-item" data-cid="I5Emun">
+          <div class="roi-item-title" data-cid="EOolud">No After-Hours Overtime</div>
+          <div class="roi-item-body" data-cid="CGHFoB">AI agents provide continuous 24/7 coverage, resolving patient needs outside business hours without overtime or premium-rate staffing.</div>
+        </div>
+        <div class="roi-item" data-cid="NqgaZM">
+          <div class="roi-item-title" data-cid="Xt3dvT">Reduced Call Abandonment</div>
+          <div class="roi-item-body" data-cid="eiWSaE">Immediate response eliminates the hold times that cause patients to hang up — preventing lost appointments and lost revenue.</div>
+        </div>
+      </div>
+      <div class="roi-col" data-cid="ZgZr5c">
+        <h4 data-cid="XhPbhG">Efficiency Gains</h4>
+        <div class="roi-item" data-cid="AcNlD5">
+          <div class="roi-item-title" data-cid="TUMtT4">Automated Appointment Management</div>
+          <div class="roi-item-body" data-cid="R-fwDU">Scheduling, rescheduling, cancellations, and reminders run without staff effort — minimizing no-shows and keeping schedules full.</div>
+        </div>
+        <div class="roi-item" data-cid="iuKsLK">
+          <div class="roi-item-title" data-cid="Pq1FFx">Faster, Context-Rich Interactions</div>
+          <div class="roi-item-body" data-cid="KisJyS">A 360° patient view delivered the moment a call connects removes look-up time and shortens average handle time on every interaction.</div>
+        </div>
+        <div class="roi-item" data-cid="UWsz1I">
+          <div class="roi-item-title" data-cid="6AH9JZ">Higher Self-Service Containment</div>
+          <div class="roi-item-body" data-cid="4wuRpO">Patients resolve scheduling, billing, and refill needs on their own terms — shifting volume away from agents and toward instant resolution.</div>
+        </div>
+        <div class="roi-item" data-cid="jneo-F">
+          <div class="roi-item-title" data-cid="oWWX91">Reduced Staff &amp; Clinician Burnout</div>
+          <div class="roi-item-body" data-cid="iEPq_N">Offloading repetitive work lets people operate at the top of their skill set — improving job satisfaction and retention.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="big-metric" data-cid="_efgsT">
+      <div class="big-metric-val" data-cid="rMpfA9">~40%</div>
+      <div class="big-metric-label" data-cid="izk5fi">Lower Cost to Serve</div>
+      <div class="big-metric-desc" data-cid="aSoiMj">Taken together, these components allow health systems to reduce the cost of patient access by as much as 40% — while simultaneously expanding capacity and improving the patient experience. The savings are not a trade-off against quality; they are a result of it.</div>
+    </div>
+
+    <hr class="rule" data-cid="jd5-Ta">
+
+    <div class="eyebrow" data-cid="aJips8"><div class="eyebrow-line editor-empty-block" data-cid="3pjm3p"></div><span data-cid="Oe6Jza">The Patient Access Impact Scorecard</span></div>
+    <h3 data-cid="CCzhHc">The Numbers, in One View</h3>
+    <p data-cid="Dtrso_">A consolidated view of the measurable gains a comprehensive AI-driven patient access program delivers — the business case for investment, on a single page.</p>
+
+    <div class="sk-doc-native-table-frame" data-scroll-left-active="false" data-scroll-right-active="false" data-scrolling="false" data-cid="fv8_Db"><table data-cid="fEPnZU">
+      <thead data-cid="B6h1bv">
+        <tr data-cid="sFubvs">
+          <th data-cid="nxQIkr">Domain</th>
+          <th data-cid="jIpxWr">Metric</th>
+          <th data-cid="teAMgw">AI Impact</th>
+        </tr>
+      </thead>
+      <tbody data-cid="6iWmrW">
+        <tr data-cid="05gvqf"><td data-cid="ZG-Ifg">Patient No-Shows</td><td data-cid="sAr0LB">Reduction in no-show / missed appointment rate</td><td data-cid="GPOmQ0">Up to 51%</td></tr>
+        <tr data-cid="0xkKuR"><td data-cid="xA8y6b">Call Handle Time</td><td data-cid="JV7TBm">Average time saved per patient interaction</td><td data-cid="h5HT6j">30–43 sec</td></tr>
+        <tr data-cid="_W82lS"><td data-cid="Miv9RV">Self-Service Containment</td><td data-cid="cr0t9w">Calls resolved without a live agent</td><td data-cid="Dw-c1t">50%+</td></tr>
+        <tr data-cid="YFqayR"><td data-cid="AuoUpN">Cost to Serve</td><td data-cid="OVO72K">Reduction in patient access operating cost</td><td data-cid="MtwfE1">Up to 40%</td></tr>
+        <tr data-cid="fpvo_D"><td data-cid="K4xdXq">Proactive Outreach</td><td data-cid="ZiLGeB">Increase in outreach capacity without added staff</td><td data-cid="4eMk_u">Up to 5×</td></tr>
+        <tr data-cid="hS8n_y"><td data-cid="tH1T6O">Patient Response</td><td data-cid="3_V6fv">Lift in response rates to automated outreach</td><td data-cid="AJ--xH">+22.8%</td></tr>
+        <tr data-cid="omJRH_"><td data-cid="TrGxnv">Contact Center CSAT</td><td data-cid="til40I">Improvement in patient satisfaction with access</td><td data-cid="0FfJZt">Up to 3×</td></tr>
+        <tr data-cid="fmYDnQ"><td data-cid="fTFO5E">Time to Value</td><td data-cid="_QAlT6">Implementation timeline with pre-built workflows</td><td data-cid="GB91c_">4–6 weeks</td></tr>
+      </tbody>
+    </table></div>
+    <div class="table-caption" data-cid="aHZIH9">SpinSci AI Agent ROI Potential</div>
+
+    <div class="callout" style="margin-top:24px;" data-cid="YWky8c">
+      <p data-cid="i2-waE">The evidence is consistent: <strong data-cid="NuUAxS">AI agents are not an incremental upgrade to patient access.</strong> They are a structural shift — turning a historically reactive cost center into a measurable, compounding advantage.</p>
+    </div>
+
+    <div class="references" style="margin-top:24px;" data-cid="pRUdFa">
+      <h5 data-cid="hQWrZp">References &amp; Sources</h5>
+      <ol data-cid="VkN7L9">
+        <li data-cid="qTh-aN">Market data: MarketsandMarkets, AI Agents in Healthcare Market; Grand View Research, AI Voice Agents in Healthcare &amp; Agentic AI in Healthcare Market Reports; Research and Markets, AI in Patient Engagement Market.</li>
+        <li data-cid="cnIQTF">Workforce data: World Health Organization — projected global shortfall of 10 million health workers by 2030.</li>
+        <li data-cid="KHATlL">No-show data: MGMA, 2025 poll.</li>
+        <li data-cid="P_ziwz">Performance metrics &amp; customer outcomes: SpinSci Technologies — case studies, datasheets, and company data, spinsci.ai. Ranges reflect results across deployed health systems and may vary by organization.</li>
+      </ol>
+    </div>
+
+    <div class="page-footer" style="margin-top:32px;" data-cid="tneGjs">
+      <strong data-cid="DuWKiy">SpinSci</strong> · Return on Investment
+      <span data-cid="tXWCw_">13–15</span>
+    </div>
+  </article>
+
+  <!-- ══════════════════════════════════════
+       SECTION 06: CONCLUSION
+  ══════════════════════════════════════ -->
+  <article class="chapter inner" data-cid="8cVwHq">
+    <div class="section-tag" data-cid="4XAtWb">Conclusion</div>
+    <div class="eyebrow" data-cid="4OBXBp"><div class="eyebrow-line editor-empty-block" data-cid="LSKerg"></div><span data-cid="qkh_9o">The Agentic Future of Healthcare Access</span></div>
+    <h2 data-cid="Zp7ZHw">The Agentic Future of Healthcare Access</h2>
+
+    <p class="lead" data-cid="v2PB2U">The future of patient access is intelligent, automated, and orchestrated — and it is being built inside health systems today.</p>
+
+    <p data-cid="LhkqbZ">The challenges that have long constrained patient access — overwhelmed contact centers, costly no-shows, workforce shortages, fragmented systems, and revenue that leaks before a claim is filed — are not problems to be staffed around. They are symptoms of a model that has reached its limits. Agentic AI offers a genuine answer: a digital workforce that resolves access workflows end to end, works natively inside the EHR and contact center, and scales without scaling cost.</p>
+
+    <p data-cid="yBeiTH">As these technologies mature, AI agents will take on progressively more complex, cognitive work — reasoning across systems, learning from every interaction, and handling the exceptions that once required a person. The health systems that move first are not simply cutting cost. They are reclaiming staff time for higher-value work, connecting patients to care faster, and turning patient access into a durable competitive advantage.</p>
+
+    <div class="conclusion-steps" data-cid="feQQBa">
+      <div class="conc-step" data-cid="07OSCm">
+        <div class="conc-step-title" data-cid="ZFCxGv">Start with a workflow</div>
+        <div class="conc-step-body" data-cid="70ZAeJ">Target a high-volume, high-friction process — scheduling, refills, or reminders — and prove value fast.</div>
+      </div>
+      <div class="conc-step" data-cid="Z9YbpZ">
+        <div class="conc-step-title" data-cid="fF7-3K">Integrate, don't replace</div>
+        <div class="conc-step-body" data-cid="NYxszV">Deploy AI that works inside the EHR and contact center you already run — no costly rip-and-replace.</div>
+      </div>
+      <div class="conc-step" data-cid="1HGofx">
+        <div class="conc-step-title" data-cid="b6hr2X">Measure and expand</div>
+        <div class="conc-step-body" data-cid="_bgU9l">Track cost, capacity, and CSAT from day one — then orchestrate agents across the full journey.</div>
+      </div>
+    </div>
+
+    <div class="cta-block" data-cid="0Kn7Mv">
+      <div class="cta-text" data-cid="hb73ma">
+        <h3 data-cid="De-1pr">See it in your own environment.</h3>
+        <p data-cid="hLtUhy">Book a demo to see how a digital workforce of AI agents can transform patient access at your health system — typically live in four to six weeks.</p>
+      </div>
+      <a href="https://spinsci.ai" target="_blank" class="cta-btn" data-cid="ib876c">Book a Demo →</a>
+    </div>
+
+    <div class="page-footer" style="margin-top:32px;" data-cid="09nQ7b">
+      <strong data-cid="yVPSW-">SpinSci</strong> · Conclusion
+      <span data-cid="a0e1QB">16</span>
+    </div>
+  </article>
+
+  <!-- ══════════════════════════════════════
+       BACK COVER
+  ══════════════════════════════════════ -->
+  <section class="back-cover chapter" data-cid="Tf0YVj">
+    <!-- Logo white version for dark bg -->
+    <svg width="130" height="37" viewBox="0 0 108 31" fill="none" xmlns="http://www.w3.org/2000/svg" data-cid="baF_nK">
+      <path d="M24.163 16.4599C23.4433 13.9913 21.8781 11.4141 19.7358 9.1271L22.9391 5.92503L22.3993 5.38513C19.9836 2.96915 17.1827 1.21021 14.5124 0.432617C11.6843 -0.392518 9.30944 -0.0291869 7.82748 1.453C7.27577 2.00479 6.88024 2.67882 6.64089 3.45472C5.86511 3.69241 5.19118 4.0897 4.63948 4.64149C4.08268 5.19837 3.68885 5.87579 3.45289 6.64321C2.6788 6.8809 2.00488 7.27649 1.45487 7.82828C-0.0287907 9.31046 -0.392067 11.6857 0.431246 14.5143C1.15101 16.9829 2.71615 19.5618 4.85846 21.8471L1.65688 25.0492L2.1967 25.5891C5.66649 29.0594 9.67781 30.9796 12.8471 30.9796C14.4174 30.9796 15.7805 30.5076 16.7685 29.5195C17.3253 28.9626 17.7191 28.2852 17.9551 27.5195C18.7207 27.2835 19.398 26.8896 19.9548 26.3327C20.5133 25.7741 20.9071 25.0933 21.1448 24.3259C21.9155 24.0865 22.5911 23.6977 23.1411 23.1476C24.6247 21.6637 24.9863 19.2902 24.163 16.4616V16.4599ZM8.90712 2.53451C9.97658 1.46319 11.815 1.23908 14.0847 1.89952C16.3152 2.54979 18.6646 3.97255 20.7679 5.93522L18.6612 8.0422C16.3746 5.89956 13.7944 4.33928 11.3244 3.6211C10.3331 3.33248 9.39771 3.18986 8.53705 3.18986C8.49461 3.18986 8.45218 3.18986 8.40974 3.18986C8.54894 2.94707 8.7136 2.72975 8.90712 2.5362V2.53451ZM5.71912 5.72299C5.91264 5.52944 6.13162 5.36306 6.37268 5.22553C6.36589 5.61773 6.39474 6.0269 6.44907 6.44966C6.02638 6.39532 5.61896 6.36986 5.22683 6.37665C5.36263 6.13726 5.5256 5.91824 5.71912 5.72299ZM4.75151 7.93694C5.36263 7.87072 6.04335 7.90807 6.78179 8.05069C6.79027 8.08125 6.79537 8.11011 6.80555 8.14067C7.58303 10.8113 9.50975 13.4548 11.759 16.0287C13.6229 18.1628 15.239 20.3174 16.0283 22.4142C13.8623 21.6043 11.6283 20.1119 9.65234 18.1357C6.30138 14.7842 4.45784 10.7163 4.75321 7.93694H4.75151ZM15.6871 28.4397C13.4837 30.6434 8.16529 29.0798 3.82635 25.039L5.93301 22.9337C9.32472 26.1188 13.168 27.8624 16.1811 27.7911C16.0453 28.0288 15.8807 28.2461 15.6871 28.4397ZM16.6581 26.2223C13.8843 26.5161 9.81361 24.6689 6.46434 21.3191L6.46095 21.3157C4.22527 19.0797 2.60411 16.5109 1.89793 14.0864C1.23758 11.8181 1.46336 9.9794 2.53451 8.90808C2.72464 8.71793 2.94702 8.56513 3.18298 8.4276C3.12696 11.6178 5.05028 15.6959 8.56931 19.2155C10.9849 21.6315 13.7859 23.3921 16.4561 24.1697C16.4833 24.1782 16.5105 24.1833 16.5376 24.1901C16.6785 24.9167 16.7243 25.6026 16.6598 26.2223H16.6581ZM18.8751 25.2512C18.6816 25.4447 18.4643 25.6094 18.2267 25.7453C18.2335 25.3514 18.2114 24.9422 18.1588 24.5245C18.5305 24.5721 18.8955 24.6009 19.2435 24.6009C19.2859 24.6009 19.3267 24.5958 19.3691 24.5958C19.2316 24.8369 19.0704 25.056 18.8751 25.2512ZM16.025 11.7587C13.6093 9.34272 10.8084 7.58379 8.13983 6.8045C8.10927 6.79601 8.08041 6.78922 8.04986 6.78073C7.90726 6.04218 7.86652 5.35796 7.93103 4.74675C8.78999 4.65337 9.79154 4.76543 10.8966 5.08631C13.3241 5.7943 15.8925 7.41571 18.1299 9.65342C20.3673 11.8911 21.9884 14.4599 22.6963 16.8878C23.3567 19.1561 23.1309 20.9948 22.0614 22.0661C21.8713 22.2563 21.6489 22.4091 21.413 22.5466C21.469 19.3564 19.5457 15.2783 16.0266 11.7587M14.9453 12.8402C18.2963 16.1917 20.1398 20.2596 19.8444 23.039C19.2367 23.1052 18.5594 23.0678 17.8261 22.9269C17.0978 20.3394 15.2067 17.718 12.8386 14.9472C11.0189 12.8181 9.36376 10.7281 8.55573 8.55664C10.7269 9.36479 12.966 10.8606 14.9453 12.8402Z" fill="url(#bc_grad)" data-cid="Ze6LRW"></path>
+      <path d="M31.2572 11.0139C31.2572 11.7491 31.8242 12.2975 32.2978 12.6302C32.9802 13.1073 34.3977 13.2635 35.7693 13.4163C38.6602 13.7372 42.6206 14.1787 42.6206 18.3705C42.6206 21.031 39.655 23.1159 35.8712 23.1159C32.0873 23.1159 29.1217 21.031 29.1217 18.3705H31.2555C31.2555 19.9088 33.6881 20.9818 35.8712 20.9818C38.0542 20.9818 40.4868 19.9088 40.4868 18.3705C40.4868 16.3128 38.9013 15.9121 35.5334 15.5386C33.8205 15.3484 32.2028 15.1685 31.0756 14.3807C29.816 13.5012 29.1217 12.306 29.1217 11.0139C29.1217 8.35346 32.0873 6.26855 35.8712 6.26855C39.655 6.26855 42.6206 8.35346 42.6206 11.0139H40.4868C40.4868 9.47572 38.0542 8.4027 35.8712 8.4027C33.6881 8.4027 31.2555 9.47402 31.2555 11.0139H31.2572Z" fill="white" data-cid="tJDdfd"></path>
+      <path d="M56.3436 16.9813C56.3436 20.3922 53.8532 23.1664 50.7943 23.1664C49.1748 23.1664 47.9559 22.3905 47.1649 21.1545V27.1002H45.0311V11.3955H47.1649V12.8098C47.9559 11.5738 49.1748 10.7979 50.7943 10.7979C53.8549 10.7979 56.3436 13.5721 56.3436 16.983V16.9813ZM54.208 16.9813C54.208 14.7181 52.6751 12.8794 50.7926 12.8794C48.91 12.8794 47.1632 14.7198 47.1632 16.9813C47.1632 19.2445 48.9083 21.0849 50.7926 21.0849C52.6768 21.0849 54.208 19.2445 54.208 16.983V16.9813Z" fill="white" data-cid="EMN-3V"></path>
+      <path d="M58.5673 9.88051V7.67676H61.1849V9.88051H58.5673ZM58.8101 22.5394V11.3169H60.9439V22.5394H58.8101Z" fill="white" data-cid="Wt0BtH"></path>
+      <path d="M75.2933 16.9242V22.5456H73.1595V16.9259C73.1595 14.6644 71.6266 12.824 69.744 12.824C67.8614 12.824 66.1147 14.6644 66.1147 16.9259V22.5473H63.9808V11.301H66.1147V12.756C66.9057 11.52 68.1246 10.7441 69.744 10.7441C72.8047 10.7441 75.2933 13.5184 75.2933 16.9293V16.9242Z" fill="white" data-cid="PE7pck"></path>
+      <path d="M79.5576 11.0139C79.5576 11.7491 80.1246 12.2975 80.5982 12.6302C81.2806 13.1073 82.698 13.2635 84.0697 13.4163C86.9606 13.7372 90.921 14.1787 90.921 18.3705C90.921 21.031 87.9571 23.1159 84.1715 23.1159C80.386 23.1159 77.4221 21.031 77.4221 18.3705H79.5559C79.5559 19.9088 81.9885 20.9818 84.1715 20.9818C86.3546 20.9818 88.7872 19.9088 88.7872 18.3705C88.7872 16.3128 87.2016 15.9121 83.8354 15.5386C82.1226 15.3484 80.5048 15.1685 79.3776 14.3807C78.1181 13.5012 77.4238 12.306 77.4238 11.0139C77.4238 8.35346 80.3877 6.26855 84.1732 6.26855C87.9588 6.26855 90.9227 8.35346 90.9227 11.0139H88.7889C88.7889 9.47572 86.3563 8.4027 84.1732 8.4027C81.9902 8.4027 79.5576 9.47402 79.5576 11.0139Z" fill="white" data-cid="aF9M3v"></path>
+      <path d="M103.316 19.2046C102.466 21.5731 100.42 23.1028 98.1049 23.1028C95.0154 23.1028 92.5013 20.332 92.5013 16.9279C92.5013 13.5238 95.0154 10.7529 98.1049 10.7529C100.381 10.7529 102.415 12.2487 103.284 14.5645L101.286 15.3149C100.731 13.8395 99.4833 12.8871 98.1049 12.8871C96.1918 12.8871 94.6351 14.7003 94.6351 16.9279C94.6351 19.1554 96.1918 20.9687 98.1049 20.9687C99.5071 20.9687 100.765 19.9924 101.308 18.4831L103.316 19.2063V19.2046Z" fill="white" data-cid="IPbedD"></path>
+      <path d="M105.382 9.88051V7.67676H108V9.88051H105.382ZM105.625 22.5394V11.3169H107.759V22.5394H105.625Z" fill="white" data-cid="YjQ5Km"></path>
+      <defs data-cid="9nPgMa"><linearGradient id="bc_grad" x1="0" y1="15.49" x2="24.6" y2="15.49" gradientUnits="userSpaceOnUse" data-cid="k1AL2T"><stop stop-color="#7759D9" data-cid="miBrzQ"></stop><stop offset="0.51" stop-color="#8295FF" data-cid="0jbZJc"></stop><stop offset="1" stop-color="#5CE0B0" data-cid="nT0GeD"></stop></linearGradient></defs>
+    </svg>
+
+    <div class="back-cover-tag" style="font-family:'Sora',sans-serif;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(92,224,176,0.7);" data-cid="oBXMBs">Patient Access · Reimagined</div>
+
+    <h1 data-cid="RH50Jz">Connect patients<br data-cid="9QVu4w">to care faster —<br data-cid="VbPWEt">with <em data-cid="Hpv7UV">AI built for</em><br data-cid="QKvk9w"><em data-cid="NAr6y0">healthcare.</em></h1>
+
+    <p data-cid="Ee_v8F">SpinSci is the leader in agentic AI for patient access, helping leading health systems serve more patients, reduce cost, and deliver frictionless experiences — with AI agents that work natively inside the systems care already runs on.</p>
+
+    <div class="contact-grid" data-cid="55895O">
+      <div class="contact-item" data-cid="tWhfnU">
+        <div class="contact-label" data-cid="9YzoTr">Get in Touch</div>
+        <div class="contact-val" data-cid="GWUvNM">team@spinsci.ai</div>
+      </div>
+      <div class="contact-item" data-cid="NTmqzL">
+        <div class="contact-label" data-cid="YLx_C6">Online</div>
+        <div class="contact-val" data-cid="w1SsL9">spinsci.ai</div>
+      </div>
+      <div class="contact-item" data-cid="3gWb26">
+        <div class="contact-label" data-cid="STNfgB">Take the Next Step</div>
+        <div class="contact-val" data-cid="pqNmIS">Book a Demo</div>
+      </div>
+    </div>
+
+    <div class="back-copyright" data-cid="3x0h2s">Reimagining Patient Access with AI · Strategic Whitepaper &nbsp;&nbsp;·&nbsp;&nbsp; © SpinSci 2026 · All Rights Reserved</div>
+  </section>
+
+</div><!-- end page-wrap -->
+
+</body></html>

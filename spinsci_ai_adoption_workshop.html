@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SpinSci AI Adoption Workshop — Facilitator Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    /* SpinSci logo palette */
+    --brand-purple: #7759D9;
+    --brand-blue:   #8295FF;
+    --brand-teal:   #5CE0B0;
+    --brand-dark:   #1C0236;
+    /* Mapped tokens */
+    --navy:    #120228;
+    --navy2:   #1a0335;
+    --sky:     #8295FF;
+    --sky2:    #6d7fe0;
+    --sky-lt:  #EEEEFF;
+    --orange:  #7759D9;   /* orange → brand-purple */
+    --orange-lt: #EFEDFF; /* orange-lt → soft purple */
+    --green:   #10B981;
+    --amber:   #F59E0B;
+    --red:     #EF4444;
+    --white:   #FFFFFF;
+    --off:     #F8F7FF;
+    --muted:   #7B6D9A;
+    --ink:     #1C0236;
+    --border:  #DDD9F5;
+    --shadow:  0 6px 24px rgba(18,2,40,0.09);
+    --font-h:  'Sora', sans-serif;
+    --font-b:  'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-b); background: var(--off); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 99;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 64px;
+    background: rgba(255,255,255,0.96); backdrop-filter: blur(12px);
+    border-bottom: 2px solid var(--brand-purple);
+  }
+  .nav-brand { font-family: var(--font-h); font-weight: 700; font-size: 16px; color: var(--navy); display:flex; align-items:center; gap:10px; }
+  .nav-logo-svg { height: 26px; width: auto; display: block; }
+  .nav-links { display:flex; gap:24px; list-style:none; }
+  .nav-links a { font-size:13px; font-weight:500; color:var(--muted); text-decoration:none; transition:color .2s; }
+  .nav-links a:hover { color:var(--navy); }
+  .nav-badge { background:var(--brand-purple); color:#fff; font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px; letter-spacing:.3px; }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #120228 0%, #1a0335 55%, #200442 100%);
+    padding: 80px 48px 72px; position:relative; overflow:hidden;
+  }
+  .hero::after {
+    content:''; position:absolute; right:-80px; top:-60px;
+    width:520px; height:520px; border-radius:50%;
+    background: radial-gradient(circle, rgba(130,149,255,0.20) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--sky); margin-bottom:14px; }
+  .hero-title { font-family:var(--font-h); font-size:42px; font-weight:800; color:#fff; line-height:1.12; margin-bottom:18px; max-width:680px; }
+  .hero-title em { color:var(--sky); font-style:normal; }
+  .hero-sub { font-size:15px; color:rgba(255,255,255,0.72); max-width:580px; line-height:1.7; margin-bottom:36px; }
+  .hero-meta { display:flex; gap:32px; flex-wrap:wrap; }
+  .hero-stat { display:flex; flex-direction:column; }
+  .hero-stat .val { font-family:var(--font-h); font-size:26px; font-weight:800; color:var(--sky); }
+  .hero-stat .lbl { font-size:12px; color:rgba(255,255,255,0.55); font-weight:500; margin-top:2px; }
+
+  /* ── CONTAINERS ── */
+  .container { max-width:1100px; margin:0 auto; padding:0 48px; }
+  section { padding:64px 0; }
+  section + section { border-top:1px solid var(--border); }
+
+  /* ── SECTION HEADERS ── */
+  .sec-tag { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--sky); margin-bottom:10px; }
+  .sec-head { font-family:var(--font-h); font-size:30px; font-weight:800; color:var(--navy); margin-bottom:12px; line-height:1.2; }
+  .sec-head em { color:var(--sky); font-style:normal; }
+  .sec-sub { font-size:15px; color:var(--muted); max-width:640px; line-height:1.7; margin-bottom:40px; }
+
+  /* ── CONTEXT BOX ── */
+  .context-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:40px; }
+  .ctx-card { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:22px; }
+  .ctx-card h4 { font-family:var(--font-h); font-size:13px; font-weight:700; color:var(--navy); margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+  .ctx-card h4 .icon { width:22px; height:22px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:13px; }
+  .ctx-card p { font-size:13px; color:var(--muted); line-height:1.6; }
+  .ctx-card ul { font-size:13px; color:var(--muted); padding-left:16px; line-height:1.8; }
+
+  /* ── AGENDA RAIL ── */
+  .agenda-rail { display:flex; gap:0; overflow-x:auto; padding-bottom:8px; }
+  .agenda-stop { flex:0 0 200px; position:relative; padding:0 16px 0 0; }
+  .agenda-stop:not(:last-child)::after {
+    content:''; position:absolute; top:16px; left:190px; width:calc(100% - 190px + 16px);
+    height:2px; background:var(--border); z-index:0;
+  }
+  .stop-dot { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#fff; margin-bottom:10px; position:relative; z-index:1; }
+  .stop-time { font-size:11px; font-weight:600; color:var(--muted); margin-bottom:4px; }
+  .stop-name { font-size:13px; font-weight:700; color:var(--navy); line-height:1.3; }
+  .stop-type { font-size:11px; color:var(--muted); margin-top:3px; }
+
+  /* ── MODULE CARDS ── */
+  .module { background:var(--white); border:1px solid var(--border); border-radius:16px; margin-bottom:28px; overflow:hidden; box-shadow:var(--shadow); }
+  .module-header { display:flex; align-items:center; gap:20px; padding:24px 28px; border-bottom:1px solid var(--border); cursor:pointer; }
+  .module-num { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-family:var(--font-h); font-size:18px; font-weight:800; color:#fff; flex-shrink:0; }
+  .module-meta { flex:1; }
+  .module-meta h3 { font-family:var(--font-h); font-size:18px; font-weight:700; color:var(--navy); margin-bottom:4px; }
+  .module-meta p { font-size:13px; color:var(--muted); }
+  .module-pills { display:flex; gap:8px; flex-wrap:wrap; }
+  .pill { font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px; }
+  .pill-time { background:var(--sky-lt); color:var(--sky2); }
+  .pill-group { background:#EEF2FF; color:#4F46E5; }
+  .pill-output { background:#ECFDF5; color:#059669; }
+  .module-body { padding:28px; }
+
+  /* ── EXERCISE BLOCK ── */
+  .exercise { margin-bottom:32px; }
+  .exercise:last-child { margin-bottom:0; }
+  .ex-title { font-family:var(--font-h); font-size:15px; font-weight:700; color:var(--navy); margin-bottom:6px; display:flex; align-items:center; gap:10px; }
+  .ex-tag { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; background:var(--orange-lt); color:var(--orange); padding:3px 8px; border-radius:4px; }
+  .ex-purpose { font-size:13px; color:var(--muted); margin-bottom:14px; font-style:italic; }
+  .ex-steps { list-style:none; counter-reset:steps; padding:0; }
+  .ex-steps li { counter-increment:steps; display:flex; gap:14px; margin-bottom:12px; align-items:flex-start; }
+  .ex-steps li::before { content:counter(steps); flex-shrink:0; width:24px; height:24px; border-radius:50%; background:var(--sky); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+  .ex-steps li span { font-size:13.5px; color:var(--ink); line-height:1.6; }
+  .ex-steps li strong { color:var(--navy); }
+
+  /* ── TOOL / TEMPLATE BLOCKS ── */
+  .tool-box { background:var(--off); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin-top:14px; }
+  .tool-box-head { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--sky); margin-bottom:10px; }
+  .tool-box table { width:100%; border-collapse:collapse; font-size:13px; }
+  .tool-box th { text-align:left; font-weight:700; color:var(--navy); padding:6px 10px; background:var(--sky-lt); border-radius:4px; }
+  .tool-box td { padding:7px 10px; color:var(--ink); border-bottom:1px solid var(--border); vertical-align:top; }
+  .tool-box tr:last-child td { border-bottom:none; }
+  .tool-box p { font-size:13px; color:var(--ink); line-height:1.65; }
+  .tool-box ul { font-size:13px; color:var(--ink); padding-left:18px; line-height:1.8; }
+  .tool-box ol { font-size:13px; color:var(--ink); padding-left:18px; line-height:1.8; }
+
+  /* ── MATRIX / GRID VISUALS ── */
+  .matrix-2x2 { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:2px; border:2px solid var(--border); border-radius:10px; overflow:hidden; margin-top:14px; }
+  .quad { padding:16px; min-height:90px; }
+  .quad h5 { font-size:12px; font-weight:700; margin-bottom:4px; }
+  .quad p { font-size:12px; color:var(--muted); line-height:1.5; }
+  .quad-tl { background:#ECFDF5; }
+  .quad-tr { background:#FFF7ED; }
+  .quad-bl { background:#EEF2FF; }
+  .quad-br { background:#FEF2F2; }
+  .axis-x { text-align:center; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); padding:8px 0; }
+  .axis-y-wrap { display:flex; align-items:center; gap:12px; margin-top:14px; }
+  .axis-y { writing-mode:vertical-rl; transform:rotate(180deg); font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+
+  /* ── FISHBONE / LIST CARDS ── */
+  .cards-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin-top:14px; }
+  .mini-card { border-radius:10px; padding:16px; }
+  .mini-card h5 { font-size:12px; font-weight:700; margin-bottom:6px; }
+  .mini-card ul { font-size:12px; padding-left:16px; line-height:1.8; }
+  .mc-tech { background:#EEF2FF; color:#3730A3; }
+  .mc-people { background:#FFF7ED; color:#92400E; }
+  .mc-process { background:#ECFDF5; color:#065F46; }
+  .mc-value { background:#FEF2F2; color:#991B1B; }
+  .mc-gov { background:var(--sky-lt); color:#0369A1; }
+
+  /* ── ADKAR TABLE ── */
+  .adkar { width:100%; border-collapse:collapse; margin-top:14px; font-size:13px; }
+  .adkar th { background:var(--navy); color:#fff; padding:10px 14px; text-align:left; font-weight:600; font-family:var(--font-h); }
+  .adkar td { padding:10px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+  .adkar tr:nth-child(even) td { background:var(--off); }
+  .adkar tr:last-child td { border-bottom:none; }
+  .adkar .letter { width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:15px; color:#fff; }
+
+  /* ── SPRINT GRID ── */
+  .sprint-cols { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:14px; }
+  .sprint-col { border-radius:12px; padding:18px; }
+  .sprint-col h5 { font-family:var(--font-h); font-size:13px; font-weight:700; margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+  .sprint-col ul { font-size:12.5px; padding-left:16px; line-height:1.85; }
+  .sp-wk14 { background:#ECFDF5; color:#065F46; }
+  .sp-wk58 { background:#FFF7ED; color:#92400E; }
+  .sp-wk912 { background:var(--sky-lt); color:#0369A1; }
+
+  /* ── ROI SNAPSHOT ── */
+  .roi-row { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin:20px 0; }
+  .roi-card { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:18px; text-align:center; }
+  .roi-card .num { font-family:var(--font-h); font-size:26px; font-weight:800; color:var(--sky); }
+  .roi-card .unit { font-size:11px; font-weight:600; color:var(--muted); margin-top:2px; }
+  .roi-card .desc { font-size:12px; color:var(--ink); margin-top:6px; line-height:1.4; }
+
+  /* ── COMPETITIVE INTEL ── */
+  .comp-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:14px; }
+  .comp-table th { background:var(--navy); color:#fff; padding:10px 14px; text-align:left; font-weight:600; }
+  .comp-table td { padding:10px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+  .comp-table tr:nth-child(even) td { background:var(--off); }
+  .comp-table .spinsci-row td { background:#EEEEFF !important; font-weight:600; color:var(--navy); }
+
+  /* ── FACILITATOR TIP BOXES ── */
+  .tip { display:flex; gap:14px; background:#FFFBEB; border:1px solid #FDE68A; border-radius:10px; padding:16px 18px; margin-top:14px; }
+  .tip-icon { font-size:22px; flex-shrink:0; }
+  .tip-body { font-size:13px; color:#78350F; line-height:1.65; }
+  .tip-body strong { color:#92400E; }
+
+  .warn { display:flex; gap:14px; background:#FEF2F2; border:1px solid #FECACA; border-radius:10px; padding:16px 18px; margin-top:14px; }
+  .warn-icon { font-size:22px; flex-shrink:0; }
+  .warn-body { font-size:13px; color:#7F1D1D; line-height:1.65; }
+
+  .insight { display:flex; gap:14px; background:var(--sky-lt); border:1px solid var(--border); border-radius:10px; padding:16px 18px; margin-top:14px; }
+  .insight-icon { font-size:22px; flex-shrink:0; }
+  .insight-body { font-size:13px; color:var(--brand-purple); line-height:1.65; }
+  .insight-body strong { color:var(--brand-dark); }
+
+  /* ── CALLOUT QUOTE ── */
+  blockquote { border-left:4px solid var(--brand-purple); padding:12px 20px; background:var(--sky-lt); border-radius:0 10px 10px 0; margin:16px 0; font-size:14px; color:var(--ink); font-style:italic; line-height:1.7; }
+
+  /* ── DIVIDER ── */
+  .divider { height:3px; background:linear-gradient(90deg, var(--brand-purple) 0%, var(--brand-blue) 50%, var(--brand-teal) 100%); border-radius:2px; margin:40px 0; }
+
+  /* ── FOOTER ── */
+  footer { background:var(--navy); padding:32px 48px; display:flex; align-items:center; justify-content:space-between; }
+  footer p { font-size:12px; color:rgba(255,255,255,0.4); }
+  footer a { color:var(--brand-teal); text-decoration:none; font-size:12px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width:900px) {
+    nav { padding:0 24px; }
+    .hero { padding:60px 24px 56px; }
+    .hero-title { font-size:30px; }
+    .container { padding:0 24px; }
+    .context-grid, .sprint-cols, .roi-row { grid-template-columns:1fr; }
+    footer { flex-direction:column; gap:12px; padding:24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <svg class="nav-logo-svg" width="108" height="31" viewBox="0 0 108 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M24.163 16.4599C23.4433 13.9913 21.8781 11.4141 19.7358 9.1271L22.9391 5.92503L22.3993 5.38513C19.9836 2.96915 17.1827 1.21021 14.5124 0.432617C11.6843 -0.392518 9.30944 -0.0291869 7.82748 1.453C7.27577 2.00479 6.88024 2.67882 6.64089 3.45472C5.86511 3.69241 5.19118 4.0897 4.63948 4.64149C4.08268 5.19837 3.68885 5.87579 3.45289 6.64321C2.6788 6.8809 2.00488 7.27649 1.45487 7.82828C-0.0287907 9.31046 -0.392067 11.6857 0.431246 14.5143C1.15101 16.9829 2.71615 19.5618 4.85846 21.8471L1.65688 25.0492L2.1967 25.5891C5.66649 29.0594 9.67781 30.9796 12.8471 30.9796C14.4174 30.9796 15.7805 30.5076 16.7685 29.5195C17.3253 28.9626 17.7191 28.2852 17.9551 27.5195C18.7207 27.2835 19.398 26.8896 19.9548 26.3327C20.5133 25.7741 20.9071 25.0933 21.1448 24.3259C21.9155 24.0865 22.5911 23.6977 23.1411 23.1476C24.6247 21.6637 24.9863 19.2902 24.163 16.4616V16.4599ZM8.90712 2.53451C9.97658 1.46319 11.815 1.23908 14.0847 1.89952C16.3152 2.54979 18.6646 3.97255 20.7679 5.93522L18.6612 8.0422C16.3746 5.89956 13.7944 4.33928 11.3244 3.6211C10.3331 3.33248 9.39771 3.18986 8.53705 3.18986C8.49461 3.18986 8.45218 3.18986 8.40974 3.18986C8.54894 2.94707 8.7136 2.72975 8.90712 2.5362V2.53451ZM5.71912 5.72299C5.91264 5.52944 6.13162 5.36306 6.37268 5.22553C6.36589 5.61773 6.39474 6.0269 6.44907 6.44966C6.02638 6.39532 5.61896 6.36986 5.22683 6.37665C5.36263 6.13726 5.5256 5.91824 5.71912 5.72299ZM4.75151 7.93694C5.36263 7.87072 6.04335 7.90807 6.78179 8.05069C6.79027 8.08125 6.79537 8.11011 6.80555 8.14067C7.58303 10.8113 9.50975 13.4548 11.759 16.0287C13.6229 18.1628 15.239 20.3174 16.0283 22.4142C13.8623 21.6043 11.6283 20.1119 9.65234 18.1357C6.30138 14.7842 4.45784 10.7163 4.75321 7.93694H4.75151ZM15.6871 28.4397C13.4837 30.6434 8.16529 29.0798 3.82635 25.039L5.93301 22.9337C9.32472 26.1188 13.168 27.8624 16.1811 27.7911C16.0453 28.0288 15.8807 28.2461 15.6871 28.4397ZM16.6581 26.2223C13.8843 26.5161 9.81361 24.6689 6.46434 21.3191L6.46095 21.3157C4.22527 19.0797 2.60411 16.5109 1.89793 14.0864C1.23758 11.8181 1.46336 9.9794 2.53451 8.90808C2.72464 8.71793 2.94702 8.56513 3.18298 8.4276C3.12696 11.6178 5.05028 15.6959 8.56931 19.2155C10.9849 21.6315 13.7859 23.3921 16.4561 24.1697C16.4833 24.1782 16.5105 24.1833 16.5376 24.1901C16.6785 24.9167 16.7243 25.6026 16.6598 26.2223H16.6581ZM18.8751 25.2512C18.6816 25.4447 18.4643 25.6094 18.2267 25.7453C18.2335 25.3514 18.2114 24.9422 18.1588 24.5245C18.5305 24.5721 18.8955 24.6009 19.2435 24.6009C19.2859 24.6009 19.3267 24.5958 19.3691 24.5958C19.2316 24.8369 19.0704 25.056 18.8751 25.2512ZM16.025 11.7587C13.6093 9.34272 10.8084 7.58379 8.13983 6.8045C8.10927 6.79601 8.08041 6.78922 8.04986 6.78073C7.90726 6.04218 7.86652 5.35796 7.93103 4.74675C8.78999 4.65337 9.79154 4.76543 10.8966 5.08631C13.3241 5.7943 15.8925 7.41571 18.1299 9.65342C20.3673 11.8911 21.9884 14.4599 22.6963 16.8878C23.3567 19.1561 23.1309 20.9948 22.0614 22.0661C21.8713 22.2563 21.6489 22.4091 21.413 22.5466C21.469 19.3564 19.5457 15.2783 16.0266 11.7587M14.9453 12.8402C18.2963 16.1917 20.1398 20.2596 19.8444 23.039C19.2367 23.1052 18.5594 23.0678 17.8261 22.9269C17.0978 20.3394 15.2067 17.718 12.8386 14.9472C11.0189 12.8181 9.36376 10.7281 8.55573 8.55664C10.7269 9.36479 12.966 10.8606 14.9453 12.8402Z" fill="url(#ws_logo_g)"/>
+      <path d="M31.2572 11.0139C31.2572 11.7491 31.8242 12.2975 32.2978 12.6302C32.9802 13.1073 34.3977 13.2635 35.7693 13.4163C38.6602 13.7372 42.6206 14.1787 42.6206 18.3705C42.6206 21.031 39.655 23.1159 35.8712 23.1159C32.0873 23.1159 29.1217 21.031 29.1217 18.3705H31.2555C31.2555 19.9088 33.6881 20.9818 35.8712 20.9818C38.0542 20.9818 40.4868 19.9088 40.4868 18.3705C40.4868 16.3128 38.9013 15.9121 35.5334 15.5386C33.8205 15.3484 32.2028 15.1685 31.0756 14.3807C29.816 13.5012 29.1217 12.306 29.1217 11.0139C29.1217 8.35346 32.0873 6.26855 35.8712 6.26855C39.655 6.26855 42.6206 8.35346 42.6206 11.0139H40.4868C40.4868 9.47572 38.0542 8.4027 35.8712 8.4027C33.6881 8.4027 31.2555 9.47402 31.2555 11.0139H31.2572Z" fill="#1C0236"/>
+      <path d="M56.3436 16.9813C56.3436 20.3922 53.8532 23.1664 50.7943 23.1664C49.1748 23.1664 47.9559 22.3905 47.1649 21.1545V27.1002H45.0311V11.3955H47.1649V12.8098C47.9559 11.5738 49.1748 10.7979 50.7943 10.7979C53.8549 10.7979 56.3436 13.5721 56.3436 16.983V16.9813ZM54.208 16.9813C54.208 14.7181 52.6751 12.8794 50.7926 12.8794C48.91 12.8794 47.1632 14.7198 47.1632 16.9813C47.1632 19.2445 48.9083 21.0849 50.7926 21.0849C52.6768 21.0849 54.208 19.2445 54.208 16.983V16.9813Z" fill="#1C0236"/>
+      <path d="M58.5673 9.88051V7.67676H61.1849V9.88051H58.5673ZM58.8101 22.5394V11.3169H60.9439V22.5394H58.8101Z" fill="#1C0236"/>
+      <path d="M75.2933 16.9242V22.5456H73.1595V16.9259C73.1595 14.6644 71.6266 12.824 69.744 12.824C67.8614 12.824 66.1147 14.6644 66.1147 16.9259V22.5473H63.9808V11.301H66.1147V12.756C66.9057 11.52 68.1246 10.7441 69.744 10.7441C72.8047 10.7441 75.2933 13.5184 75.2933 16.9293V16.9242Z" fill="#1C0236"/>
+      <path d="M79.5576 11.0139C79.5576 11.7491 80.1246 12.2975 80.5982 12.6302C81.2806 13.1073 82.698 13.2635 84.0697 13.4163C86.9606 13.7372 90.921 14.1787 90.921 18.3705C90.921 21.031 87.9571 23.1159 84.1715 23.1159C80.386 23.1159 77.4221 21.031 77.4221 18.3705H79.5559C79.5559 19.9088 81.9885 20.9818 84.1715 20.9818C86.3546 20.9818 88.7872 19.9088 88.7872 18.3705C88.7872 16.3128 87.2016 15.9121 83.8354 15.5386C82.1226 15.3484 80.5048 15.1685 79.3776 14.3807C78.1181 13.5012 77.4238 12.306 77.4238 11.0139C77.4238 8.35346 80.3877 6.26855 84.1732 6.26855C87.9588 6.26855 90.9227 8.35346 90.9227 11.0139H88.7889C88.7889 9.47572 86.3563 8.4027 84.1732 8.4027C81.9902 8.4027 79.5576 9.47402 79.5576 11.0139Z" fill="#1C0236"/>
+      <path d="M103.316 19.2046C102.466 21.5731 100.42 23.1028 98.1049 23.1028C95.0154 23.1028 92.5013 20.332 92.5013 16.9279C92.5013 13.5238 95.0154 10.7529 98.1049 10.7529C100.381 10.7529 102.415 12.2487 103.284 14.5645L101.286 15.3149C100.731 13.8395 99.4833 12.8871 98.1049 12.8871C96.1918 12.8871 94.6351 14.7003 94.6351 16.9279C94.6351 19.1554 96.1918 20.9687 98.1049 20.9687C99.5071 20.9687 100.765 19.9924 101.308 18.4831L103.316 19.2063V19.2046Z" fill="#1C0236"/>
+      <path d="M105.382 9.88051V7.67676H108V9.88051H105.382ZM105.625 22.5394V11.3169H107.759V22.5394H105.625Z" fill="#1C0236"/>
+      <defs><linearGradient id="ws_logo_g" x1="0" y1="15.4905" x2="24.5959" y2="15.4905" gradientUnits="userSpaceOnUse"><stop stop-color="#7759D9"/><stop offset="0.51" stop-color="#8295FF"/><stop offset="1" stop-color="#5CE0B0"/></linearGradient></defs>
+    </svg>
+    <span style="font-size:13px;color:var(--muted);font-weight:500">&nbsp;·&nbsp; AI Adoption Workshop</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#context">Context</a></li>
+    <li><a href="#agenda">Agenda</a></li>
+    <li><a href="#module1">Module 1</a></li>
+    <li><a href="#module2">Module 2</a></li>
+    <li><a href="#module3">Module 3</a></li>
+    <li><a href="#module4">Module 4</a></li>
+    <li><a href="#sprint">Sprint Plan</a></li>
+  </ul>
+  <div class="nav-badge">Facilitator Guide · v1.0</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="hero-eyebrow">SpinSci AI Adoption Practice &nbsp;·&nbsp; Half-Day Workshop</div>
+    <h1 class="hero-title">From Deployed to <em>Adopted</em>:<br/>The SpinSci AI Acceleration Workshop</h1>
+    <p class="hero-sub">
+      A structured facilitation guide for health system leaders, revenue cycle teams, and IT champions to surface the real blockers preventing SpinSci AI from delivering its full value — and define a 90-day plan to fix them.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-stat"><span class="val">4</span><span class="lbl">Workshop Modules</span></div>
+      <div class="hero-stat"><span class="val">4–5 hrs</span><span class="lbl">Total Runtime</span></div>
+      <div class="hero-stat"><span class="val">8–15</span><span class="lbl">Ideal Participants</span></div>
+      <div class="hero-stat"><span class="val">90-day</span><span class="lbl">Sprint Deliverable</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXT -->
+<section id="context">
+  <div class="container">
+    <div class="sec-tag">Why This Workshop Exists</div>
+    <h2 class="sec-head">SpinSci is deployed. <em>Adoption is the gap.</em></h2>
+    <p class="sec-sub">Research shows 66% of health systems struggle to integrate AI with existing EHR systems, and fear of job displacement, lack of workflow fit, and absent executive sponsorship are the top three reasons AI tools sit unused after go-live. This workshop finds those gaps before they become contracts at risk.</p>
+
+    <div class="context-grid">
+      <div class="ctx-card">
+        <h4><div class="icon" style="background:#EEF2FF;">🏥</div>What SpinSci Delivers</h4>
+        <ul>
+          <li>400M+ patient interactions orchestrated</li>
+          <li>165 health systems deployed</li>
+          <li>Voice AI, Contact Center AI, Patient Notification AI, Clinical Comms</li>
+          <li>Native Epic / Oracle / athenahealth integration</li>
+          <li>AI agents: Kaite (Revenue Cycle), Scheduling, Referrals, Rx</li>
+        </ul>
+      </div>
+      <div class="ctx-card">
+        <h4><div class="icon" style="background:#FEF2F2;">⚠️</div>Why Adoption Stalls</h4>
+        <ul>
+          <li>No workflow fit — agents running but staff not trusting outputs</li>
+          <li>EHR write-back not configured (calls can't complete tasks)</li>
+          <li>No executive sponsor after go-live</li>
+          <li>KPIs undefined — no one knows if it's working</li>
+          <li>Competing change fatigue (EHR upgrades, mergers, burnout)</li>
+        </ul>
+      </div>
+      <div class="ctx-card">
+        <h4><div class="icon" style="background:#ECFDF5;">✅</div>What Good Looks Like</h4>
+        <ul>
+          <li>30–50 sec handle time reduction per call</li>
+          <li>300,000+ agent minutes saved in Year 1</li>
+          <li>5× proactive outreach capacity</li>
+          <li>No-show reduction 15–25%</li>
+          <li>A/R days reduced by 5–10 days with Kaite active</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="insight">
+      <div class="insight-icon">📊</div>
+      <div class="insight-body"><strong>Competitive pressure is real.</strong> Hyro (50+ health systems, $45M raised), Nuance DAX (600+ health systems, embedded in Epic), and Abridge (250+ health systems including Kaiser, Mayo, Johns Hopkins) are all winning on adoption speed — not just technology. SpinSci wins when adoption is treated as a program, not a project.</div>
+    </div>
+  </div>
+</section>
+
+<!-- AGENDA -->
+<section id="agenda">
+  <div class="container">
+    <div class="sec-tag">Workshop Agenda</div>
+    <h2 class="sec-head">Four modules. One adoption plan.</h2>
+    <p class="sec-sub">This is a working session, not a presentation. Participants leave with a completed Adoption Heat Map, a prioritized Barrier Registry, a Champion Network map, and a signed 90-Day Sprint Commitment.</p>
+
+    <div class="agenda-rail">
+      <div class="agenda-stop">
+        <div class="stop-dot" style="background:var(--brand-blue);">0</div>
+        <div class="stop-time">0:00 – 0:20</div>
+        <div class="stop-name">Pre-Work & Framing</div>
+        <div class="stop-type">Facilitated intro</div>
+      </div>
+      <div class="agenda-stop">
+        <div class="stop-dot" style="background:#6366F1;">1</div>
+        <div class="stop-time">0:20 – 1:50</div>
+        <div class="stop-name">Module 1: Adoption Heat Map</div>
+        <div class="stop-type">Diagnostic exercise</div>
+      </div>
+      <div class="agenda-stop">
+        <div class="stop-dot" style="background:var(--brand-purple);">2</div>
+        <div class="stop-time">2:00 – 3:00</div>
+        <div class="stop-name">Module 2: Barrier Archaeology</div>
+        <div class="stop-type">Root-cause exercise</div>
+      </div>
+      <div class="agenda-stop">
+        <div class="stop-dot" style="background:var(--green);">3</div>
+        <div class="stop-time">3:10 – 4:00</div>
+        <div class="stop-name">Module 3: Champion Network</div>
+        <div class="stop-type">Stakeholder mapping</div>
+      </div>
+      <div class="agenda-stop">
+        <div class="stop-dot" style="background:var(--amber);">4</div>
+        <div class="stop-time">4:00 – 4:50</div>
+        <div class="stop-name">Module 4: 90-Day Sprint</div>
+        <div class="stop-type">Action planning</div>
+      </div>
+      <div class="agenda-stop">
+        <div class="stop-dot" style="background:#EC4899;">✓</div>
+        <div class="stop-time">4:50 – 5:00</div>
+        <div class="stop-name">Commitment & Closeout</div>
+        <div class="stop-type">Debrief</div>
+      </div>
+    </div>
+
+    <div class="tip" style="margin-top:32px;">
+      <div class="tip-icon">👥</div>
+      <div class="tip-body"><strong>Who should be in the room:</strong> VP/Director Patient Access or Revenue Cycle (executive sponsor), Contact Center Manager, IT/Epic lead, 2–3 frontline call center supervisors or charge staff, SpinSci Customer Success Manager, and optionally CMO or CNO if clinical agents are in scope. Avoid &gt;15 people — break into teams of 4–5 for exercises.</div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULE 1 -->
+<section id="module1">
+  <div class="container">
+    <div class="sec-tag">Module 01 · 90 Minutes</div>
+    <h2 class="sec-head"><em>Adoption Heat Map</em> — Where Are We, Really?</h2>
+    <p class="sec-sub">Most health systems think they know their AI adoption state. They don't. This module replaces anecdote with evidence using a structured scoring exercise against every deployed SpinSci agent and workflow.</p>
+
+    <div class="module" id="mod1-ex1">
+      <div class="module-header">
+        <div class="module-num" style="background:#6366F1;">1A</div>
+        <div class="module-meta">
+          <h3>AI Deployment Inventory (Silent Activity)</h3>
+          <p>Individual pre-work turned group calibration — surfaces the "I thought that was live" problem immediately.</p>
+        </div>
+        <div class="module-pills">
+          <span class="pill pill-time">⏱ 20 min</span>
+          <span class="pill pill-group">👤 Individual → Group</span>
+          <span class="pill pill-output">📋 Inventory Sheet</span>
+        </div>
+      </div>
+      <div class="module-body">
+        <div class="exercise">
+          <div class="ex-title"><span class="ex-tag">Exercise</span> Complete the Deployment Inventory</div>
+          <p class="ex-purpose">Purpose: Establish ground truth on what is actually configured, actively used, and delivering outcomes vs. what was purchased or piloted.</p>
+          <ol class="ex-steps">
+            <li><span>Distribute the <strong>SpinSci Agent Inventory Table</strong> (below) to every participant. Allow 8 minutes of <em>silent, individual</em> scoring — no discussion yet.</span></li>
+            <li><span>Call out each agent row. Go around the table: each person reads their "Status" rating. Note disagreements on a whiteboard — those are your first adoption gaps.</span></li>
+            <li><span>As a group, agree on the <strong>actual</strong> status for each agent. Facilitator records consensus scores visibly.</span></li>
+            <li><span>Circle any agent where at least two people gave different Status scores. These are your <strong>Priority Investigation Items</strong> for Module 2.</span></li>
+          </ol>
+
+          <div class="tool-box">
+            <div class="tool-box-head">SpinSci Agent Inventory Table — Rate Each Row</div>
+            <table>
+              <tr>
+                <th>SpinSci Agent / Workflow</th>
+                <th>Status (0–4)</th>
+                <th>Volume Today</th>
+                <th>Staff Awareness</th>
+                <th>Notes / Blockers</th>
+              </tr>
+              <tr><td><strong>Voice AI — Scheduling</strong><br/><small>Inbound appointment booking</small></td><td>0=Off 1=Config 2=Pilot 3=Live 4=Optimized</td><td>calls/day</td><td>% of staff aware</td><td></td></tr>
+              <tr><td><strong>Voice AI — Billing Inquiry</strong><br/><small>Balance &amp; payment questions</small></td><td>0=Off 1=Config 2=Pilot 3=Live 4=Optimized</td><td>calls/day</td><td>% of staff aware</td><td></td></tr>
+              <tr><td><strong>Kaite — Patient Payment Collections</strong><br/><small>Outbound A/R recovery</small></td><td>0=Off 1=Config 2=Pilot 3=Live 4=Optimized</td><td>outbound/week</td><td>% of RCM aware</td><td></td></tr>
+              <tr><td><strong>Voice AI — Referrals</strong><br/><small>Referral intake &amp; routing</small></td><td>0=Off 1=Config 2=Pilot 3=Live 4=Optimized</td><td>referrals/day</td><td>% of staff aware</td><td></td></tr>
+              <tr><td><strong>Voice AI — Rx Requests</strong><br/><small>Prescription renewal routing</small></td><td>0=Off 1=Config 2=Pilot 3=Live 4=Optimized</td><td>calls/day</td><td>% of staff aware</td><td></td></tr>
+              <tr><td><strong>Patient Notification AI</strong><br/><small>Outbound campaigns: appt reminders, gaps in care</small></td><td>0=Off 1=Config 2=Pilot 3=Live 4=Optimized</td><td>messages/week</td><td>% of staff aware</td><td></td></tr>
+              <tr><td><strong>Contact Center AI</strong><br/><small>Agent assist, real-time guidance</small></td><td>0=Off 1=Config 2=Pilot 3=Live 4=Optimized</td><td>agents using it</td><td>% of agents aware</td><td></td></tr>
+              <tr><td><strong>Clinical Communications</strong><br/><small>Operator routing, on-call scheduling</small></td><td>0=Off 1=Config 2=Pilot 3=Live 4=Optimized</td><td>calls/day</td><td>% of staff aware</td><td></td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module" id="mod1-ex2">
+      <div class="module-header">
+        <div class="module-num" style="background:#6366F1;">1B</div>
+        <div class="module-meta">
+          <h3>The Adoption Gap Visualization</h3>
+          <p>Turn inventory scores into a visible heat map that tells a story — and creates urgency.</p>
+        </div>
+        <div class="module-pills">
+          <span class="pill pill-time">⏱ 30 min</span>
+          <span class="pill pill-group">👥 Full Group</span>
+          <span class="pill pill-output">📊 Heat Map Poster</span>
+        </div>
+      </div>
+      <div class="module-body">
+        <div class="exercise">
+          <div class="ex-title"><span class="ex-tag">Exercise</span> Plot the Heat Map</div>
+          <p class="ex-purpose">Purpose: Make the gap between "what we paid for" and "what we're using" viscerally visible to every person in the room, including executives.</p>
+          <ol class="ex-steps">
+            <li><span>On a large whiteboard or printed poster, draw a 2-axis grid: <strong>X-axis = Deployment Status (0–4)</strong>, <strong>Y-axis = Business Priority (Low / Medium / High / Critical)</strong>.</span></li>
+            <li><span>Place a sticky note for each agent at its current status. Color-code: <span style="color:var(--red);">Red = 0-1</span>, <span style="color:var(--amber);">Yellow = 2</span>, <span style="color:var(--green);">Green = 3-4</span>.</span></li>
+            <li><span>Draw a <strong>diagonal line</strong> from bottom-left to top-right — this is the "Expected State" line. Every sticky below it is an adoption gap.</span></li>
+            <li><span>Ask: <em>"What would it mean financially if these red agents were at Green?"</em> Use the SpinSci ROI benchmarks (below) to quantify the gap on the spot.</span></li>
+            <li><span>Photograph the board. This becomes the <strong>Adoption Heat Map</strong> artifact for the executive debrief.</span></li>
+          </ol>
+
+          <div class="roi-row">
+            <div class="roi-card">
+              <div class="num">-30s</div>
+              <div class="unit">per call</div>
+              <div class="desc">Voice AI handle time reduction (SpinSci benchmark)</div>
+            </div>
+            <div class="roi-card">
+              <div class="num">300K+</div>
+              <div class="unit">minutes saved / yr</div>
+              <div class="desc">Agent time recovered at one mid-size health system</div>
+            </div>
+            <div class="roi-card">
+              <div class="num">5×</div>
+              <div class="unit">outreach capacity</div>
+              <div class="desc">Patient Notification AI outbound volume vs. manual</div>
+            </div>
+            <div class="roi-card">
+              <div class="num">5–10 days</div>
+              <div class="unit">A/R reduction</div>
+              <div class="desc">Kaite outbound payment collections (revenue cycle)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="exercise" style="margin-top:28px;">
+          <div class="ex-title"><span class="ex-tag">Exercise</span> The "Shadow Adoption" Check</div>
+          <p class="ex-purpose">Purpose: Uncover workarounds — places where staff are avoiding the AI and doing work manually that should be automated. These are symptoms of broken adoption, not broken technology.</p>
+          <ol class="ex-steps">
+            <li><span>Each team member writes on a sticky: <em>"One thing I still do manually that SpinSci is supposed to handle."</em></span></li>
+            <li><span>Cluster the stickies by theme on the board. Common clusters: <strong>Post-call data entry, scheduling override, manual payment follow-up, transfer routing.</strong></span></li>
+            <li><span>For each cluster, ask: <em>"Is this a trust issue, a training issue, or a configuration issue?"</em> — label each cluster accordingly.</span></li>
+          </ol>
+        </div>
+
+        <div class="warn">
+          <div class="warn-icon">🚩</div>
+          <div class="warn-body">If the group cannot agree on deployment status for any agent, that is itself a critical finding — it means no one owns the agent post-go-live. The action item is to assign a named owner before leaving the room.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module" id="mod1-ex3">
+      <div class="module-header">
+        <div class="module-num" style="background:#6366F1;">1C</div>
+        <div class="module-meta">
+          <h3>AI Readiness Dimension Scoring</h3>
+          <p>Benchmark the organization on the eight dimensions that predict long-term AI adoption success.</p>
+        </div>
+        <div class="module-pills">
+          <span class="pill pill-time">⏱ 25 min</span>
+          <span class="pill pill-group">👥 Teams of 4</span>
+          <span class="pill pill-output">📈 Radar Chart Scores</span>
+        </div>
+      </div>
+      <div class="module-body">
+        <div class="exercise">
+          <div class="ex-title"><span class="ex-tag">Exercise</span> Score the Eight Readiness Dimensions</div>
+          <p class="ex-purpose">Purpose: Identify which foundational capabilities are limiting adoption before focusing on any specific use case.</p>
+          <ol class="ex-steps">
+            <li><span>Break into two teams. Each team scores all 8 dimensions <strong>independently</strong> (1–5 scale). Allow 10 minutes.</span></li>
+            <li><span>Compare team scores. Dimensions with &gt;1 point gap between teams signal misalignment — these are priorities for Module 2 root cause work.</span></li>
+            <li><span>Calculate group average per dimension. Plot on the Radar Chart below (or use a whiteboard). Any dimension below 3.0 is a <strong>blocker</strong>.</span></li>
+          </ol>
+
+          <div class="tool-box">
+            <div class="tool-box-head">Readiness Dimension Scoring Card (1=None → 5=Excellent)</div>
+            <table>
+              <tr><th>Dimension</th><th>What You're Scoring</th><th>Team A</th><th>Team B</th><th>Avg</th></tr>
+              <tr><td><strong>D1 — AI Strategy &amp; Governance</strong></td><td>Approved AI strategy, governance review cadence, executive ownership</td><td>/5</td><td>/5</td><td></td></tr>
+              <tr><td><strong>D2 — Executive Sponsorship</strong></td><td>Named sponsor, visible advocacy, willingness to remove roadblocks</td><td>/5</td><td>/5</td><td></td></tr>
+              <tr><td><strong>D3 — EHR Integration Depth</strong></td><td>Write-back configured, real-time scheduling API, PHI consent handled</td><td>/5</td><td>/5</td><td></td></tr>
+              <tr><td><strong>D4 — Data Quality &amp; Accessibility</strong></td><td>Clean patient data feeding AI workflows, no manual data prep required</td><td>/5</td><td>/5</td><td></td></tr>
+              <tr><td><strong>D5 — Workforce Readiness</strong></td><td>Staff trained, roles defined, AI impact communicated, change fatigue assessed</td><td>/5</td><td>/5</td><td></td></tr>
+              <tr><td><strong>D6 — KPI &amp; Value Tracking</strong></td><td>Baseline metrics defined, ROI tracked, dashboards reviewed regularly</td><td>/5</td><td>/5</td><td></td></tr>
+              <tr><td><strong>D7 — Workflow Integration Fit</strong></td><td>AI sits in the natural staff workflow, not alongside it</td><td>/5</td><td>/5</td><td></td></tr>
+              <tr><td><strong>D8 — Trust &amp; Explainability</strong></td><td>Staff understand what the AI does, errors are correctable, escalation is clear</td><td>/5</td><td>/5</td><td></td></tr>
+            </table>
+          </div>
+
+          <div class="tip">
+            <div class="tip-icon">💡</div>
+            <div class="tip-body"><strong>Facilitator move:</strong> After scores are averaged, ask the group to rank the three lowest dimensions. Then ask: "If we fixed only ONE of these in the next 90 days, which would unlock the most adoption?" That answer drives Module 4's sprint priority.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULE 2 -->
+<section id="module2">
+  <div class="container">
+    <div class="sec-tag">Module 02 · 60 Minutes</div>
+    <h2 class="sec-head"><em>Barrier Archaeology</em> — What's Actually Blocking Us?</h2>
+    <p class="sec-sub">Most adoption blockers are diagnosed as technical problems. Most are actually human, workflow, or governance problems with a technical symptom. This module digs to the real root cause using structured techniques.</p>
+
+    <div class="module" id="mod2-ex1">
+      <div class="module-header">
+        <div class="module-num" style="background:var(--orange);">2A</div>
+        <div class="module-meta">
+          <h3>Barrier Taxonomy Sort</h3>
+          <p>Classify every known blocker into one of five categories — most teams discover their technical barriers are actually human barriers in disguise.</p>
+        </div>
+        <div class="module-pills">
+          <span class="pill pill-time">⏱ 20 min</span>
+          <span class="pill pill-group">👥 Full Group</span>
+          <span class="pill pill-output">📋 Barrier Registry</span>
+        </div>
+      </div>
+      <div class="module-body">
+        <div class="exercise">
+          <div class="ex-title"><span class="ex-tag">Exercise</span> Brain-Dump &amp; Sort</div>
+          <p class="ex-purpose">Purpose: Surface every known barrier — no matter how small — and reveal which category is most loaded. That category becomes the workshop's change management focus.</p>
+          <ol class="ex-steps">
+            <li><span>Each participant writes one blocker per sticky note for 4 minutes (silent). No editing, no judgment. Write as many as you can.</span></li>
+            <li><span>Go around and read each sticky. Place it in one of the five category zones (below). Duplicates stack.</span></li>
+            <li><span>Count stickies per category. The heaviest category is your primary adoption risk area.</span></li>
+            <li><span>Transfer the top 5–7 stickies (most votes or most impactful) into the <strong>Barrier Registry</strong> that will feed Module 4.</span></li>
+          </ol>
+
+          <div class="cards-row">
+            <div class="mini-card mc-tech">
+              <h5>🔧 Technical</h5>
+              <ul>
+                <li>EHR write-back not configured</li>
+                <li>SIP/audio integration gap</li>
+                <li>No real-time scheduling API</li>
+                <li>CCaaS routing not updated</li>
+              </ul>
+            </div>
+            <div class="mini-card mc-people">
+              <h5>👥 People / Culture</h5>
+              <ul>
+                <li>Staff fear job displacement</li>
+                <li>No one trained post go-live</li>
+                <li>Distrust of AI accuracy</li>
+                <li>No AI champion designated</li>
+              </ul>
+            </div>
+            <div class="mini-card mc-process">
+              <h5>🔄 Process / Workflow</h5>
+              <ul>
+                <li>AI bypassed in actual flow</li>
+                <li>Manual override is faster</li>
+                <li>Escalation path unclear</li>
+                <li>Scheduling rules not loaded</li>
+              </ul>
+            </div>
+            <div class="mini-card mc-value">
+              <h5>📊 Value / Measurement</h5>
+              <ul>
+                <li>No baseline metrics set</li>
+                <li>No dashboard for leaders</li>
+                <li>ROI never communicated</li>
+                <li>Success criteria undefined</li>
+              </ul>
+            </div>
+            <div class="mini-card mc-gov">
+              <h5>🛡️ Governance / Strategy</h5>
+              <ul>
+                <li>No executive sponsor post-launch</li>
+                <li>IT owns AI, not business</li>
+                <li>Competing priorities (EHR upgrade)</li>
+                <li>No AI policy / acceptable use doc</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module" id="mod2-ex2">
+      <div class="module-header">
+        <div class="module-num" style="background:var(--orange);">2B</div>
+        <div class="module-meta">
+          <h3>Five-Why Root Cause Drill</h3>
+          <p>Take the top 2–3 barriers from 2A and excavate the real cause — not the presenting symptom.</p>
+        </div>
+        <div class="module-pills">
+          <span class="pill pill-time">⏱ 25 min</span>
+          <span class="pill pill-group">👥 Teams of 3</span>
+          <span class="pill pill-output">🔍 Root Cause Map</span>
+        </div>
+      </div>
+      <div class="module-body">
+        <div class="exercise">
+          <div class="ex-title"><span class="ex-tag">Exercise</span> Run the Five Whys on Top Barriers</div>
+          <p class="ex-purpose">Purpose: The presenting barrier is almost never the real barrier. Each team drills one barrier to its root so the 90-Day Sprint targets the cause, not the symptom.</p>
+          <ol class="ex-steps">
+            <li><span>Assign one top barrier to each team of 3. Teams have 12 minutes to run the drill independently on paper.</span></li>
+            <li><span>Start with: <em>"Why isn't [agent/workflow] being used as intended?"</em> — then ask "Why?" to each answer, five times.</span></li>
+            <li><span>The fifth "Why" is your root cause. Write it large on a sticky in a different color.</span></li>
+            <li><span>Each team shares their root cause in 90 seconds. The room votes: <em>"Is this the right root cause?"</em> Revise if needed.</span></li>
+          </ol>
+
+          <div class="tool-box">
+            <div class="tool-box-head">Five-Why Example — "Kaite is configured but A/R days haven't improved"</div>
+            <ol class="tool-box" style="padding:16px 20px 16px 36px; list-style:decimal;">
+              <li><strong>Why isn't A/R improving?</strong> → Kaite outbound calls are running but patients aren't paying.</li>
+              <li><strong>Why aren't patients paying?</strong> → Kaite can't offer payment plans — only full balance requests.</li>
+              <li><strong>Why can't it offer payment plans?</strong> → Payment plan rules were not loaded into the Kaite configuration.</li>
+              <li><strong>Why weren't they loaded?</strong> → RCM team didn't provide the rules during implementation.</li>
+              <li><strong>Why didn't RCM provide rules?</strong> → <span style="background:var(--orange-lt); padding:2px 6px; border-radius:4px; font-weight:700; color:var(--orange);">Root Cause: RCM was not included in the implementation workstream — IT owned deployment, not RCM.</span></li>
+            </ol>
+          </div>
+
+          <blockquote>
+            "An AI agent that isn't connected to your actual workflows can only have a conversation — it can't complete a task." — SpinSci Platform Principle
+          </blockquote>
+        </div>
+
+        <div class="exercise" style="margin-top:24px;">
+          <div class="ex-title"><span class="ex-tag">Exercise</span> Impact vs. Effort Prioritization Matrix</div>
+          <p class="ex-purpose">Purpose: Not all barriers are equal. This matrix decides where to spend the 90-Day Sprint energy.</p>
+          <ol class="ex-steps">
+            <li><span>Plot each root cause on the 2×2 matrix below based on: <strong>Impact on adoption</strong> (vertical) and <strong>Effort to fix</strong> (horizontal).</span></li>
+            <li><span>Top-left quadrant (High Impact / Low Effort) = <strong>Do First</strong>. These are your 90-Day Sprint items.</span></li>
+            <li><span>Top-right quadrant (High Impact / High Effort) = <strong>Plan for Q2.</strong></span></li>
+          </ol>
+
+          <p style="font-size:12px; color:var(--muted); margin-top:14px; margin-bottom:6px; font-weight:600;">IMPACT ON ADOPTION</p>
+          <div class="matrix-2x2">
+            <div class="quad quad-tl">
+              <h5 style="color:#065F46;">✅ DO FIRST</h5>
+              <p>High impact, low effort. Fix immediately — these unlock adoption fastest.</p>
+              <p style="margin-top:6px; font-size:11px; color:#065F46;"><em>e.g., load payment plan rules, designate an agent owner, set up weekly KPI dashboard</em></p>
+            </div>
+            <div class="quad quad-tr">
+              <h5 style="color:#92400E;">📅 PLAN FOR Q2</h5>
+              <p>High impact but significant effort. Schedule now, resource properly.</p>
+              <p style="margin-top:6px; font-size:11px; color:#92400E;"><em>e.g., EHR write-back configuration, CCaaS re-routing, new agent training program</em></p>
+            </div>
+            <div class="quad quad-bl">
+              <h5 style="color:#3730A3;">⚡ QUICK WIN</h5>
+              <p>Easy wins even if lower impact. Build momentum and stakeholder confidence.</p>
+              <p style="margin-top:6px; font-size:11px; color:#3730A3;"><em>e.g., send staff FAQ, record a demo video, share one success metric with leadership</em></p>
+            </div>
+            <div class="quad quad-br">
+              <h5 style="color:#991B1B;">⏸ DEPRIORITIZE</h5>
+              <p>Low impact, high effort. Park for now — don't let these drain sprint capacity.</p>
+            </div>
+          </div>
+          <div class="axis-x">→ EFFORT TO FIX (Low to High)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULE 3 -->
+<section id="module3">
+  <div class="container">
+    <div class="sec-tag">Module 03 · 50 Minutes</div>
+    <h2 class="sec-head"><em>Champion Network</em> — Who Will Drive It Forward?</h2>
+    <p class="sec-sub">Prosci research shows organizations that ran structured AI adoption workshops saw 450% better adoption rates than those that didn't. The single biggest predictor of success isn't technology — it's having the right humans as owners. This module builds that network.</p>
+
+    <div class="module" id="mod3-ex1">
+      <div class="module-header">
+        <div class="module-num" style="background:var(--green);">3A</div>
+        <div class="module-meta">
+          <h3>Power / Will Stakeholder Mapping</h3>
+          <p>Identify who in the organization can move adoption and who is blocking it — including people not in this room.</p>
+        </div>
+        <div class="module-pills">
+          <span class="pill pill-time">⏱ 25 min</span>
+          <span class="pill pill-group">👥 Full Group</span>
+          <span class="pill pill-output">🗺️ Stakeholder Map</span>
+        </div>
+      </div>
+      <div class="module-body">
+        <div class="exercise">
+          <div class="ex-title"><span class="ex-tag">Exercise</span> Map Every Stakeholder</div>
+          <p class="ex-purpose">Purpose: Every stuck adoption program has a small group of people who could unstick it — and a small group actively or passively preventing it. This exercise finds both.</p>
+          <ol class="ex-steps">
+            <li><span>Each person writes the names of 3–5 stakeholders (internal) who affect SpinSci adoption on sticky notes. Include people <em>not in this room</em>.</span></li>
+            <li><span>Place each person on the <strong>Power / Will Matrix</strong> (below). <em>Power</em> = ability to remove blockers or allocate resources. <em>Will</em> = current desire to see AI succeed.</span></li>
+            <li><span>For every person in the <strong>High Power / Low Will</strong> quadrant: assign a team member to write an "influence strategy" — what does this person need to see or hear to shift?</span></li>
+            <li><span>For every person in <strong>High Will / Low Power</strong>: these are your <strong>grassroots champions</strong>. Give them a formal role and visible recognition.</span></li>
+          </ol>
+
+          <p style="font-size:12px; color:var(--muted); margin-top:14px; margin-bottom:6px; font-weight:600;">ORGANIZATIONAL POWER / INFLUENCE</p>
+          <div class="matrix-2x2">
+            <div class="quad quad-tl">
+              <h5 style="color:#065F46;">🌟 SPONSOR &amp; AMPLIFY</h5>
+              <p>High power, high will. Make them your executive sponsor. Give them the Heat Map. Ask them to speak at the next all-hands.</p>
+            </div>
+            <div class="quad quad-tr">
+              <h5 style="color:#92400E;">🎯 ENGAGE &amp; CONVERT</h5>
+              <p>High power, low will. Critical. Find their objection: ROI, workload, patient safety. Address it directly and privately before the next leadership meeting.</p>
+            </div>
+            <div class="quad quad-bl">
+              <h5 style="color:#3730A3;">🚀 ELEVATE AS CHAMPIONS</h5>
+              <p>Low power, high will. Give them a title (AI Adoption Champion), a task (run peer training), and visibility. They amplify adoption at the team level.</p>
+            </div>
+            <div class="quad quad-br">
+              <h5 style="color:#991B1B;">👀 MONITOR</h5>
+              <p>Low power, low will. Don't ignore — an ignored skeptic becomes an active saboteur. Keep them informed; don't invest in converting them right now.</p>
+            </div>
+          </div>
+          <div class="axis-x">→ WILL TO SUPPORT AI ADOPTION (Low to High)</div>
+
+          <div class="tip" style="margin-top:18px;">
+            <div class="tip-icon">💡</div>
+            <div class="tip-body"><strong>Key insight from competitive research:</strong> Nuance's DAX rollout at 600+ health systems succeeded largely because they embedded clinical champions (physician advocates) at every site. Hyro uses "AI Success Leads" — a named internal owner at every health system. SpinSci should establish the same pattern. The role takes 2–3 hours/week and is high-visibility internally.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module" id="mod3-ex2">
+      <div class="module-header">
+        <div class="module-num" style="background:var(--green);">3B</div>
+        <div class="module-meta">
+          <h3>ADKAR Individual Adoption Assessment</h3>
+          <p>Score the five conditions every individual needs before they will genuinely adopt a new AI tool. Reveals whether your problem is awareness, desire, knowledge, ability, or reinforcement.</p>
+        </div>
+        <div class="module-pills">
+          <span class="pill pill-time">⏱ 20 min</span>
+          <span class="pill pill-group">👥 Teams of 4</span>
+          <span class="pill pill-output">📊 ADKAR Profile</span>
+        </div>
+      </div>
+      <div class="module-body">
+        <div class="exercise">
+          <div class="ex-title"><span class="ex-tag">Exercise</span> Score the ADKAR Adoption Conditions for Front-Line Staff</div>
+          <p class="ex-purpose">Purpose: Identify <em>exactly</em> where the individual adoption chain is broken for the users closest to the AI. You cannot fix what you haven't diagnosed.</p>
+          <ol class="ex-steps">
+            <li><span>Think of a specific frontline role — e.g., call center agent, billing specialist, scheduling coordinator. Score each ADKAR condition 1–5 for that persona.</span></li>
+            <li><span>The <strong>lowest-scoring condition is the bottleneck</strong>. Fixing conditions above a bottleneck has zero impact until the bottleneck is resolved.</span></li>
+            <li><span>Assign an owner and a specific action for the bottleneck condition before leaving this module.</span></li>
+          </ol>
+
+          <table class="adkar">
+            <tr>
+              <th>Letter</th>
+              <th>Condition</th>
+              <th>SpinSci-Specific Signal</th>
+              <th>Score (1–5)</th>
+              <th>Action if &lt; 3</th>
+            </tr>
+            <tr>
+              <td><div class="letter" style="background:var(--sky);">A</div></td>
+              <td><strong>Awareness</strong><br/><small>Do staff know SpinSci AI is deployed and what it does?</small></td>
+              <td>Can a call center agent name one SpinSci AI feature without prompting?</td>
+              <td>/5</td>
+              <td>Staff briefing + FAQ one-pager + Kaite intro video at team meeting</td>
+            </tr>
+            <tr>
+              <td><div class="letter" style="background:#6366F1;">D</div></td>
+              <td><strong>Desire</strong><br/><small>Do staff <em>want</em> to use the AI tools?</small></td>
+              <td>Do agents feel the AI helps them or threatens their job?</td>
+              <td>/5</td>
+              <td>Share "AI handles the routine, you handle the complex" message. Show job-impact data. Recognize early adopters publicly.</td>
+            </tr>
+            <tr>
+              <td><div class="letter" style="background:var(--green);">K</div></td>
+              <td><strong>Knowledge</strong><br/><small>Do staff know HOW to use the AI?</small></td>
+              <td>Have agents received structured training on SpinSci workflows post-launch?</td>
+              <td>/5</td>
+              <td>Micro-learning sessions (15 min). Workflow job aids at workstations. Live floor walk with SpinSci CSM.</td>
+            </tr>
+            <tr>
+              <td><div class="letter" style="background:var(--amber);">A</div></td>
+              <td><strong>Ability</strong><br/><small>Can staff actually USE the AI in their daily workflow?</small></td>
+              <td>Is the AI tool accessible within the normal call-handling workflow, or does it require extra steps?</td>
+              <td>/5</td>
+              <td>Shadow a live call with a CSM. Fix the 1–2 friction points surfaced. Update the workflow SOP.</td>
+            </tr>
+            <tr>
+              <td><div class="letter" style="background:var(--orange);">R</div></td>
+              <td><strong>Reinforcement</strong><br/><small>Is adoption being maintained and recognized over time?</small></td>
+              <td>Is there a regular team meeting where AI usage metrics are reviewed and celebrated?</td>
+              <td>/5</td>
+              <td>Weekly "AI Wins" slack post or dashboard. Quarterly adoption review with leadership. Tie KPIs to performance goals.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULE 4 -->
+<section id="module4">
+  <div class="container">
+    <div class="sec-tag">Module 04 · 50 Minutes</div>
+    <h2 class="sec-head"><em>90-Day Sprint Plan</em> — Commit Before You Leave</h2>
+    <p class="sec-sub">A workshop without a committed action plan is just a meeting. This module converts every finding from Modules 1–3 into a named owner, a deadline, and a success metric. The plan is presented to the executive sponsor in the room before closeout.</p>
+
+    <div class="module" id="mod4-ex1">
+      <div class="module-header">
+        <div class="module-num" style="background:var(--amber);">4A</div>
+        <div class="module-meta">
+          <h3>Quick Win Selection</h3>
+          <p>Identify three actions completable in the first two weeks that will create visible momentum.</p>
+        </div>
+        <div class="module-pills">
+          <span class="pill pill-time">⏱ 15 min</span>
+          <span class="pill pill-group">👥 Full Group</span>
+          <span class="pill pill-output">🏃 Quick Win List</span>
+        </div>
+      </div>
+      <div class="module-body">
+        <div class="exercise">
+          <div class="ex-title"><span class="ex-tag">Exercise</span> Vote on the Three Quick Wins</div>
+          <p class="ex-purpose">Purpose: Momentum matters. Early visible wins convert skeptics into supporters and keep the executive sponsor engaged.</p>
+          <ol class="ex-steps">
+            <li><span>From the Barrier Registry (Module 2) and ADKAR bottleneck (Module 3), list every action item that could be completed <strong>in 14 days or fewer</strong> with no new budget.</span></li>
+            <li><span>Each participant gets 3 votes (dot stickers). Place dots on the actions you believe will have the most visible impact.</span></li>
+            <li><span>Top 3 vote-getters are the <strong>Quick Wins</strong>. Assign an owner and deadline to each before moving on.</span></li>
+          </ol>
+
+          <div class="tool-box">
+            <div class="tool-box-head">Quick Win Examples (SpinSci-specific)</div>
+            <ul>
+              <li>Assign a named <strong>AI Adoption Champion</strong> for each service line using SpinSci agents</li>
+              <li>Load payment plan rules into Kaite configuration (CSM task — &lt;1 day)</li>
+              <li>Create and share a one-page <strong>"What Kaite Does / Doesn't Do"</strong> FAQ with billing staff</li>
+              <li>Set up a <strong>weekly call volume / containment rate dashboard</strong> and share with leadership</li>
+              <li>Run a 15-minute <strong>live demo</strong> of SpinSci for the contact center team during a shift handover</li>
+              <li>Schedule monthly <strong>adoption review meetings</strong> with CSM on the calendar for the next quarter</li>
+              <li>Identify and fix the one workflow step where staff most often <strong>bypass</strong> the AI</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module" id="mod4-ex2">
+      <div class="module-header">
+        <div class="module-num" style="background:var(--amber);">4B</div>
+        <div class="module-meta">
+          <h3>90-Day Sprint Commitment Board</h3>
+          <p>Build the full sprint plan in three time-boxed waves. Every row has a named owner before the session ends.</p>
+        </div>
+        <div class="module-pills">
+          <span class="pill pill-time">⏱ 30 min</span>
+          <span class="pill pill-group">👥 Full Group</span>
+          <span class="pill pill-output">📅 Signed Sprint Plan</span>
+        </div>
+      </div>
+      <div class="module-body">
+        <div class="exercise">
+          <div class="ex-title"><span class="ex-tag">Exercise</span> Build the Sprint Board in Three Waves</div>
+          <p class="ex-purpose">Purpose: Translate the Heat Map, Barrier Registry, and ADKAR findings into a concrete, time-bound plan that can be reviewed at every monthly check-in.</p>
+          <ol class="ex-steps">
+            <li><span>Populate each sprint wave using the findings from Modules 1–3. Every action needs: <strong>Owner name, Success metric, Completion date.</strong></span></li>
+            <li><span>The executive sponsor in the room verbally commits to each wave. If they won't commit, <strong>the action is not resourced</strong> — adjust accordingly rather than write unowned tasks.</span></li>
+            <li><span>SpinSci CSM commits to their parallel actions alongside the health system team.</span></li>
+            <li><span>Photograph the board. SpinSci CSM digitizes and sends the sprint plan within 24 hours.</span></li>
+          </ol>
+
+          <div class="sprint-cols">
+            <div class="sprint-col sp-wk14">
+              <h5>⚡ Wave 1 — Weeks 1–4: Foundation</h5>
+              <ul>
+                <li>Assign AI Adoption Champions per service line</li>
+                <li>Run ADKAR assessment for front-line roles</li>
+                <li>Fix top "Shadow Adoption" workflow bypass</li>
+                <li>Load missing configuration (payment plans, scheduling rules)</li>
+                <li>Set up KPI dashboard and baseline metrics</li>
+                <li>All-staff SpinSci briefing (15 min at next team meeting)</li>
+              </ul>
+            </div>
+            <div class="sprint-col sp-wk58">
+              <h5>🔧 Wave 2 — Weeks 5–8: Enablement</h5>
+              <ul>
+                <li>Deliver role-specific micro-training (3 × 15 min sessions)</li>
+                <li>Executive sponsor presents AI progress at leadership meeting</li>
+                <li>Re-run Deployment Inventory — compare to Wave 1 baseline</li>
+                <li>Fix top-priority technical barrier (from Module 2 matrix)</li>
+                <li>Begin converting "Engage &amp; Convert" stakeholders</li>
+                <li>First monthly adoption review with SpinSci CSM</li>
+              </ul>
+            </div>
+            <div class="sprint-col sp-wk912">
+              <h5>📈 Wave 3 — Weeks 9–12: Acceleration</h5>
+              <ul>
+                <li>Re-score all 8 Readiness Dimensions — measure delta</li>
+                <li>Activate next SpinSci agent (highest-priority undeployed)</li>
+                <li>Publish ROI results to leadership — document wins</li>
+                <li>Recognize AI Adoption Champions publicly</li>
+                <li>Plan Q2 roadmap: next agent expansion and EHR depth</li>
+                <li>Quarterly Executive Business Review with SpinSci</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="tool-box" style="margin-top:20px;">
+            <div class="tool-box-head">Sprint Commitment Table — Fill Before Leaving</div>
+            <table>
+              <tr>
+                <th>Action</th>
+                <th>Wave</th>
+                <th>Owner (Name)</th>
+                <th>SpinSci Support</th>
+                <th>Success Metric</th>
+                <th>Due Date</th>
+              </tr>
+              <tr><td>Assign AI Adoption Champion</td><td>1</td><td></td><td>CSM provides role brief</td><td>Champion named &amp; briefed</td><td>Day 7</td></tr>
+              <tr><td>Fix #1 workflow bypass</td><td>1</td><td></td><td>CSM joins workflow review</td><td>Bypass rate &lt; 10%</td><td>Day 14</td></tr>
+              <tr><td>Load payment plan rules (Kaite)</td><td>1</td><td></td><td>CSM config update &lt;1 day</td><td>Kaite offers plans on calls</td><td>Day 5</td></tr>
+              <tr><td>KPI dashboard live</td><td>1</td><td></td><td>CSM provides template</td><td>Weekly metric shared w/ exec</td><td>Day 10</td></tr>
+              <tr><td>Staff micro-training sessions</td><td>2</td><td></td><td>SpinSci training team</td><td>80% staff attendance</td><td>Week 6</td></tr>
+              <tr><td>90-day adoption review</td><td>3</td><td></td><td>SpinSci QBR agenda</td><td>Readiness score ≥ 3.5 avg</td><td>Day 90</td></tr>
+            </table>
+          </div>
+
+          <div class="warn" style="margin-top:16px;">
+            <div class="warn-icon">⚠️</div>
+            <div class="warn-body"><strong>Non-negotiable closeout condition:</strong> Do not end the workshop until every row in the Sprint Commitment Table has a name in the Owner column. Unnamed actions do not get done. If a stakeholder is not in the room, identify who will assign it within 24 hours — and that assignment conversation is itself a Wave 1 action.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPETITIVE INTEL SECTION -->
+<section id="competition">
+  <div class="container">
+    <div class="sec-tag">Competitive Context</div>
+    <h2 class="sec-head">How the <em>best in class</em> do adoption</h2>
+    <p class="sec-sub">Use this table to frame urgency with health system executives. The competitive landscape is moving fast — adoption speed is now a differentiator.</p>
+
+    <table class="comp-table">
+      <tr>
+        <th>Company</th>
+        <th>Adoption Approach</th>
+        <th>Key Tactic You Can Learn From</th>
+        <th>SpinSci Advantage</th>
+      </tr>
+      <tr>
+        <td><strong>Nuance / Microsoft DAX</strong><br/><small>600+ health systems</small></td>
+        <td>Embedded in Epic EHR. Ambient AI that requires zero behavior change — doctors just talk. Clinical champions at every site.</td>
+        <td><strong>Zero-friction deployment:</strong> The tool works without the user doing anything differently. SpinSci should reduce every click and config step between go-live and value.</td>
+        <td>SpinSci covers the full revenue &amp; access cycle, not just clinical documentation. Nuance doesn't touch scheduling, billing, or patient notifications.</td>
+      </tr>
+      <tr>
+        <td><strong>Hyro</strong><br/><small>50+ health systems, $45M raised</small></td>
+        <td>Named "AI Success Lead" at every client. 85% automation of routine interactions. Proactive Px™ for 360° comms.</td>
+        <td><strong>Named internal owner:</strong> Every Hyro site has a designated human owner for the AI program — not IT, but the business unit. SpinSci should require this during implementation.</td>
+        <td>SpinSci's HCAF platform extracts EHR decision logic — deeper workflow integration than Hyro's conversational layer. SpinSci completes tasks, not just conversations.</td>
+      </tr>
+      <tr>
+        <td><strong>Abridge</strong><br/><small>250+ health systems incl. Kaiser, Mayo</small></td>
+        <td>Physician-first rollout. Proved burnout reduction (70% of doctors report less burnout). Used clinical champions to drive peer-to-peer adoption.</td>
+        <td><strong>Peer advocacy:</strong> Clinicians trust other clinicians. SpinSci should train 1–2 revenue cycle or patient access leaders to be vocal advocates — not just IT leads.</td>
+        <td>SpinSci addresses the financial and operational front door — Abridge is clinical documentation only. Complementary, not competing.</td>
+      </tr>
+      <tr class="spinsci-row">
+        <td><strong>SpinSci</strong><br/><small>165 health systems, 400M+ interactions</small></td>
+        <td>Healthcare-exclusive AI. Native EHR integration. End-to-end from scheduling through billing. Full digital workforce platform.</td>
+        <td><strong>Your move:</strong> Adoption workshops + named champions + quarterly business reviews = the structured program layer that converts deployment into value.</td>
+        <td>Only platform purpose-built for healthcare access + revenue cycle AI agents. Competitors are point solutions; SpinSci is the operating system.</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- SPRINT SUMMARY -->
+<section id="sprint">
+  <div class="container">
+    <div class="sec-tag">Post-Workshop Deliverables</div>
+    <h2 class="sec-head">What leaves the room. <em>What gets done.</em></h2>
+    <p class="sec-sub">The workshop produces five concrete artifacts that SpinSci uses to drive the next 90 days of the engagement.</p>
+
+    <div class="context-grid" style="grid-template-columns: repeat(2,1fr);">
+      <div class="ctx-card" style="border-left: 4px solid var(--sky);">
+        <h4><div class="icon" style="background:var(--sky-lt);">🗺️</div>Artifact 1 — Adoption Heat Map</h4>
+        <p>Visual poster showing every SpinSci agent at its real current adoption level vs. expected state. Quantified dollar gap using SpinSci ROI benchmarks. Photographed and digitized by SpinSci CSM within 24 hours.</p>
+      </div>
+      <div class="ctx-card" style="border-left: 4px solid var(--orange);">
+        <h4><div class="icon" style="background:var(--orange-lt);">📋</div>Artifact 2 — Barrier Registry</h4>
+        <p>Ranked list of adoption blockers by category (Technical, People, Process, Value, Governance) with root cause identified via Five-Why drill. Each barrier classified as Do First / Plan Q2 / Quick Win / Deprioritize.</p>
+      </div>
+      <div class="ctx-card" style="border-left: 4px solid var(--green);">
+        <h4><div class="icon" style="background:#ECFDF5;">👥</div>Artifact 3 — Champion Network Map</h4>
+        <p>Named list of AI Adoption Champions per service line. Power/Will stakeholder map with influence strategies for each "High Power / Low Will" person. ADKAR profile per frontline role with bottleneck identified.</p>
+      </div>
+      <div class="ctx-card" style="border-left: 4px solid var(--amber);">
+        <h4><div class="icon" style="background:#FFFBEB;">📅</div>Artifact 4 — Signed 90-Day Sprint Plan</h4>
+        <p>Three-wave sprint with named owners, success metrics, and due dates. Verbally committed by executive sponsor in session. SpinSci CSM sends digitized version within 24 hours and schedules monthly check-ins.</p>
+      </div>
+      <div class="ctx-card" style="border-left: 4px solid #6366F1; grid-column: 1 / -1;">
+        <h4><div class="icon" style="background:#EEF2FF;">📊</div>Artifact 5 — Readiness Dimension Baseline</h4>
+        <p>Scores across 8 adoption readiness dimensions (1–5 scale, team-averaged). Used as the baseline for the 90-day re-assessment. SpinSci tracks delta over time and uses it to demonstrate adoption program ROI at quarterly business reviews.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="sec-tag">Facilitator Notes</div>
+    <h2 class="sec-head">Running this well</h2>
+
+    <div class="context-grid">
+      <div class="ctx-card">
+        <h4><div class="icon" style="background:#FFFBEB;">⚡</div>Energy Management</h4>
+        <ul>
+          <li>Modules 1B and 2B are high energy — use after breaks</li>
+          <li>Module 3A (stakeholder mapping) can feel political — normalize candor explicitly at the start</li>
+          <li>Keep a visible running timer. Healthcare leaders protect their time.</li>
+          <li>End 10 min early — "extra time" is a gift, never a debt</li>
+        </ul>
+      </div>
+      <div class="ctx-card">
+        <h4><div class="icon" style="background:#FEF2F2;">🚩</div>Red Flags to Watch</h4>
+        <ul>
+          <li>No executive sponsor in the room = rebook, not proceed</li>
+          <li>IT team dominates every answer = break into separate IT vs. business discussions</li>
+          <li>All barriers labeled "technical" = probe harder for people/process root causes</li>
+          <li>Sprint plan has no owners = workshop failed; don't close without names</li>
+        </ul>
+      </div>
+      <div class="ctx-card">
+        <h4><div class="icon" style="background:#ECFDF5;">✅</div>Signs It Went Well</h4>
+        <ul>
+          <li>At least one executive says "I didn't know that"</li>
+          <li>Named champion(s) before the session closes</li>
+          <li>Quick Wins assigned AND calendared, not just written down</li>
+          <li>Someone from the business side (not IT) is now accountable for adoption</li>
+          <li>SpinSci CSM has a defined role in the sprint plan</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>SpinSci Technologies &nbsp;·&nbsp; AI Adoption Practice &nbsp;·&nbsp; Facilitator Guide v1.0 &nbsp;·&nbsp; May 2026 &nbsp;·&nbsp; Internal Use</p>
+  <a href="https://spinsci.ai" target="_blank">spinsci.ai</a>
+</footer>
+
+</body>
+</html>
