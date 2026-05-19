@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpinSci - AI Agent: Patient Payments</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --brand-purple: #7759D9; --brand-blue: #8295FF; --brand-teal: #5CE0B0;
+      --brand-icon-bg: #EEEEFF; /* soft purple tint for icon backgrounds */
+      --dark: #1C0236; --mid: #444;
+      --soft: #6B7280; --bg: #F8FAFB; --white: #FFFFFF; --border: #E5E7EB;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--dark); }
+    .page { max-width: 1240px; margin: 0 auto; background: var(--white); box-shadow: 0 0 40px rgba(0,0,0,.07); }
+    .header { display: flex; align-items: center; justify-content: space-between; padding: 22px 48px 18px; border-bottom: 3px solid var(--brand-purple); }
+    .header-title { font-size: 14px; font-weight: 600; color: var(--soft); letter-spacing: .5px; text-transform: uppercase; }
+    .logo-wrap img { height: 38px; object-fit: contain; }
+    .body-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .left { padding: 48px 44px 44px; background: var(--white); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+    .accent-bar { width: 48px; height: 4px; background: linear-gradient(90deg, var(--brand-purple), var(--brand-blue)); border-radius: 2px; margin-bottom: 14px; }
+    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--soft); margin-bottom: 6px; }
+    .hero-title { font-size: 32px; font-weight: 800; color: var(--dark); line-height: 1.18; margin-bottom: 10px; }
+    .hero-sub { font-size: 13.5px; color: var(--blue); font-weight: 700; margin-bottom: 16px; text-transform: uppercase; letter-spacing: .4px; }
+    .hero-body { font-size: 14px; color: var(--mid); line-height: 1.65; margin-bottom: 36px; max-width: 400px; }
+    .benefits-label { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--soft); margin-bottom: 4px; }
+    .benefits-divider { width: 36px; height: 3px; background: linear-gradient(90deg, var(--brand-purple), var(--brand-blue)); border-radius: 2px; margin-bottom: 22px; }
+    .benefit-item { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 20px; }
+    .benefit-icon { flex-shrink: 0; width: 36px; height: 36px; background: var(--brand-icon-bg); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .benefit-icon svg { width: 18px; height: 18px; color: var(--brand-purple); fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .benefit-text h4 { font-size: 13.5px; font-weight: 700; color: var(--brand-purple); margin-bottom: 2px; }
+    .benefit-text p { font-size: 12.5px; color: var(--soft); line-height: 1.55; }
+    .right { padding: 48px 44px 44px; background: var(--bg); display: flex; flex-direction: column; }
+    .meet-kaite { display: flex; gap: 24px; margin-bottom: 28px; align-items: flex-start; }
+    .kaite-photo { flex-shrink: 0; width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid var(--brand-blue); }
+    .kaite-info { padding-top: 4px; }
+    .kaite-name { font-size: 28px; font-weight: 800; color: var(--dark); line-height: 1.1; margin-bottom: 4px; }
+    .kaite-role { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--brand-purple); margin-bottom: 10px; }
+    .kaite-desc { font-size: 13px; color: var(--mid); line-height: 1.6; max-width: 300px; }
+    .cap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+    .cap-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 14px; display: flex; align-items: flex-start; gap: 10px; }
+    .cap-icon { flex-shrink: 0; width: 32px; height: 32px; background: var(--brand-icon-bg); border-radius: 7px; display: flex; align-items: center; justify-content: center; }
+    .cap-icon svg { width: 16px; height: 16px; color: var(--brand-blue); fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .cap-text h4 { font-size: 12.5px; font-weight: 700; color: var(--brand-purple); margin-bottom: 3px; }
+    .cap-text p { font-size: 11.5px; color: var(--soft); line-height: 1.5; }
+    .cap-full { grid-column: 1 / -1; }
+    .about-box { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; margin-top: auto; }
+    .about-box h3 { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .about-box p { font-size: 13px; color: var(--soft); line-height: 1.6; margin-bottom: 10px; }
+    .about-box a { color: var(--brand-blue); font-weight: 600; text-decoration: none; }
+    .footer { background: var(--dark); display: flex; align-items: center; justify-content: space-between; padding: 14px 48px; font-size: 11.5px; color: #9CA3AF; }
+    .footer a { color: var(--brand-teal); text-decoration: none; }
+    @media (max-width: 800px) {
+      .body-grid { grid-template-columns: 1fr; }
+      .left, .right { padding: 32px 24px; }
+      .header { padding: 16px 24px; }
+      .footer { flex-direction: column; gap: 6px; text-align: center; padding: 16px; }
+      .cap-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header class="header">
+    <div class="header-title">AI Agent &middot; Patient Payments</div>
+    <div class="logo-wrap">
+      <img src="https://cdn.prod.website-files.com/69ba057d9e54255e19356383/69bbc01287f75858fa944688_Group%202.svg" alt="SpinSci Technologies" />
+    </div>
+  </header>
+  <div class="body-grid">
+    <section class="left">
+      <div class="accent-bar"></div>
+      <div class="section-label">Solution Overview</div>
+      <h1 class="hero-title">Transform Patient Payments</h1>
+      <div class="hero-sub">Powered by SpinSci AI</div>
+      <p class="hero-body">Recover more revenue faster while maintaining a compassionate, patient-centered experience by automating outbound payment conversations and reducing strain on revenue cycle teams.</p>
+      <div class="benefits-label">Key Benefits</div>
+      <div class="benefits-divider"></div>
+      <div class="benefit-item">
+        <div class="benefit-icon"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="benefit-text"><h4>More Revenue - Less Effort</h4><p>Automate collection efforts freeing up staff to focus on complex and exception accounts.</p></div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+        <div class="benefit-text"><h4>Accelerate Cash Flow</h4><p>Reduce average days in A/R and increase first-pass collections.</p></div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <div class="benefit-text"><h4>Increase Recovery Rates</h4><p>Higher response and payment conversion compared to mail or portals.</p></div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+        <div class="benefit-text"><h4>Elevate Patient Experience</h4><p>Deliver non-confrontational and empathetic payment experience to reduce friction.</p></div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="benefit-text"><h4>Lower Cost-To-Collect</h4><p>Minimize call center and manual follow-up burden.</p></div>
+      </div>
+    </section>
+    <section class="right">
+      <div class="meet-kaite">
+        <img class="kaite-photo" src="https://static-us-img.skywork.ai/prod/nexus/1778553810/cropped_image_23_1778553810891285825.jpg" alt="Kaite" />
+        <div class="kaite-info">
+          <div class="accent-bar"></div>
+          <div class="section-label">Meet SpinSci's AI Agent</div>
+          <div class="kaite-name">Kaite</div>
+          <div class="kaite-role">Revenue Cycle Specialist</div>
+          <p class="kaite-desc">Kaite is SpinSci's AI-powered voice agent designed to streamline and automate patient payment collections - empathetically and at scale.</p>
+        </div>
+      </div>
+      <div class="cap-grid">
+        <div class="cap-card">
+          <div class="cap-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+          <div class="cap-text"><h4>Billing Dynamics</h4><p>Engages patients through timely voice calls to discuss and collect open balances.</p></div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <div class="cap-text"><h4>Empathetic Experience</h4><p>Recovers balances while maintaining a compassionate patient experience.</p></div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-icon"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+          <div class="cap-text"><h4>Self-Service Payment</h4><p>Offers real-time self-service payment options to create frictionless experience.</p></div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-icon"><svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
+          <div class="cap-text"><h4>Relentless Follow-Up</h4><p>Strategically re-engages patients with smart scheduling techniques.</p></div>
+        </div>
+        <div class="cap-card cap-full">
+          <div class="cap-icon"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+          <div class="cap-text"><h4>Context-Sensitive Escalation</h4><p>Proactively flags and escalates accounts requiring human intervention - keeping your team informed and in control.</p></div>
+        </div>
+      </div>
+      <div class="about-box">
+        <div class="accent-bar"></div>
+        <h3>About SpinSci</h3>
+        <p>SpinSci provides a complete AI-powered digital front door for health systems - automating patient access, billing, and revenue cycle workflows at scale while delivering exceptional patient experiences.</p>
+        <p>Contact <a href="mailto:info@spinsci.com">info@spinsci.com</a> to learn more.</p>
+      </div>
+    </section>
+  </div>
+  <footer class="footer">
+    <span>Copyright SpinSci Technologies LLC. 2026. All rights reserved.</span>
+    <a href="https://spinsci.ai" target="_blank">www.spinsci.ai</a>
+  </footer>
+</div>
+
+<script src="https://static-s3.skyworkcdn.com/fe/skywork-site-assets/scripts/embed_website.min.js"></script>
+<script async src="https://static-us-img.skywork.ai/prod/website_script/websiteBadge.js?v=3"></script>
+<script async src="https://static-us-img.skywork.ai/prod/website_script/websiteTrack.js?v=3"></script>
+</body>
+</html>
