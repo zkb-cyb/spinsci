@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpinSci.ai — AI Agent Product Roadmap 2025–2028</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ── */
+:root {
+  --purple:#7759D9; --blue:#8295FF; --teal:#5CE0B0; --amber:#F59E0B; --rose:#E0567A;
+  --navy:#120228; --navy-2:#1a0335; --navy-3:#200442; --ink:#1C0236;
+  --white:#fff; --offwhite:#F8F7FF; --soft:#EFEDFF; --muted:#7B6D9A;
+  --border:#DDD9F5; --border-2:#C4BEF0;
+  --grad-hero:linear-gradient(135deg,#120228 0%,#1a0335 55%,#200442 100%);
+  --grad-brand:linear-gradient(90deg,#7759D9 0%,#8295FF 50%,#5CE0B0 100%);
+  --shadow-sm:0 1px 3px rgba(18,2,40,.08);
+  --shadow-md:0 6px 24px rgba(18,2,40,.12);
+  --shadow-lg:0 18px 50px rgba(18,2,40,.18);
+  --font-head:'Sora',sans-serif; --font-body:'DM Sans',sans-serif; --font-mono:'JetBrains Mono',monospace;
+  --pill-patient:#5CE0B0; --pill-ops:#8295FF; --pill-intel:#7759D9;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--offwhite);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:300;display:flex;align-items:center;justify-content:space-between;
+  padding:0 44px;height:64px;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);print:none}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo img{height:26px;width:auto}
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-pill{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);background:var(--soft);padding:5px 12px;border-radius:100px;border:1px solid var(--border)}
+.btn-print{background:var(--grad-brand);color:#fff;border:none;cursor:pointer;
+  padding:10px 22px;border-radius:9px;font-family:var(--font-body);font-weight:600;font-size:13px;
+  display:flex;align-items:center;gap:8px;transition:opacity .18s;white-space:nowrap}
+.btn-print:hover{opacity:.88}
+
+/* ── COVER ── */
+.cover{min-height:100vh;background:var(--grad-hero);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:100px 44px 60px;position:relative;overflow:hidden;text-align:center}
+.cover::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 75% 25%,rgba(130,149,255,.25) 0%,transparent 55%),
+              radial-gradient(circle at 20% 80%,rgba(92,224,176,.15) 0%,transparent 50%)}
+.cover::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:.4;
+  background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:60px 60px}
+.cover-inner{position:relative;z-index:1;max-width:900px}
+.cover-logo{height:44px;width:auto;margin-bottom:48px;filter:brightness(0) invert(1)}
+.cover-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(130,149,255,.15);
+  border:1px solid rgba(130,149,255,.38);color:#B3BFFF;font-family:var(--font-mono);
+  font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;padding:7px 16px;
+  border-radius:100px;margin-bottom:28px}
+.cover-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px var(--teal)}
+.cover h1{font-family:var(--font-head);font-weight:800;font-size:clamp(36px,5.5vw,64px);
+  line-height:1.04;letter-spacing:-.03em;color:#fff;margin-bottom:18px}
+.cover h1 span{background:var(--grad-brand);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.cover .sub{font-size:18px;color:rgba(255,255,255,.72);max-width:640px;margin:0 auto 40px;line-height:1.65}
+.cover-meta{display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap}
+.cover-meta-item{font-family:var(--font-mono);font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase}
+.cover-meta-item strong{color:rgba(255,255,255,.85);display:block;font-size:14px;letter-spacing:.02em;margin-bottom:3px;text-transform:none}
+.cover-pillars{display:flex;gap:16px;justify-content:center;margin-top:50px;flex-wrap:wrap}
+.cover-pillar{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.10);border-radius:12px;padding:14px 20px;backdrop-filter:blur(6px)}
+.pillar-dot{width:10px;height:10px;border-radius:50%;flex:0 0 10px}
+.cover-pillar span{font-size:13.5px;color:rgba(255,255,255,.82);font-weight:500}
+
+/* ── SECTION BASE ── */
+section{padding:80px 44px}
+.container{max-width:1180px;margin:0 auto}
+.section-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);
+  font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--purple);font-weight:500;margin-bottom:14px}
+.section-tag::before{content:'';width:24px;height:1.5px;background:var(--blue)}
+h2.section-title{font-family:var(--font-head);font-weight:700;font-size:clamp(26px,3vw,40px);
+  letter-spacing:-.02em;color:var(--ink);margin-bottom:12px;line-height:1.12}
+h2.section-title em{color:var(--blue);font-style:normal}
+.section-lead{font-size:16px;color:var(--muted);line-height:1.7;max-width:680px;margin-bottom:44px}
+
+/* ── CONTEXT ── */
+.context{background:#fff}
+.context-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:52px}
+.ctx-card{background:var(--offwhite);border:1px solid var(--border);border-radius:16px;padding:28px}
+.ctx-card .ctx-icon{width:44px;height:44px;border-radius:11px;display:grid;place-items:center;margin-bottom:16px;font-size:22px}
+.ctx-card h3{font-family:var(--font-head);font-weight:600;font-size:16px;color:var(--ink);margin-bottom:8px}
+.ctx-card p{font-size:13.5px;color:var(--muted);line-height:1.65}
+.ctx-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.stat-box{background:var(--grad-hero);border-radius:14px;padding:22px 20px;text-align:center}
+.stat-box .n{font-family:var(--font-head);font-weight:800;font-size:32px;
+  background:var(--grad-brand);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+.stat-box .l{font-size:11px;color:rgba(255,255,255,.6);margin-top:6px;font-family:var(--font-mono);letter-spacing:.06em;text-transform:uppercase}
+
+/* ── COMPETITIVE ── */
+.competitive{background:var(--offwhite)}
+.comp-table-wrap{overflow-x:auto;border-radius:16px;box-shadow:var(--shadow-md)}
+.comp-table{width:100%;border-collapse:collapse;background:#fff;font-size:13.5px}
+.comp-table thead th{background:var(--grad-hero);color:#fff;padding:14px 18px;
+  font-family:var(--font-head);font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;text-align:left}
+.comp-table tbody tr:nth-child(even){background:var(--offwhite)}
+.comp-table tbody td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink);line-height:1.5}
+.comp-table .co-name{font-family:var(--font-head);font-weight:600;font-size:14px}
+.co-spinsci td{background:rgba(119,89,217,.06)!important}
+.co-spinsci .co-name{color:var(--purple)}
+.check{color:var(--teal);font-weight:700}
+.partial{color:var(--amber);font-weight:600}
+.cross{color:#CBD5E1;font-weight:600}
+.moat-badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:36px}
+.moat-badge{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--border-2);
+  border-radius:10px;padding:10px 16px;font-size:13px;color:var(--ink);font-weight:500;box-shadow:var(--shadow-sm)}
+.moat-badge .icon{font-size:18px}
+
+/* ── OVERVIEW ── */
+.overview{background:#fff}
+.ov-timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
+.ov-year{border-radius:20px;overflow:hidden;box-shadow:var(--shadow-md)}
+.ov-year-head{padding:28px 26px;position:relative;overflow:hidden}
+.ov-year-head::before{content:'';position:absolute;top:-30px;right:-30px;
+  width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.06)}
+.ov-y1 .ov-year-head{background:linear-gradient(135deg,#0d7a6e,#5CE0B0)}
+.ov-y2 .ov-year-head{background:linear-gradient(135deg,#3b56cc,#8295FF)}
+.ov-y3 .ov-year-head{background:linear-gradient(135deg,#4a2fa8,#7759D9)}
+.ov-year-head .yr-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;color:rgba(255,255,255,.7);text-transform:uppercase;margin-bottom:8px}
+.ov-year-head h3{font-family:var(--font-head);font-weight:700;font-size:20px;color:#fff;line-height:1.2;margin-bottom:8px}
+.ov-year-head .theme{font-size:13px;color:rgba(255,255,255,.78)}
+.ov-year-body{background:#fff;padding:24px 26px}
+.ov-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px}
+.ov-item:last-child{margin-bottom:0}
+.ov-dot{width:8px;height:8px;border-radius:50%;flex:0 0 8px;margin-top:6px}
+.ov-item p{font-size:13px;color:var(--ink);line-height:1.5}
+.ov-item .count{font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-top:2px}
+.ov-footer{display:flex;align-items:center;justify-content:space-between;padding:16px 26px;
+  background:var(--soft);border-top:1px solid var(--border)}
+.ov-footer .ini-count{font-family:var(--font-head);font-weight:700;font-size:22px}
+.ov-footer .ini-label{font-size:11px;color:var(--muted);font-family:var(--font-mono);letter-spacing:.06em;text-transform:uppercase}
+
+/* ── YEAR SECTIONS ── */
+.year-section{padding:80px 44px}
+.year-section.y1{background:linear-gradient(180deg,rgba(92,224,176,.04) 0%,#fff 100%)}
+.year-section.y2{background:linear-gradient(180deg,rgba(130,149,255,.06) 0%,#fff 100%)}
+.year-section.y3{background:linear-gradient(180deg,rgba(119,89,217,.06) 0%,#fff 100%)}
+.year-header{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:start;margin-bottom:44px}
+.year-badge{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:100px;
+  font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.10em;text-transform:uppercase;margin-bottom:16px}
+.y1 .year-badge{background:rgba(92,224,176,.12);border:1px solid rgba(92,224,176,.35);color:#0a6b5f}
+.y2 .year-badge{background:rgba(130,149,255,.12);border:1px solid rgba(130,149,255,.35);color:#3b56cc}
+.y3 .year-badge{background:rgba(119,89,217,.12);border:1px solid rgba(119,89,217,.35);color:var(--purple)}
+.year-header h2{font-family:var(--font-head);font-weight:700;font-size:clamp(26px,3vw,38px);
+  letter-spacing:-.02em;color:var(--ink);line-height:1.1;margin-bottom:12px}
+.year-header .year-desc{font-size:15px;color:var(--muted);line-height:1.65;max-width:560px}
+.year-kpis{display:flex;flex-direction:column;gap:10px;min-width:260px}
+.kpi-row{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+.kpi-row .kk{font-size:12px;color:var(--muted);font-family:var(--font-mono);letter-spacing:.04em;text-transform:uppercase}
+.kpi-row .kv{font-family:var(--font-head);font-weight:700;font-size:16px;color:var(--ink)}
+
+/* ── QUARTER GRID ── */
+.quarter-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.quarter-col{display:flex;flex-direction:column;gap:14px}
+.q-label{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);padding:0 4px;margin-bottom:2px}
+.init-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px;
+  box-shadow:var(--shadow-sm);transition:box-shadow .2s,transform .2s;position:relative;overflow:hidden}
+.init-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.init-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.init-card.patient::before{background:var(--teal)}
+.init-card.ops::before{background:var(--blue)}
+.init-card.intel::before{background:var(--purple)}
+.init-card .ic-pill{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);
+  font-size:9.5px;letter-spacing:.10em;text-transform:uppercase;font-weight:600;
+  padding:3px 9px;border-radius:100px;margin-bottom:10px}
+.init-card.patient .ic-pill{background:rgba(92,224,176,.12);color:#0a6b5f;border:1px solid rgba(92,224,176,.3)}
+.init-card.ops .ic-pill{background:rgba(130,149,255,.12);color:#3b56cc;border:1px solid rgba(130,149,255,.3)}
+.init-card.intel .ic-pill{background:rgba(119,89,217,.12);color:var(--purple);border:1px solid rgba(119,89,217,.25)}
+.init-card h4{font-family:var(--font-head);font-weight:600;font-size:14px;color:var(--ink);line-height:1.35;margin-bottom:8px}
+.init-card p{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:10px}
+.init-card .ic-value{font-family:var(--font-mono);font-size:10px;color:var(--ink);
+  background:var(--offwhite);border:1px solid var(--border);border-radius:6px;
+  padding:4px 8px;display:inline-block}
+.init-card .ic-status{position:absolute;top:14px;right:14px;font-family:var(--font-mono);
+  font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* ── PILLAR LEGEND ── */
+.pillar-legend{display:flex;gap:18px;margin-bottom:28px;flex-wrap:wrap}
+.pleg{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.pleg-dot{width:10px;height:10px;border-radius:2px;flex:0 0 10px}
+
+/* ── METRICS SECTION ── */
+.metrics{background:var(--grad-hero);padding:80px 44px;position:relative;overflow:hidden}
+.metrics::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 15% 30%,rgba(119,89,217,.2) 0%,transparent 50%),
+              radial-gradient(circle at 85% 75%,rgba(92,224,176,.1) 0%,transparent 50%)}
+.metrics .section-tag{color:var(--teal)}
+.metrics .section-tag::before{background:var(--teal)}
+.metrics h2{color:#fff}
+.metrics .section-lead{color:rgba(255,255,255,.65)}
+.metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px}
+.metric-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);border-radius:16px;padding:28px}
+.metric-card .year-lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:12px}
+.mc-y1 .year-lbl{color:var(--teal)}
+.mc-y2 .year-lbl{color:#B3BFFF}
+.mc-y3 .year-lbl{color:#D4BFFF}
+.metric-card h3{font-family:var(--font-head);font-weight:700;font-size:17px;color:#fff;margin-bottom:20px}
+.metric-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;
+  border-bottom:1px solid rgba(255,255,255,.08);font-size:13px}
+.metric-item:last-child{border-bottom:none}
+.metric-item .mk{color:rgba(255,255,255,.6)}
+.metric-item .mv{font-family:var(--font-head);font-weight:700;font-size:15px;color:#fff}
+
+/* ── COMPETITIVE MOAT HIGHLIGHT ── */
+.moat-section{background:#fff;padding:48px 44px 0}
+.moat-section .container{border-bottom:1px solid var(--border);padding-bottom:48px}
+
+/* ── FOOTER ── */
+footer{background:var(--navy-2,#1a0335);padding:28px 44px;border-top:1px solid rgba(255,255,255,.07)}
+.foot-inner{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+footer p{font-family:var(--font-mono);font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.04em}
+footer a{color:var(--teal);text-decoration:none}
+
+/* ── PRINT ── */
+@media print{
+  nav,.btn-print{display:none!important}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  body{background:#fff}
+  .cover{min-height:100vh;page-break-after:always}
+  .context,section,.metrics{page-break-inside:avoid}
+  .year-section{page-break-before:always}
+  .quarter-grid{grid-template-columns:repeat(2,1fr)}
+  .ov-timeline{grid-template-columns:1fr}
+  .context-grid{grid-template-columns:1fr}
+  .ctx-stats{grid-template-columns:repeat(2,1fr)}
+  .metrics-grid{grid-template-columns:1fr}
+  .comp-table-wrap{box-shadow:none}
+  section{padding:40px 28px}
+  .cover{padding:60px 28px}
+}
+@media(max-width:900px){
+  nav{padding:0 20px}
+  section,.cover,.metrics,footer{padding-left:20px;padding-right:20px}
+  .context-grid,.ov-timeline,.metrics-grid{grid-template-columns:1fr}
+  .ctx-stats{grid-template-columns:repeat(2,1fr)}
+  .quarter-grid{grid-template-columns:repeat(2,1fr)}
+  .year-header{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#cover" class="nav-logo">
+    <img src="https://cdn.prod.website-files.com/69ba057d9e54255e19356383/69bbc01287f75858fa944688_Group%202.svg" alt="SpinSci.ai">
+  </a>
+  <div class="nav-right">
+    <span class="nav-pill">PM Roadmap · 2025–2028</span>
+    <button class="btn-print" onclick="window.print()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Export PDF
+    </button>
+  </div>
+</nav>
+
+<!-- ── COVER ── -->
+<section class="cover" id="cover">
+  <div class="cover-inner">
+    <img src="https://cdn.prod.website-files.com/69ba057d9e54255e19356383/69bbc01287f75858fa944688_Group%202.svg"
+         alt="SpinSci.ai" class="cover-logo">
+    <div class="cover-badge">AI Agent Product Roadmap &nbsp;·&nbsp; Confidential</div>
+    <h1>Transforming Healthcare<br><span>Patient Access &amp; Beyond</span></h1>
+    <p class="sub">A three-year strategic roadmap for SpinSci.ai — completing the full AI agent lifecycle across patient engagement, administrative automation, and intelligence — aligned to the emerging healthcare AI agent opportunity.</p>
+    <div class="cover-meta">
+      <div class="cover-meta-item"><strong>2025 – 2028</strong>Roadmap Horizon</div>
+      <div class="cover-meta-item"><strong>3 Pillars</strong>Use Case Categories</div>
+      <div class="cover-meta-item"><strong>36 Initiatives</strong>Across 12 Quarters</div>
+      <div class="cover-meta-item"><strong>May 2026</strong>Document Date</div>
+    </div>
+    <div class="cover-pillars">
+      <div class="cover-pillar">
+        <div class="pillar-dot" style="background:var(--teal)"></div>
+        <span>Patient Journey &amp; Education</span>
+      </div>
+      <div class="cover-pillar">
+        <div class="pillar-dot" style="background:var(--blue)"></div>
+        <span>Administrative Automation</span>
+      </div>
+      <div class="cover-pillar">
+        <div class="pillar-dot" style="background:var(--purple)"></div>
+        <span>Data &amp; Intelligence</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTEXT ── -->
+<section class="context" id="context">
+  <div class="container">
+    <div class="section-tag">Strategic Context</div>
+    <h2 class="section-title">The AI Agent Opportunity in <em>Healthcare</em></h2>
+    <p class="section-lead">Healthcare practices face mounting pressure — rising call volumes, staff burnout, and operational inefficiency. AI agents powered by advanced LLMs now enable task completion (not just deflection) at scale, across every patient touchpoint.</p>
+
+    <div class="context-grid">
+      <div class="ctx-card">
+        <div class="ctx-icon" style="background:rgba(92,224,176,.12)">🤝</div>
+        <h3>Patient Journey &amp; Education</h3>
+        <p>AI voice and SMS agents reimagine every patient touchpoint — from appointment booking and pre-arrival triage, to disease-specific follow-ups, medication adherence, lab messaging, specialist referrals, and reputation management. Routine interactions become proactive, personalized care moments.</p>
+      </div>
+      <div class="ctx-card">
+        <div class="ctx-icon" style="background:rgba(130,149,255,.12)">⚙️</div>
+        <h3>Administrative Automation</h3>
+        <p>AI agents eliminate operational bottlenecks — handling thousands of inbound calls simultaneously, automating clinical documentation, processing billing inquiries, and driving revenue cycle automation. Staff are freed to deliver exceptional care rather than manage repetitive tasks.</p>
+      </div>
+      <div class="ctx-card">
+        <div class="ctx-icon" style="background:rgba(119,89,217,.12)">🔍</div>
+        <h3>Data &amp; Intelligence</h3>
+        <p>Every AI-driven interaction generates intelligence. Call patterns, patient behavior, resolution rates, and operational bottlenecks surface through analytics — enabling evidence-based decisions, performance optimization, and personalized patient insights at population scale.</p>
+      </div>
+    </div>
+
+    <div class="ctx-stats">
+      <div class="stat-box">
+        <div class="n">$1.8B</div>
+        <div class="l">Healthcare voice AI funding · Q1 2026</div>
+      </div>
+      <div class="stat-box">
+        <div class="n">40%</div>
+        <div class="l">Appointments booked outside business hours</div>
+      </div>
+      <div class="stat-box">
+        <div class="n">89%</div>
+        <div class="l">Reduction in call abandonment with voice AI</div>
+      </div>
+      <div class="stat-box">
+        <div class="n">850K</div>
+        <div class="l">SpinSci patient engagements · 2025</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── COMPETITIVE ── -->
+<section class="competitive" id="competitive">
+  <div class="container">
+    <div class="section-tag">Market Positioning</div>
+    <h2 class="section-title">SpinSci vs. the <em>Competitive Landscape</em></h2>
+    <p class="section-lead">SpinSci occupies a unique position — the only platform combining bidirectional EHR write-back, native CCaaS integration, and task completion at enterprise scale across 7+ EHR systems.</p>
+
+    <div class="comp-table-wrap">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Focus</th>
+            <th>EHR Write-Back</th>
+            <th>CCaaS Native</th>
+            <th>Multi-EHR</th>
+            <th>Task Completion</th>
+            <th>Voice + SMS</th>
+            <th>Enterprise Scale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="co-spinsci">
+            <td><div class="co-name">SpinSci.ai</div><div style="font-size:11px;color:var(--muted)">Patient Access AI Platform</div></td>
+            <td>Full patient access lifecycle + outbound</td>
+            <td class="check">✓ Bi-directional</td>
+            <td class="check">✓ Native</td>
+            <td class="check">✓ 7 EHRs</td>
+            <td class="check">✓ End-to-end</td>
+            <td class="check">✓ + Email, Chat</td>
+            <td class="check">✓ 850K+ eng.</td>
+          </tr>
+          <tr>
+            <td><div class="co-name">Hyro</div><div style="font-size:11px;color:var(--muted)">Conversational AI</div></td>
+            <td>Enterprise voice/chat for large health systems</td>
+            <td class="partial">~ Read-only</td>
+            <td class="cross">✗</td>
+            <td class="partial">~ Limited</td>
+            <td class="partial">~ Deflection</td>
+            <td class="check">✓</td>
+            <td class="check">✓ $10K+/mo</td>
+          </tr>
+          <tr>
+            <td><div class="co-name">Luma Health (ARIA)</div><div style="font-size:11px;color:var(--muted)">Patient Engagement</div></td>
+            <td>Epic-native AI receptionist &amp; engagement</td>
+            <td class="check">✓ Epic only</td>
+            <td class="cross">✗</td>
+            <td class="cross">✗ Epic only</td>
+            <td class="partial">~ Partial</td>
+            <td class="partial">~ SMS-first</td>
+            <td class="partial">~ Mid-market</td>
+          </tr>
+          <tr>
+            <td><div class="co-name">Notable Health</div><div style="font-size:11px;color:var(--muted)">Patient Access</div></td>
+            <td>Patient access + clinical workflow automation</td>
+            <td class="partial">~ Limited</td>
+            <td class="cross">✗</td>
+            <td class="partial">~ Some</td>
+            <td class="partial">~ Partial</td>
+            <td class="partial">~ Digital</td>
+            <td class="partial">~ Enterprise</td>
+          </tr>
+          <tr>
+            <td><div class="co-name">Hippocratic AI</div><div style="font-size:11px;color:var(--muted)">Patient Voice</div></td>
+            <td>Patient-facing voice agents (consumer-grade)</td>
+            <td class="cross">✗</td>
+            <td class="cross">✗</td>
+            <td class="cross">✗</td>
+            <td class="partial">~ Limited</td>
+            <td class="check">✓ Voice</td>
+            <td class="cross">✗</td>
+          </tr>
+          <tr>
+            <td><div class="co-name">Abridge / Suki</div><div style="font-size:11px;color:var(--muted)">Clinical Documentation</div></td>
+            <td>Ambient AI scribing for clinical documentation</td>
+            <td class="check">✓ EHR write</td>
+            <td class="cross">✗</td>
+            <td class="partial">~ Some</td>
+            <td class="partial">~ Clinical only</td>
+            <td class="cross">✗</td>
+            <td class="check">✓ 160K clinicians</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="moat-badges">
+      <div class="moat-badge"><span class="icon">🔗</span> Bidirectional EHR write-back (not read-only)</div>
+      <div class="moat-badge"><span class="icon">📞</span> Native CCaaS: Cisco, Genesys, Zoom, Amazon Connect</div>
+      <div class="moat-badge"><span class="icon">🏥</span> 7 EHR systems: Epic, Oracle, athena, MEDITECH, NextGen, Veradigm, eCW</div>
+      <div class="moat-badge"><span class="icon">✅</span> Task completion — not deflection</div>
+      <div class="moat-badge"><span class="icon">⚡</span> 98% NLU success · 500–600ms response</div>
+      <div class="moat-badge"><span class="icon">🔧</span> Healthcare-native MCP server architecture</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── OVERVIEW ── -->
+<section class="overview" id="overview">
+  <div class="container">
+    <div class="section-tag">Three-Year Vision</div>
+    <h2 class="section-title">Roadmap at a <em>Glance</em></h2>
+    <p class="section-lead">Three years. Three themes. A clear progression from completing the patient access lifecycle, to clinical intelligence and enterprise scale, to becoming the healthcare industry's AI operating system.</p>
+
+    <div class="ov-timeline">
+      <!-- Year 1 -->
+      <div class="ov-year ov-y1">
+        <div class="ov-year-head">
+          <div class="yr-label">Year 1 · Q3 2025 – Q2 2026</div>
+          <h3>Complete the Patient Journey</h3>
+          <div class="theme">Close every gap across the full patient lifecycle — from pre-arrival to post-visit follow-up, lab messaging, and reputation management.</div>
+        </div>
+        <div class="ov-year-body">
+          <div class="ov-item"><div class="ov-dot" style="background:var(--teal)"></div><div><p>Pre-arrival triage &amp; instructions</p></div></div>
+          <div class="ov-item"><div class="ov-dot" style="background:var(--teal)"></div><div><p>Post-visit care &amp; disease-state check-ins</p></div></div>
+          <div class="ov-item"><div class="ov-dot" style="background:var(--teal)"></div><div><p>Lab lifecycle, medication adherence, specialist referrals</p></div></div>
+          <div class="ov-item"><div class="ov-dot" style="background:var(--teal)"></div><div><p>Marketing campaigns &amp; broadcast outreach</p></div></div>
+          <div class="ov-item"><div class="ov-dot" style="background:var(--blue)"></div><div><p>Billing automation &amp; revenue cycle v1</p></div></div>
+          <div class="ov-item"><div class="ov-dot" style="background:var(--purple)"></div><div><p>SpinSci Analytics Dashboard v1</p></div></div>
+        </div>
+        <div class="ov-footer">
+          <div><div class="ini-count" style="color:var(--teal)">12</div><div class="ini-label">Initiatives</div></div>
+          <div style="font-size:12px;color:var(--muted)">Target: 3M+ engagements</div>
+        </div>
+      </div>
+
+      <!-- Year 2 -->
+      <div class="ov-year ov-y2">
+        <div class="ov-year-head">
+          <div class="yr-label">Year 2 · Q3 2026 – Q2 2027</div>
+          <h3>Clinical Intelligence &amp; Enterprise Scale</h3>
+          <div class="theme">Move up the clinical stack with ambient documentation, full revenue cycle automation, and a powerful insights platform.</div>
+        </div>
+        <div class="ov-year-body">
+          <div class="ov-item"><div class="ov-dot" style="background:var(--blue)"></div><div><p>Ambient clinical documentation layer</p></div></div>
+          <div class="ov-item"><div class="ov-dot" style="background:var(--blue)"></div><div><p>Prior authorization &amp; revenue cycle v2</p></div></div>
+          <div class="ov-item"><div class="ov-dot" style="background:var(--blue)"></div><div><p>Multi-modal agent orchestration (voice + SMS + chat + email)</p></div></div>
+          <div class="ov-item"><div class="ov-dot" style="background:var(--teal)"></div><div><p>Proactive care gap outreach &amp; population campaigns</p></div></div>
+          <div class="ov-item"><div class="ov-dot" style="background:var(--purple)"></div><div><p>Business intelligence &amp; performance metrics suite</p></div></div>
+          <div class="ov-item"><div class="ov-dot" style="background:var(--purple)"></div><div><p>Personalized patient insights engine</p></div></div>
+        </div>
+        <div class="ov-footer">
+          <div><div class="ini-count" style="color:var(--blue)">12</div><div class="ini-label">Initiatives</div></div>
+          <div style="font-size:12px;color:var(--muted)">Target: 10M+ engagements</div>
+        </div>
+      </div>
+
+      <!-- Year 3 -->
+      <div class="ov-year ov-y3">
+        <div class="ov-year-head">
+          <div class="yr-label">Year 3 · Q3 2027 – Q2 2028</div>
+          <h3>Healthcare AI Operating System</h3>
+          <div class="theme">Predictive intelligence, autonomous revenue cycle, population health command center, and a third-party AI agent marketplace.</div>
+        </div>
+        <div class="ov-year-body">
+          <div class="ov-item"><div class="ov-dot" style="background:var(--purple)"></div><div><p>Predictive analytics &amp; trend intelligence engine</p></div></div>
+          <div class="ov-item"><div class="ov-dot" style="background:var(--purple)"></div><div><p>Population health command center</p></div></div>
+          <div class="ov-item"><div class="ov-dot" style="background:var(--purple)"></div><div><p>Healthcare AI marketplace (third-party ecosystem)</p></div></div>
+          <div class="ov-item"><div class="ov-dot" style="background:var(--blue)"></div><div><p>SpinSci Bridge 2.0 &amp; autonomous revenue cycle</p></div></div>
+          <div class="ov-item"><div class="ov-dot" style="background:var(--teal)"></div><div><p>Condition-specific agent library &amp; AI care navigation</p></div></div>
+          <div class="ov-item"><div class="ov-dot" style="background:var(--teal)"></div><div><p>Multi-language accessibility suite (40+ languages)</p></div></div>
+        </div>
+        <div class="ov-footer">
+          <div><div class="ini-count" style="color:var(--purple)">12</div><div class="ini-label">Initiatives</div></div>
+          <div style="font-size:12px;color:var(--muted)">Target: Platform &amp; ecosystem</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ YEAR 1 ═══════════ -->
+<section class="year-section y1" id="year1">
+  <div class="container">
+    <div class="year-header">
+      <div>
+        <div class="year-badge">Year 1 · Q3 2025 – Q2 2026</div>
+        <h2>Complete the <em style="color:var(--teal);font-style:normal">Patient Journey</em></h2>
+        <p class="year-desc">SpinSci's voice AI already owns appointment scheduling, billing inquiries, and prescription refills. Year 1 closes every remaining gap in the patient journey — pre-arrival through post-visit — and ignites outbound intelligence at scale.</p>
+      </div>
+      <div class="year-kpis">
+        <div class="kpi-row"><span class="kk">Engagements Target</span><span class="kv">3M+</span></div>
+        <div class="kpi-row"><span class="kk">Containment Rate</span><span class="kv">&gt;70%</span></div>
+        <div class="kpi-row"><span class="kk">No-Show Reduction</span><span class="kv">30%</span></div>
+        <div class="kpi-row"><span class="kk">New Use Cases Live</span><span class="kv">12</span></div>
+      </div>
+    </div>
+
+    <div class="pillar-legend">
+      <div class="pleg"><div class="pleg-dot" style="background:var(--teal)"></div>Patient Journey</div>
+      <div class="pleg"><div class="pleg-dot" style="background:var(--blue)"></div>Operations</div>
+      <div class="pleg"><div class="pleg-dot" style="background:var(--purple)"></div>Intelligence</div>
+    </div>
+
+    <div class="quarter-grid">
+      <!-- Q3 2025 -->
+      <div class="quarter-col">
+        <div class="q-label">Q3 · 2025</div>
+        <div class="init-card patient">
+          <div class="ic-pill">Patient Journey</div>
+          <div class="ic-status">Launch</div>
+          <h4>Pre-Arrival Intelligence Agent</h4>
+          <p>Voice + SMS agent delivers personalized pre-visit instructions, smart triage questions, and form completion — reducing day-of friction for both staff and patients.</p>
+          <div class="ic-value">📉 15% no-show reduction</div>
+        </div>
+        <div class="init-card patient">
+          <div class="ic-pill">Patient Journey</div>
+          <div class="ic-status">Launch</div>
+          <h4>Post-Visit Care Instructions Engine</h4>
+          <p>Automated discharge instruction delivery with diagnosis-specific education content via voice callback and SMS — closing the care loop automatically.</p>
+          <div class="ic-value">📋 Supports 50+ DRG categories</div>
+        </div>
+        <div class="init-card ops">
+          <div class="ic-pill">Operations</div>
+          <div class="ic-status">Expand</div>
+          <h4>Medication Adherence Suite</h4>
+          <p>Enhanced reminders with dosage scheduling, refill automation, and escalation triggers when adherence drops — integrated directly with pharmacy data in the EHR.</p>
+          <div class="ic-value">💊 25% adherence improvement</div>
+        </div>
+      </div>
+
+      <!-- Q4 2025 -->
+      <div class="quarter-col">
+        <div class="q-label">Q4 · 2025</div>
+        <div class="init-card patient">
+          <div class="ic-pill">Patient Journey</div>
+          <div class="ic-status">Launch</div>
+          <h4>Lab Lifecycle Manager</h4>
+          <p>End-to-end lab automation: appointment scheduling, reminder nudges, results notification, and follow-up scheduling — all triggered from EHR order events in real time.</p>
+          <div class="ic-value">🔬 Zero-staff lab loop</div>
+        </div>
+        <div class="init-card patient">
+          <div class="ic-pill">Patient Journey</div>
+          <div class="ic-status">Launch</div>
+          <h4>Disease-State Post-Visit Check-In Agent</h4>
+          <p>Condition-specific outbound agents track recovery, monitor side effects, and escalate red flags to care teams — deployed first for CHF, Diabetes, and post-surgical cohorts.</p>
+          <div class="ic-value">🩺 Red-flag escalation &lt;4 min</div>
+        </div>
+        <div class="init-card ops">
+          <div class="ic-pill">Operations</div>
+          <div class="ic-status">Expand</div>
+          <h4>Billing Automation v2</h4>
+          <p>Full inbound billing inquiry handling — balance inquiries, EOB explanations, payment plan setup, and financial assistance routing — at unlimited call volume.</p>
+          <div class="ic-value">💰 80% billing call containment</div>
+        </div>
+      </div>
+
+      <!-- Q1 2026 -->
+      <div class="quarter-col">
+        <div class="q-label">Q1 · 2026</div>
+        <div class="init-card patient">
+          <div class="ic-pill">Patient Journey</div>
+          <div class="ic-status">Launch</div>
+          <h4>Specialist Referral Engine</h4>
+          <p>Closes the referral loop — tracking referral status, scheduling specialist appointments, and nudging patients through the entire referral journey to eliminate leakage.</p>
+          <div class="ic-value">📌 40% referral leakage reduction</div>
+        </div>
+        <div class="init-card patient">
+          <div class="ic-pill">Patient Journey</div>
+          <div class="ic-status">Launch</div>
+          <h4>Post-Visit Survey + Reputation Agent</h4>
+          <p>Automated CSAT / NPS surveys delivered via voice or SMS immediately post-visit — with intelligent routing of positive responses to Google Reviews and alerts for service recovery.</p>
+          <div class="ic-value">⭐ +1.2pt Google rating avg</div>
+        </div>
+        <div class="init-card ops">
+          <div class="ic-pill">Operations</div>
+          <div class="ic-status">Launch</div>
+          <h4>Revenue Cycle Automation v1</h4>
+          <p>Outbound AI agent drives payment reminders, past-due balance outreach, and payment plan enrollment — reducing A/R days without adding collections staff.</p>
+          <div class="ic-value">📉 18% reduction in A/R days</div>
+        </div>
+      </div>
+
+      <!-- Q2 2026 -->
+      <div class="quarter-col">
+        <div class="q-label">Q2 · 2026</div>
+        <div class="init-card patient">
+          <div class="ic-pill">Patient Journey</div>
+          <div class="ic-status">Launch</div>
+          <h4>Marketing Campaign Automation</h4>
+          <p>Personalized outbound campaigns at scale — annual wellness visit reminders, flu shot outreach, chronic care recalls, and care gap closures — triggered from EHR data segments.</p>
+          <div class="ic-value">📣 5x campaign capacity</div>
+        </div>
+        <div class="init-card patient">
+          <div class="ic-pill">Patient Journey</div>
+          <div class="ic-status">Launch</div>
+          <h4>Broadcast Outreach Agent</h4>
+          <p>Instant multi-channel broadcast for operational alerts — weather closures, provider availability changes, urgent care notices — delivered to targeted patient cohorts in minutes.</p>
+          <div class="ic-value">📡 10K notifications in &lt;5 min</div>
+        </div>
+        <div class="init-card intel">
+          <div class="ic-pill">Intelligence</div>
+          <div class="ic-status">Launch</div>
+          <h4>SpinSci Analytics Dashboard v1</h4>
+          <p>Real-time operational visibility — call volumes, containment rates, resolution types, no-show trends, and campaign performance — delivered in a self-serve dashboard for practice leaders.</p>
+          <div class="ic-value">📊 12 KPI categories, daily refresh</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ YEAR 2 ═══════════ -->
+<section class="year-section y2" id="year2">
+  <div class="container">
+    <div class="year-header">
+      <div>
+        <div class="year-badge">Year 2 · Q3 2026 – Q2 2027</div>
+        <h2>Clinical Intelligence &amp; <em style="color:var(--blue);font-style:normal">Enterprise Scale</em></h2>
+        <p class="year-desc">With the patient journey complete, Year 2 moves SpinSci up the clinical stack — adding ambient documentation, full revenue cycle automation, and a powerful intelligence platform that transforms every AI interaction into operational insight.</p>
+      </div>
+      <div class="year-kpis">
+        <div class="kpi-row"><span class="kk">Engagements Target</span><span class="kv">10M+</span></div>
+        <div class="kpi-row"><span class="kk">Revenue Cycle ROI</span><span class="kv">3.5x</span></div>
+        <div class="kpi-row"><span class="kk">Analytics MAU</span><span class="kv">500+ orgs</span></div>
+        <div class="kpi-row"><span class="kk">New Use Cases Live</span><span class="kv">12</span></div>
+      </div>
+    </div>
+
+    <div class="pillar-legend">
+      <div class="pleg"><div class="pleg-dot" style="background:var(--teal)"></div>Patient Journey</div>
+      <div class="pleg"><div class="pleg-dot" style="background:var(--blue)"></div>Operations</div>
+      <div class="pleg"><div class="pleg-dot" style="background:var(--purple)"></div>Intelligence</div>
+    </div>
+
+    <div class="quarter-grid">
+      <!-- Q3 2026 -->
+      <div class="quarter-col">
+        <div class="q-label">Q3 · 2026</div>
+        <div class="init-card ops">
+          <div class="ic-pill">Operations</div>
+          <div class="ic-status">Launch</div>
+          <h4>Ambient Clinical Documentation Layer</h4>
+          <p>SpinSci integrates with ambient AI scribing (Abridge partnership or native build) — capturing clinical conversations in real time and writing structured notes directly to the EHR, reducing physician burnout.</p>
+          <div class="ic-value">📝 2 hrs/day saved per clinician</div>
+        </div>
+        <div class="init-card patient">
+          <div class="ic-pill">Patient Journey</div>
+          <div class="ic-status">Expand</div>
+          <h4>Personalized Patient Communication Engine</h4>
+          <p>Moves beyond one-size-fits-all messaging — adapting channel preference (voice vs SMS vs email), language, time-of-day, and communication style based on each patient's engagement history and EHR profile.</p>
+          <div class="ic-value">🎯 28% uplift in response rates</div>
+        </div>
+        <div class="init-card intel">
+          <div class="ic-pill">Intelligence</div>
+          <div class="ic-status">Launch</div>
+          <h4>Personalized Patient Insights Engine</h4>
+          <p>Per-patient engagement profiles — tracking call history, task completion, health literacy signals, and risk flags — enabling care teams to prioritize high-risk patients proactively.</p>
+          <div class="ic-value">🧠 Risk stratification at scale</div>
+        </div>
+      </div>
+
+      <!-- Q4 2026 -->
+      <div class="quarter-col">
+        <div class="q-label">Q4 · 2026</div>
+        <div class="init-card ops">
+          <div class="ic-pill">Operations</div>
+          <div class="ic-status">Launch</div>
+          <h4>Multi-Modal Agent Orchestration</h4>
+          <p>Unified orchestration layer managing voice, SMS, chat, and email agents in a single workflow — with full context handoff between channels and live agent escalation with transcript, intent, and patient ID pre-loaded.</p>
+          <div class="ic-value">🔄 Zero-context-loss escalations</div>
+        </div>
+        <div class="init-card ops">
+          <div class="ic-pill">Operations</div>
+          <div class="ic-status">Launch</div>
+          <h4>Prior Authorization Automation</h4>
+          <p>AI agents initiate, track, and follow up on prior authorization requests — integrating with payer portals and alerting care teams to approvals, denials, or peer-to-peer review triggers.</p>
+          <div class="ic-value">⏱ 60% reduction in PA turnaround</div>
+        </div>
+        <div class="init-card intel">
+          <div class="ic-pill">Intelligence</div>
+          <div class="ic-status">Launch</div>
+          <h4>Business Intelligence Suite</h4>
+          <p>Executive-level operational dashboards — financial performance, patient satisfaction, call center efficiency, and workforce impact — benchmarked against SpinSci network averages for peer comparison.</p>
+          <div class="ic-value">📈 C-suite ready reporting</div>
+        </div>
+      </div>
+
+      <!-- Q1 2027 -->
+      <div class="quarter-col">
+        <div class="q-label">Q1 · 2027</div>
+        <div class="init-card ops">
+          <div class="ic-pill">Operations</div>
+          <div class="ic-status">Expand</div>
+          <h4>Revenue Cycle Automation v2</h4>
+          <p>Full-cycle autonomous revenue management — from eligibility verification pre-visit, to denial management post-claim, to patient payment plans. Self-optimizing collection sequences based on patient payment behavior.</p>
+          <div class="ic-value">💵 35% increase in collections rate</div>
+        </div>
+        <div class="init-card patient">
+          <div class="ic-pill">Patient Journey</div>
+          <div class="ic-status">Launch</div>
+          <h4>Proactive Care Gap Outreach</h4>
+          <p>EHR-triggered campaigns identify patients overdue for preventive care — mammograms, colonoscopies, A1C tests, vaccinations — and proactively schedule them via autonomous voice agents.</p>
+          <div class="ic-value">🏥 HEDIS measure improvement</div>
+        </div>
+        <div class="init-card intel">
+          <div class="ic-pill">Intelligence</div>
+          <div class="ic-status">Launch</div>
+          <h4>SpinSci Performance Metrics Platform</h4>
+          <p>Operations-level performance scoring — call handle time, first-contact resolution, containment by use case, agent success rates, and SLA compliance — with automated alerting for regression.</p>
+          <div class="ic-value">🎖 Ops team accountability layer</div>
+        </div>
+      </div>
+
+      <!-- Q2 2027 -->
+      <div class="quarter-col">
+        <div class="q-label">Q2 · 2027</div>
+        <div class="init-card ops">
+          <div class="ic-pill">Operations</div>
+          <div class="ic-status">Expand</div>
+          <h4>Clinical Scribing Integration</h4>
+          <p>Deep integration with leading ambient AI scribe platforms (Abridge, Suki, Nuance DAX) — with SpinSci's EHR Bridge ensuring structured note delivery across all 7 supported EHR systems.</p>
+          <div class="ic-value">🩺 Burnout reduction for 160K+ clinicians</div>
+        </div>
+        <div class="init-card patient">
+          <div class="ic-pill">Patient Journey</div>
+          <div class="ic-status">Launch</div>
+          <h4>Population Health Campaigns</h4>
+          <p>Chronic disease management programs delivered at scale — diabetes wellness, hypertension monitoring, post-discharge readmission prevention — coordinated across care team, patient, and payer.</p>
+          <div class="ic-value">👥 10K patients per campaign</div>
+        </div>
+        <div class="init-card intel">
+          <div class="ic-pill">Intelligence</div>
+          <div class="ic-status">Launch</div>
+          <h4>Trend Identification Engine v1</h4>
+          <p>Analyzes call patterns, patient feedback, resolution rates, and seasonal demand to surface emerging trends — flagging operational issues before they become crises, and identifying expansion opportunities.</p>
+          <div class="ic-value">📡 Early warning system for ops teams</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ YEAR 3 ═══════════ -->
+<section class="year-section y3" id="year3">
+  <div class="container">
+    <div class="year-header">
+      <div>
+        <div class="year-badge">Year 3 · Q3 2027 – Q2 2028</div>
+        <h2>Healthcare AI <em style="color:var(--purple);font-style:normal">Operating System</em></h2>
+        <p class="year-desc">SpinSci evolves from a product into a platform. Predictive intelligence, an autonomous revenue cycle, a third-party agent marketplace, and a population health command center position SpinSci as the foundational AI layer for healthcare operations.</p>
+      </div>
+      <div class="year-kpis">
+        <div class="kpi-row"><span class="kk">Engagements Target</span><span class="kv">50M+</span></div>
+        <div class="kpi-row"><span class="kk">Platform Partners</span><span class="kv">25+</span></div>
+        <div class="kpi-row"><span class="kk">NPS Score Target</span><span class="kv">&gt;70</span></div>
+        <div class="kpi-row"><span class="kk">New Use Cases Live</span><span class="kv">12</span></div>
+      </div>
+    </div>
+
+    <div class="pillar-legend">
+      <div class="pleg"><div class="pleg-dot" style="background:var(--teal)"></div>Patient Journey</div>
+      <div class="pleg"><div class="pleg-dot" style="background:var(--blue)"></div>Operations</div>
+      <div class="pleg"><div class="pleg-dot" style="background:var(--purple)"></div>Intelligence</div>
+    </div>
+
+    <div class="quarter-grid">
+      <!-- Q3 2027 -->
+      <div class="quarter-col">
+        <div class="q-label">Q3 · 2027</div>
+        <div class="init-card intel">
+          <div class="ic-pill">Intelligence</div>
+          <div class="ic-status">Launch</div>
+          <h4>Predictive Analytics Engine</h4>
+          <p>ML models trained on SpinSci's network data predict no-show probability, revenue leakage risk, readmission likelihood, and demand surges — enabling proactive intervention before the event occurs.</p>
+          <div class="ic-value">🔮 72hr look-ahead forecasting</div>
+        </div>
+        <div class="init-card ops">
+          <div class="ic-pill">Operations</div>
+          <div class="ic-status">Launch</div>
+          <h4>SpinSci Bridge 2.0</h4>
+          <p>Universal integration platform — expanded to support new EHR entrants, payer systems, pharmacy networks, and health information exchanges (HIE) — with developer APIs enabling third-party extension.</p>
+          <div class="ic-value">🔌 20+ system integrations</div>
+        </div>
+        <div class="init-card patient">
+          <div class="ic-pill">Patient Journey</div>
+          <div class="ic-status">Launch</div>
+          <h4>Condition-Specific Agent Library</h4>
+          <p>Pre-built, clinically validated AI agent protocols for 30+ chronic and acute conditions — oncology, cardiology, orthopedics, behavioral health — deployable with EHR data activation in days, not months.</p>
+          <div class="ic-value">🏥 30 clinical protocols at launch</div>
+        </div>
+      </div>
+
+      <!-- Q4 2027 -->
+      <div class="quarter-col">
+        <div class="q-label">Q4 · 2027</div>
+        <div class="init-card intel">
+          <div class="ic-pill">Intelligence</div>
+          <div class="ic-status">Launch</div>
+          <h4>Population Health Command Center</h4>
+          <p>Aggregate intelligence across the health system — identifying high-risk cohorts, measuring care gap closure rates, tracking social determinants of health signals, and driving targeted interventions at population scale.</p>
+          <div class="ic-value">👥 Population-level insights</div>
+        </div>
+        <div class="init-card ops">
+          <div class="ic-pill">Operations</div>
+          <div class="ic-status">Launch</div>
+          <h4>Autonomous Revenue Cycle Management</h4>
+          <p>Fully autonomous, end-to-end RCM — eligibility verification, claim submission, denial management, appeals automation, and patient payment resolution — with zero manual touchpoints for routine cases.</p>
+          <div class="ic-value">💵 &lt;3% denial rate target</div>
+        </div>
+        <div class="init-card patient">
+          <div class="ic-pill">Patient Journey</div>
+          <div class="ic-status">Launch</div>
+          <h4>AI Care Navigation</h4>
+          <p>Complex care coordination for high-acuity patients — AI agents coordinate across primary care, specialists, labs, pharmacy, and social services to ensure no patient falls through the cracks.</p>
+          <div class="ic-value">🔗 Multi-provider coordination</div>
+        </div>
+      </div>
+
+      <!-- Q1 2028 -->
+      <div class="quarter-col">
+        <div class="q-label">Q1 · 2028</div>
+        <div class="init-card intel">
+          <div class="ic-pill">Intelligence</div>
+          <div class="ic-status">Platform</div>
+          <h4>Healthcare AI Marketplace</h4>
+          <p>SpinSci opens its platform to third-party AI agent developers — enabling specialty-specific agents, niche workflow tools, and EHR data applications to be built on SpinSci's Bridge infrastructure and distributed to the network.</p>
+          <div class="ic-value">🛒 25+ partner agents at launch</div>
+        </div>
+        <div class="init-card ops">
+          <div class="ic-pill">Operations</div>
+          <div class="ic-status">Launch</div>
+          <h4>Clinical Decision Support Integration</h4>
+          <p>AI agents surface evidence-based clinical decision support at the point of conversation — flagging drug interactions for refill requests, alerting to contraindications, and surfacing clinical guidelines relevant to the patient's diagnosis.</p>
+          <div class="ic-value">⚕️ CDS Hooks integration</div>
+        </div>
+        <div class="init-card patient">
+          <div class="ic-pill">Patient Journey</div>
+          <div class="ic-status">Launch</div>
+          <h4>Multi-Language Accessibility Suite</h4>
+          <p>Native language support across 40+ languages — with real-time translation, culturally adapted communication styles, and compliance with language access requirements under CMS and CLAS standards.</p>
+          <div class="ic-value">🌍 40+ languages at launch</div>
+        </div>
+      </div>
+
+      <!-- Q2 2028 -->
+      <div class="quarter-col">
+        <div class="q-label">Q2 · 2028</div>
+        <div class="init-card intel">
+          <div class="ic-pill">Intelligence</div>
+          <div class="ic-status">Platform</div>
+          <h4>Enterprise Data Lake &amp; Health Intelligence</h4>
+          <p>SpinSci's aggregated, de-identified network data becomes a strategic asset — enabling benchmarking across health systems, population health research partnerships, and real-world evidence generation for value-based contracts.</p>
+          <div class="ic-value">🗄 50M+ interaction data points</div>
+        </div>
+        <div class="init-card ops">
+          <div class="ic-pill">Operations</div>
+          <div class="ic-status">Platform</div>
+          <h4>Full Healthcare AI Operating System</h4>
+          <p>SpinSci becomes the foundational AI layer — the system of record for patient engagement, the orchestration engine for administrative workflows, and the intelligence platform for health system leadership.</p>
+          <div class="ic-value">🏆 End-to-end platform play</div>
+        </div>
+        <div class="init-card patient">
+          <div class="ic-pill">Patient Journey</div>
+          <div class="ic-status">Platform</div>
+          <h4>AI Care Companion</h4>
+          <p>Longitudinal AI relationships with patients — a consistent, context-aware companion that knows the patient's full care history, preferences, and goals — building trust and driving engagement across every life event.</p>
+          <div class="ic-value">🤝 Lifetime patient relationships</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── METRICS ── -->
+<section class="metrics" id="metrics">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="section-tag">Success Metrics</div>
+    <h2 class="section-title" style="color:#fff">Measuring What <em style="color:var(--teal)">Matters</em></h2>
+    <p class="section-lead">Year-by-year KPIs anchored to clinical outcomes, operational efficiency, and business growth — the metrics health system executives and SpinSci's board care about most.</p>
+
+    <div class="metrics-grid">
+      <div class="metric-card mc-y1">
+        <div class="year-lbl">Year 1 · 2025–2026</div>
+        <h3>Complete the Patient Journey</h3>
+        <div class="metric-item"><span class="mk">Patient Engagements</span><span class="mv">3M+</span></div>
+        <div class="metric-item"><span class="mk">Containment Rate</span><span class="mv">&gt;70%</span></div>
+        <div class="metric-item"><span class="mk">No-Show Reduction</span><span class="mv">30%</span></div>
+        <div class="metric-item"><span class="mk">Avg Handle Time Reduction</span><span class="mv">45 sec</span></div>
+        <div class="metric-item"><span class="mk">Google Rating Lift</span><span class="mv">+1.2 pts</span></div>
+        <div class="metric-item"><span class="mk">A/R Days Reduction</span><span class="mv">18%</span></div>
+        <div class="metric-item"><span class="mk">New Use Cases Live</span><span class="mv">12</span></div>
+      </div>
+      <div class="metric-card mc-y2">
+        <div class="year-lbl">Year 2 · 2026–2027</div>
+        <h3>Clinical Intelligence &amp; Scale</h3>
+        <div class="metric-item"><span class="mk">Patient Engagements</span><span class="mv">10M+</span></div>
+        <div class="metric-item"><span class="mk">Revenue Cycle ROI</span><span class="mv">3.5x</span></div>
+        <div class="metric-item"><span class="mk">Analytics MAU (Orgs)</span><span class="mv">500+</span></div>
+        <div class="metric-item"><span class="mk">PA Turnaround Reduction</span><span class="mv">60%</span></div>
+        <div class="metric-item"><span class="mk">Clinician Hours Saved/Day</span><span class="mv">2 hrs</span></div>
+        <div class="metric-item"><span class="mk">Patient Response Rate Lift</span><span class="mv">+28%</span></div>
+        <div class="metric-item"><span class="mk">New Use Cases Live</span><span class="mv">12</span></div>
+      </div>
+      <div class="metric-card mc-y3">
+        <div class="year-lbl">Year 3 · 2027–2028</div>
+        <h3>Healthcare AI Operating System</h3>
+        <div class="metric-item"><span class="mk">Patient Engagements</span><span class="mv">50M+</span></div>
+        <div class="metric-item"><span class="mk">Marketplace Partners</span><span class="mv">25+</span></div>
+        <div class="metric-item"><span class="mk">Languages Supported</span><span class="mv">40+</span></div>
+        <div class="metric-item"><span class="mk">Denial Rate Target</span><span class="mv">&lt;3%</span></div>
+        <div class="metric-item"><span class="mk">Clinical Protocols Live</span><span class="mv">30+</span></div>
+        <div class="metric-item"><span class="mk">Net Promoter Score</span><span class="mv">&gt;70</span></div>
+        <div class="metric-item"><span class="mk">New Use Cases Live</span><span class="mv">12</span></div>
+      </div>
+    </div>
+
+    <!-- Investment priorities -->
+    <div style="margin-top:40px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:32px">
+      <div style="font-family:var(--font-head);font-weight:600;font-size:17px;color:#fff;margin-bottom:20px">Strategic Investment Priorities</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+        <div style="text-align:center">
+          <div style="font-size:28px;margin-bottom:8px">🔗</div>
+          <div style="font-family:var(--font-head);font-weight:600;font-size:13px;color:#fff;margin-bottom:6px">EHR &amp; Integration</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.5">Deepen write-back capabilities across all 7 EHRs and expand Bridge 2.0 to new systems</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:28px;margin-bottom:8px">🧠</div>
+          <div style="font-family:var(--font-head);font-weight:600;font-size:13px;color:#fff;margin-bottom:6px">AI Model R&amp;D</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.5">Fine-tune healthcare-specific LLMs and build predictive models on SpinSci's unique network data</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:28px;margin-bottom:8px">🏥</div>
+          <div style="font-family:var(--font-head);font-weight:600;font-size:13px;color:#fff;margin-bottom:6px">Clinical Partnerships</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.5">Strategic alliances with Abridge, Cognigy, Omilia, and health system anchor customers</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:28px;margin-bottom:8px">🌍</div>
+          <div style="font-family:var(--font-head);font-weight:600;font-size:13px;color:#fff;margin-bottom:6px">Market Expansion</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.5">Geographic and segment expansion — specialty practices, FQHCs, and international markets</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="foot-inner">
+    <div>
+      <p>SpinSci.ai &nbsp;·&nbsp; AI Agent Product Roadmap 2025–2028 &nbsp;·&nbsp; Confidential — For Internal Use</p>
+      <p style="margin-top:4px">Informed by: Thinknetic AI Agents Use Cases in Healthcare (2025) &nbsp;·&nbsp; Market research: Hyro, Luma Health, Notable, Abridge, Suki, Hippocratic AI</p>
+    </div>
+    <div style="text-align:right">
+      <p><a href="https://spinsci.ai">spinsci.ai</a></p>
+      <p style="margin-top:4px">Prepared May 2026</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Scroll-spy: highlight active nav section */
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if(window.scrollY >= s.offsetTop - 80) cur = s.id; });
+});
+
+/* Animate stat bars and numbers on first scroll into view */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.stat-box, .init-card, .ov-year, .metric-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
